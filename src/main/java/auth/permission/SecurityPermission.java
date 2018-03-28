@@ -12,6 +12,7 @@ public class SecurityPermission implements Permission {
   
   @Override
   public void loadSecurityPermission(HttpSecurity http) throws Exception {
+    
     // public
     http.authorizeRequests().antMatchers("/auth/**").permitAll();	
     http.authorizeRequests().antMatchers("/index.html").permitAll();
