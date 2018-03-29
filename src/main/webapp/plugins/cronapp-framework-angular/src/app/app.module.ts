@@ -14,50 +14,29 @@ import { TestComponentComponent } from './test-component/test-component.componen
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppCustomModule } from './app.custom.module';
-
-// import {UpgradeAdapter} from '@angular/upgrade';
-
-// const adapter = new UpgradeAdapter(forwardRef(() => AppModule));
+import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 
 const appRoutes:Routes = [
   {
     path: 'home',
     component: HomeComponent
   },
-  // {
-  //   path: 'home/:detail',
-  //   component: HomeDetailComponent
-  // },
   {
     path: '',
     component: HomeComponent
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
   },
   {
     path: 'home/:folder/:page',
-    // redirectTo: 'users/mehulmpt/1',
-    // pathMatch: 'prefix',
     component: PageComponent,
-    
-  },
-  // {
-  //   path: '',
-  //   redirectTo: 'users/mehulmpt/1',
-  //   pathMatch: 'prefix'
-  //   //component: LoginFormComponent,
-  // }, 
-  // {
-  //   path: '**',
-  //   component: NotfoundComponent
-  // }
+  }
 ]
 
 @NgModule({
   declarations: [
-    // adapter.upgradeNg1Component('my-component'),
     AppComponent,
     MyNewDirectiveDirective,
     HomeComponent,
@@ -72,7 +51,12 @@ const appRoutes:Routes = [
     HttpModule,
     AppCustomModule
   ],
-  providers: [HomeComponent, PageComponent, LoginComponent],
+  providers: [
+    HomeComponent, 
+    PageComponent, 
+    LoginComponent,
+    HelperServiceProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
