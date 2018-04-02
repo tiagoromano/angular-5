@@ -15,6 +15,8 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppCustomModule } from './app.custom.module';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ImportClass } from './common/importClass.component';
 
 const appRoutes:Routes = [
   {
@@ -32,24 +34,29 @@ const appRoutes:Routes = [
   {
     path: 'home/:folder/:page',
     component: PageComponent,
+  },
+  {
+    path: 'test',
+    component: TestComponentComponent,
   }
+
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyNewDirectiveDirective,
     HomeComponent,
     PageComponent,
     LoginComponent,
-    TestComponentComponent,
+    TestComponentComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes, {useHash: true}),
     BrowserModule,
     HttpClientModule,
     HttpModule,
-    AppCustomModule
+    AppCustomModule,
+    TranslateModule.forRoot()
   ],
   providers: [
     HomeComponent, 
@@ -57,6 +64,11 @@ const appRoutes:Routes = [
     LoginComponent,
     HelperServiceProvider
   ],
+  exports: [
+    TranslateModule
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+   
+}

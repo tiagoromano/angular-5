@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-test-component',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestComponentComponent implements OnInit {
 
-  constructor() { }
+  constructor(translate: TranslateService) { 
+    debugger;
+  }
 
   ngOnInit() {
   }
