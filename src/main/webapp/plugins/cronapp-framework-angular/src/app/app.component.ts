@@ -12,8 +12,11 @@ export class AppComponent {
 
   constructor(private router: Router, translate: TranslateService) {
     debugger;
+    translate.addLangs(["pt_br", "en_us"]);
     translate.setDefaultLang('pt_br');
     let locale = navigator.language || 'pt_br';
+    locale = locale.replace('-','_').toLowerCase();
+    
     translate.use(locale);
 
   }

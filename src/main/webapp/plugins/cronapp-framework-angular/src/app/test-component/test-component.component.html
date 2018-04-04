@@ -1,4 +1,9 @@
 <p>
   test-component works!
   {{"Login.view.Login" | translate}}
+  {{ 'Login.view.Username' | translate }}
+
+  <input type="text" [(ngModel)]="variavelRomano.value">
+  <button (click)="vai()">vai</button>
+  {{variavelRomano.value}}
 </p>

@@ -8,8 +8,16 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class TestComponentComponent implements OnInit {
 
+  variavelRomano: any;
+
   constructor(translate: TranslateService) { 
     debugger;
+    this.variavelRomano = {value: "meu ovo"};
+  }
+
+  vai() {
+    debugger;
+    var ok = this.variavelRomano.value;
   }
 
   ngOnInit() {

@@ -1,20 +1,24 @@
 import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef} from "@angular/core";
 import { TranslateService } from '@ngx-translate/core';
 import { ngModuleJitUrl } from "@angular/compiler";
+import { AppCustomModule } from "../../app/app.custom.module";
 
 @Injectable()
 export class HelperServiceProvider {
 
 
     private attributes : Map<string, string> = new Map<string, string>();
+    private attributesToSetInElement : Map<string, string> = new Map<string, string>();
 
     constructor( private _compiler: Compiler, private _injector: Injector, private _m: NgModuleRef<any>, private translateService: TranslateService) {
         this.fillAttributes();
     }
 
     private fillAttributes() {
-        this.attributes.set("ng-model", "([ngModel])");
-        //this.attributes.get("ng-model")
+        this.attributes.set("ng-model", "[(ngModel)]");
+        this.attributes.set("ng-submit", "(ngSubmit)");
+
+        // this.attributesToSetInElement.set("form", '[ngModelOptions]="{standalone:true}"');
     }
 
     private str2DOMElement(html) {
@@ -30,10 +34,12 @@ export class HelperServiceProvider {
     }
 
     parseAttributesAngular5(viewContent: string) {
-        //var parser = new DOMParser()
         debugger;
         
         var el = <HTMLScriptElement>this.str2DOMElement(viewContent);
+        //to keep the same indentation 
+        viewContent = el.outerHTML;
+        
         var tags = el.getElementsByTagName("*");
         let tagsToReplace: Map<string, string> = new Map<string, string>();
 
@@ -48,6 +54,20 @@ export class HelperServiceProvider {
                 if (tags[i].hasAttribute(key)) {
                     hasReplacement = true;
                     tagFullyReplaced = tagFullyReplaced.split(key).join(value);
+                }
+            });
+            
+            this.attributesToSetInElement.forEach((value, key) => {
+                if (tags[i].tagName.toLowerCase() == key.toLowerCase()) {
+                    debugger;
+                    if (tagFullyReplaced.toLowerCase().indexOf(value.toLowerCase()) == -1) {
+                        hasReplacement = true;
+                        //check if is tag uppercase or lowercase
+                        if (tagFullyReplaced.indexOf('<' + tags[i].tagName) > -1)
+                            tagFullyReplaced.split('<' + tags[i].tagName).join('<' + tags[i].tagName + ' ' + value);
+                        else
+                            tagFullyReplaced = tagFullyReplaced.split('<' + tags[i].tagName.toLowerCase()).join('<' + tags[i].tagName.toLowerCase() + ' ' + value);
+                    }
                 }
             });
             if (hasReplacement)
@@ -93,7 +113,7 @@ export class HelperServiceProvider {
             (
                 contextClass
             );
-            const tmpModule = NgModule({declarations: [tmpCmp]})(contextClass);
+            const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule]})(contextClass);
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
             .then((factories) => {
                 debugger;

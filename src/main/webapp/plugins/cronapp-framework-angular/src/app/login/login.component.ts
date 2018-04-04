@@ -28,26 +28,23 @@ export class LoginComponent implements OnInit {
           var contextClass = class extends ImportClass {
 
             vars: any;
-            testeMeuOvo:any;
             message: any;
+            username: any;
+            password: any;
             
             initialize(translate: TranslateService): void {
               debugger;
-              this.vars = {};
-              this.testeMeuOvo = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
-              this.message = { error: "AAAAA"};
+              this.vars = { nome: "burrao" };
+              this.message = { error: ""};
+              this.username = {value: "tiagoromano" };
+              this.password = { value: "jorge"};
             }
-            //Adicionar aqui as variaveis de login
-            // translate: any;
-            // constructor () {
-              // debugger;
-              // this.vars= {};
-              // this.translate = (<any>window).translate;
-            // }
 
-            qualquer() {
-              // this.translate
+            login(user, password, token) {
+              debugger;
+              var okk2 = this.username;
             }
+            
           };
           viewContent = this.helperServiceProvider.parseAttributesAngular5(viewContent);
           this.helperServiceProvider.createDynamicComponentWithContextClass(contextClass, this.vc, viewContent);

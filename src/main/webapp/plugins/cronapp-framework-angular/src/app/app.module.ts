@@ -15,8 +15,11 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppCustomModule } from './app.custom.module';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+// import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ImportClass } from './common/importClass.component';
+
+
 
 const appRoutes:Routes = [
   {
@@ -48,7 +51,7 @@ const appRoutes:Routes = [
     HomeComponent,
     PageComponent,
     LoginComponent,
-    TestComponentComponent
+    TestComponentComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes, {useHash: true}),
@@ -56,7 +59,6 @@ const appRoutes:Routes = [
     HttpClientModule,
     HttpModule,
     AppCustomModule,
-    TranslateModule.forRoot()
   ],
   providers: [
     HomeComponent, 
@@ -65,7 +67,7 @@ const appRoutes:Routes = [
     HelperServiceProvider
   ],
   exports: [
-    TranslateModule
+    // TranslateModule
   ],
   bootstrap: [AppComponent]
 })
