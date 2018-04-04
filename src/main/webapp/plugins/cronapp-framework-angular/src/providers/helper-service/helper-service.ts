@@ -7,71 +7,140 @@ import { AppCustomModule } from "../../app/app.custom.module";
 export class HelperServiceProvider {
 
 
-    private attributes : Map<string, string> = new Map<string, string>();
-    private attributesToSetInElement : Map<string, string> = new Map<string, string>();
+    private attributesToReplace : Map<string, string> = new Map<string, string>();
+    private attributesToSetInTag : any = [];
 
+    
     constructor( private _compiler: Compiler, private _injector: Injector, private _m: NgModuleRef<any>, private translateService: TranslateService) {
         this.fillAttributes();
     }
 
     private fillAttributes() {
-        this.attributes.set("ng-model", "[(ngModel)]");
-        this.attributes.set("ng-submit", "(ngSubmit)");
-
-        // this.attributesToSetInElement.set("form", '[ngModelOptions]="{standalone:true}"');
+        this.attributesToReplace.set("ng-model", "[(ngModel)]");
+        this.attributesToReplace.set("ng-submit", "(ngSubmit)");
+        
+        //Atributos que devem ser setados nas tags (elementos)
+        //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
+        //no "hasAttribute", caso o "containerTag" seja vazio, será setado o "attributeToSet" em todos os elementos que contenham o "hasAttribute"
+        this.attributesToSetInTag.push( {containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
     }
 
-    private str2DOMElement(html) {
-        var frame = document.createElement('iframe');
-        frame.style.display = 'none';
-        document.body.appendChild(frame);             
-        frame.contentDocument.open();
-        frame.contentDocument.write(html);
-        frame.contentDocument.close();
-        var el = frame.contentDocument.body.firstChild;
-        document.body.removeChild(frame);
-        return el;
+    private getAttributes(element: string) {
+        var assignedValuesInAttr = [];
+        var assignmentChar = ["'","\""];
+
+        element = element.replace(">","").replace("<","");
+        var idxFirstSpace = element.indexOf(" ");
+        if (idxFirstSpace == -1)
+            element = "";
+        else
+            element = element.substr(idxFirstSpace);
+        assignmentChar.forEach(signment => {
+            var elementToVerify = element;
+            while (elementToVerify.indexOf(signment) > -1) {
+                var idxStart = elementToVerify.indexOf(signment);
+                if (idxStart < elementToVerify.length - 1) {
+                    elementToVerify = elementToVerify.substr(idxStart + 1);
+                    var idxEnd = elementToVerify.indexOf(signment);
+                    if (idxEnd <= elementToVerify.length -1 && idxEnd > 0) {
+                        var assignedValues = elementToVerify.substr(0, idxEnd).split(" ");
+                        assignedValues.forEach(av=> { assignedValuesInAttr.push(av) });
+                    }
+                    elementToVerify = elementToVerify.replace(signment, "");
+                }
+            }
+        });
+
+        assignmentChar.forEach(signment => { element = element.split(signment).join("")});
+        var rawAttributes = element.split("=").join(" ").split(" ");
+        var attrs = [];
+        rawAttributes.forEach(ra => {
+            if (!assignedValuesInAttr.includes(ra) && ra.length > 0)
+                attrs.push(ra);
+        });
+        return attrs;
+    }
+
+    private getTagsHtml(html: string) {
+        var result = [];
+        var tags = html.split('<');
+        for (var i = 0; i < tags.length; i++) {
+            var indexFirstSpace = tags[i].indexOf(" ");
+            if (indexFirstSpace > -1) {
+                var tag = { name:"", raw:"", startTag: false, endTag: false, attributes:[] };
+                tag.name = tags[i].substr(0, indexFirstSpace);
+                
+                //despreza, tags de comentários
+                if (tag.name.startsWith("!--")) {
+                    continue;
+                }
+                else if (tag.name.indexOf(">")>-1) {
+                    //ajusta, tags simples
+                    var idxGT = tag.name.indexOf(">");
+                    tag.name = tag.name.substr(0, idxGT);
+                }
+                tag.endTag = tag.name.startsWith('/');
+                tag.startTag = !tag.name.startsWith('/');
+                if (tag.endTag) 
+                    tag.name = tag.name.replace("/","");
+                var indexGT = tags[i].indexOf(">") + 1;
+                tag.raw = '<' + tags[i].substr(0, indexGT);
+                tag.attributes = this.getAttributes(tag.raw);
+                result.push(tag);
+            }
+        }
+        return result;
+    }
+
+    private isInsideTag(containerTag: string, idxTag: number, tags:any) {
+        var result = false;
+        if (containerTag.length == 0)
+            result = true;
+        else {
+            
+
+        }
+        return result;
     }
 
     parseAttributesAngular5(viewContent: string) {
         debugger;
-        
-        var el = <HTMLScriptElement>this.str2DOMElement(viewContent);
-        //to keep the same indentation 
-        viewContent = el.outerHTML;
-        
-        var tags = el.getElementsByTagName("*");
+        var tags = this.getTagsHtml(viewContent);
         let tagsToReplace: Map<string, string> = new Map<string, string>();
 
         for (var i = 0; i < tags.length; i++) {
-            var hasReplacement = false;
-            var outerHTML = tags[i].outerHTML;
-            var indexGT = outerHTML.indexOf(">") + 1;
-            let tagFully:string = outerHTML.substr(0, indexGT);
-            var tagFullyReplaced = tagFully;
+            var hasReplacement = false;           
+            var tagRawReplaced = tags[i].raw;
 
-            this.attributes.forEach((value, key)=> {
-                if (tags[i].hasAttribute(key)) {
+            this.attributesToReplace.forEach((value, key)=> {
+                if (tags[i].attributes.includes(key)) {
                     hasReplacement = true;
-                    tagFullyReplaced = tagFullyReplaced.split(key).join(value);
+                    tagRawReplaced = tagRawReplaced.split(key).join(value);
                 }
             });
-            
-            this.attributesToSetInElement.forEach((value, key) => {
-                if (tags[i].tagName.toLowerCase() == key.toLowerCase()) {
-                    debugger;
-                    if (tagFullyReplaced.toLowerCase().indexOf(value.toLowerCase()) == -1) {
-                        hasReplacement = true;
-                        //check if is tag uppercase or lowercase
-                        if (tagFullyReplaced.indexOf('<' + tags[i].tagName) > -1)
-                            tagFullyReplaced.split('<' + tags[i].tagName).join('<' + tags[i].tagName + ' ' + value);
-                        else
-                            tagFullyReplaced = tagFullyReplaced.split('<' + tags[i].tagName.toLowerCase()).join('<' + tags[i].tagName.toLowerCase() + ' ' + value);
+            this.attributesToSetInTag.forEach((attrToSetInElement) => {
+                if (tags[i].attributes.includes(attrToSetInElement.hasAttribute)) {
+                    if (this.isInsideTag(attrToSetInElement.containerTag, i, tags)) {
+
                     }
                 }
             });
+            
+            // this.attributesToSetInElement.forEach((value, key) => {
+            //     if (tags[i].name.toLowerCase() == key.toLowerCase()) {
+            //         debugger;
+            //         if (tagRawReplaced.toLowerCase().indexOf(value.toLowerCase()) == -1) {
+            //             hasReplacement = true;
+            //             //check if is tag uppercase or lowercase
+            //             if (tagRawReplaced.indexOf('<' + tags[i].name) > -1)
+            //                 tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + value);
+            //             else
+            //                 tagRawReplaced = tagRawReplaced.split('<' + tags[i].name.toLowerCase()).join('<' + tags[i].name.toLowerCase() + ' ' + value);
+            //         }
+            //     }
+            // });
             if (hasReplacement)
-                tagsToReplace.set(tagFully,tagFullyReplaced);
+                tagsToReplace.set(tags[i].raw, tagRawReplaced);
         }
         tagsToReplace.forEach((value, key) => {
             viewContent = viewContent.split(key).join(value);
@@ -90,7 +159,7 @@ export class HelperServiceProvider {
                     //TODO: Adicionar nesse Componente dinamico as dependencias, cronapi... userEvents... (NgModule - abaixo)
                     vars: any;
                     constructor () {
-                        this.vars= {};
+                        this.vars = {};
                     }
                 }
             );

@@ -2,8 +2,23 @@
   test-component works!
   {{"Login.view.Login" | translate}}
   {{ 'Login.view.Username' | translate }}
-
-  <input type="text" [(ngModel)]="variavelRomano.value">
-  <button (click)="vai()">vai</button>
-  {{variavelRomano.value}}
 </p>
+  <form class="form-validation" autocomplete="off" name="form" (ngSubmit)="vai()" role="form">
+    <div class="text-danger wrapper text-center" ng-show="authError"></div>
+    <div class="col-xs-12 col-md-9 col-md-push-1" data-container="true">
+        <div class="form-group" data-container="true">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+                <input type="text"  class="form-control" [ngModelOptions]="{standalone:true}" [(ngModel)]="variavelRomano.value" id="username" placeholder="{{'Login.view.Username' | translate}}">
+            </div>
+        </div>
+        <div class="form-group" data-container="true">
+          <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i></span>
+              <input type="text"  class="form-control" [ngModelOptions]="{standalone:true}" [(ngModel)]="variavelTiago.value" id="username" placeholder="{{'Login.view.Username' | translate}}">
+          </div>
+      </div>
+        <button type="submit">Ok</button>
+    </div>
+  </form>
+

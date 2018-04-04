@@ -9,15 +9,18 @@ import { TranslateService } from '@ngx-translate/core';
 export class TestComponentComponent implements OnInit {
 
   variavelRomano: any;
+  variavelTiago: any;
 
   constructor(translate: TranslateService) { 
     debugger;
-    this.variavelRomano = {value: "meu ovo"};
+    this.variavelRomano = {value: "romano"};
+    this.variavelTiago = {value: "tiago"};
   }
 
   vai() {
     debugger;
     var ok = this.variavelRomano.value;
+    ok = this.variavelTiago.value;
   }
 
   ngOnInit() {
