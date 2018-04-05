@@ -17,7 +17,8 @@ import { AppCustomModule } from './app.custom.module';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 // import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ImportClass } from './common/importClass.component';
+import { CommonVariableProvider } from '../providers/common-variable/common-variable';
+// import { ImportClass } from './common/import-class.component';
 
 
 
@@ -46,6 +47,7 @@ const appRoutes:Routes = [
 ]
 
 @NgModule({
+  
   declarations: [
     AppComponent,
     HomeComponent,
@@ -64,7 +66,8 @@ const appRoutes:Routes = [
     HomeComponent, 
     PageComponent, 
     LoginComponent,
-    HelperServiceProvider
+    HelperServiceProvider,
+    CommonVariableProvider
   ],
   exports: [
     // TranslateModule

@@ -34,10 +34,10 @@ export function createTranslateLoader(http: HttpClient) {
     exports: [
         TranslateModule,
         FormsModule,
-        BrowserModule
+        BrowserModule,
     ],
     providers: [],
-    bootstrap: []
+    bootstrap: [],
 })
 
 export class AppCustomModule {

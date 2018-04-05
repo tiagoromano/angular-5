@@ -174,7 +174,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="{{'Home.view.Close' | translate}}"><span aria-hidden="true">×</span></button>
                     <h4 class="modal-title">Função</h4>
                 </div>
-                <datasource name="AllRoles" entity="api/cronapi/security/roles" keys="AllRoles" rows-per-page="100" data-component="crn-datasource" class="component-holder" id="crn-datasource-211673"></datasource><div class="modal-body">
+                <datasource name="AllRoles" entity="api/cronapi/security/roles" keys="AllRoles" rows-per-page="100" on-before-create="" on-after-create="" on-before-update="" on-after-update="" on-before-delete="" on-after-delete="" on-after-fill="" data-component="crn-datasource" class="component-holder" id="crn-datasource-211673"></datasource><div class="modal-body">
                 <div class="list-group list-group-sm row">
 
                     <div class="component-holder ng-binding ng-scope col-xs-12 col-sm-12 col-md-12 col-lg-12" data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-453587"><div class="form-group"><label for="">Função</label><ui-select crn-datasource="AllRoles" ng-model="RoleGrid.active" ng-disabled="disabled" theme="bootstrap" class="crn-select" ng-required="false"><ui-select-match placeholder="Select..." class="">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat="rowData as rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay=""><div class="">{{rowData.name}}</div></ui-select-choices></ui-select></div></div>

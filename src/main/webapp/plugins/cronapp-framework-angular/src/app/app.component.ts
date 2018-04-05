@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'app';
 
   constructor(private router: Router, translate: TranslateService) {
-    debugger;
+    
     translate.addLangs(["pt_br", "en_us"]);
     translate.setDefaultLang('pt_br');
     let locale = navigator.language || 'pt_br';

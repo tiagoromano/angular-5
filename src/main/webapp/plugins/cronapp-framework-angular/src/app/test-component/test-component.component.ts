@@ -10,6 +10,7 @@ export class TestComponentComponent implements OnInit {
 
   variavelRomano: any;
   variavelTiago: any;
+  mercado0800link = "http://www.mercado0800.com.br/img/low_logo.png";
 
   constructor(translate: TranslateService) { 
     debugger;

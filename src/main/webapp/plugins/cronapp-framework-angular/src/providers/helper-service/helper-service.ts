@@ -1,4 +1,4 @@
-import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef} from "@angular/core";
+import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import { TranslateService } from '@ngx-translate/core';
 import { ngModuleJitUrl } from "@angular/compiler";
 import { AppCustomModule } from "../../app/app.custom.module";
@@ -18,6 +18,9 @@ export class HelperServiceProvider {
     private fillAttributes() {
         this.attributesToReplace.set("ng-model", "[(ngModel)]");
         this.attributesToReplace.set("ng-submit", "(ngSubmit)");
+        this.attributesToReplace.set("ng-src", "src");
+        this.attributesToReplace.set("aria-label", "attr.aria-label");
+        
         
         //Atributos que devem ser setados nas tags (elementos)
         //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
@@ -93,18 +96,33 @@ export class HelperServiceProvider {
     }
 
     private isInsideTag(containerTag: string, idxTag: number, tags:any) {
-        var result = false;
         if (containerTag.length == 0)
-            result = true;
+            return true;
         else {
+            var endTagsIds = [];
+            var startTagsIds = [];
+            var idxSearchEnd = tags.length - 1;
             
+            while (idxSearchEnd > -1) {
+                if (tags[idxSearchEnd].name == containerTag && tags[idxSearchEnd].endTag && !endTagsIds.includes(idxSearchEnd)) {
+                    endTagsIds.push(idxSearchEnd);
+                    for (var i = idxSearchEnd; i > -1; i--) {
+                        if (tags[i].name == containerTag && tags[i].startTag && !startTagsIds.includes(i)) {
+                            startTagsIds.push(i);
 
+                            if (idxTag < idxSearchEnd && idxTag > i)
+                                return true;
+                            break;
+                        }
+                    }
+                }
+                idxSearchEnd--; 
+            }
         }
-        return result;
+        return false;
     }
 
     parseAttributesAngular5(viewContent: string) {
-        debugger;
         var tags = this.getTagsHtml(viewContent);
         let tagsToReplace: Map<string, string> = new Map<string, string>();
 
@@ -121,24 +139,12 @@ export class HelperServiceProvider {
             this.attributesToSetInTag.forEach((attrToSetInElement) => {
                 if (tags[i].attributes.includes(attrToSetInElement.hasAttribute)) {
                     if (this.isInsideTag(attrToSetInElement.containerTag, i, tags)) {
-
+                        hasReplacement = true;
+                        tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + attrToSetInElement.attributeToSet);
                     }
                 }
             });
             
-            // this.attributesToSetInElement.forEach((value, key) => {
-            //     if (tags[i].name.toLowerCase() == key.toLowerCase()) {
-            //         debugger;
-            //         if (tagRawReplaced.toLowerCase().indexOf(value.toLowerCase()) == -1) {
-            //             hasReplacement = true;
-            //             //check if is tag uppercase or lowercase
-            //             if (tagRawReplaced.indexOf('<' + tags[i].name) > -1)
-            //                 tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + value);
-            //             else
-            //                 tagRawReplaced = tagRawReplaced.split('<' + tags[i].name.toLowerCase()).join('<' + tags[i].name.toLowerCase() + ' ' + value);
-            //         }
-            //     }
-            // });
             if (hasReplacement)
                 tagsToReplace.set(tags[i].raw, tagRawReplaced);
         }
@@ -163,7 +169,7 @@ export class HelperServiceProvider {
                     }
                 }
             );
-            const tmpModule = NgModule({declarations: [tmpCmp]})(class {});
+            const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule], schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]})(class {});
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
             .then((factories) => {
                 const f = factories.componentFactories[0];
@@ -182,15 +188,22 @@ export class HelperServiceProvider {
             (
                 contextClass
             );
-            const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule]})(contextClass);
+            const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule], schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]})(contextClass);
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
             .then((factories) => {
-                debugger;
                 const f = factories.componentFactories[0];
                 const cmpRef = f.create(this._injector, [], null, this._m);
                 cmpRef.instance.name = 'dynamic';
                 viewChild.remove(0);
                 viewChild.insert(cmpRef.hostView);
             });
+    }
+
+    parseJsonToUrlParameters(json: any) {
+        let parameters:string = "";
+        for (var attr in json) {
+            parameters += attr + "=" + json[attr] + "&";
+        }
+        return parameters;
     }
 }
