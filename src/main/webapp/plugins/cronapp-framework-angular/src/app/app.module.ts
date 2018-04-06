@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MyNewDirectiveDirective } from './my-new-directive.directive';
-import { Routes, RouterModule } from '@angular/router';
+// import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PageComponent } from './page/page.component';
 import { LoginComponent } from './login/login.component';
@@ -19,32 +19,33 @@ import { HelperServiceProvider } from '../providers/helper-service/helper-servic
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 // import { ImportClass } from './common/import-class.component';
+import {UIRouterModule} from "@uirouter/angular";
+// import {mainState, loginState, homeState, homePageState, testState} from "./app.states";
+import { AppRoutingModule } from './app-routing.module';
 
+// const appRoutes:Routes = [
+//   {
+//     path: 'home',
+//     component: HomeComponent
+//   },
+//   {
+//     path: '',
+//     component: HomeComponent
+//   },
+//   {
+//     path: 'login',
+//     component: LoginComponent,
+//   },
+//   {
+//     path: 'home/:folder/:page',
+//     component: PageComponent,
+//   },
+//   {
+//     path: 'test',
+//     component: TestComponentComponent,
+//   }
 
-
-const appRoutes:Routes = [
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'home/:folder/:page',
-    component: PageComponent,
-  },
-  {
-    path: 'test',
-    component: TestComponentComponent,
-  }
-
-]
+// ]
 
 @NgModule({
   
@@ -56,7 +57,19 @@ const appRoutes:Routes = [
     TestComponentComponent,
   ],
   imports: [
-    RouterModule.forRoot(appRoutes, {useHash: true}),
+    // 
+    // UIRouterModule.forRoot({
+    //   states:[
+    //     mainState,
+    //     loginState,
+    //     homeState,
+    //     homePageState,
+    //     testState
+    //   ],
+    //   useHash : true,
+    //   config: uiRouterConfigFn
+    // }),
+    AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     HttpModule,

@@ -20,6 +20,7 @@ export class HelperServiceProvider {
         this.attributesToReplace.set("ng-submit", "(ngSubmit)");
         this.attributesToReplace.set("ng-src", "src");
         this.attributesToReplace.set("aria-label", "attr.aria-label");
+        // <ui-view>
         
         
         //Atributos que devem ser setados nas tags (elementos)

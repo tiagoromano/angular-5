@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
             successLogin(data) {
               debugger;
               this.commonVariable.startSession(data._body);
-              this.router.navigate(['home'])
+              this.router.navigate(['home']);
             }
 
             errorLogin(err:HttpErrorResponse) {

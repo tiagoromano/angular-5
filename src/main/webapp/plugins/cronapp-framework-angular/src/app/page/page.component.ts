@@ -14,16 +14,19 @@ export class PageComponent implements OnInit {
   @ViewChild('vc', {read: ViewContainerRef}) vc;
 
   constructor(private route:ActivatedRoute, private httpService: HttpClient, private helperServiceProvider: HelperServiceProvider) {
+    debugger;
   }
 
   ngOnInit() {
+    debugger;
   }
 
   ngAfterViewInit() {
+    debugger;
     this.route.params.subscribe(p=> {
       this.httpService.get('../../../views/'+p.folder+'/'+p.page+'.view.html', {responseType: 'text'}).subscribe(
         viewContent => {
-          
+
           this.helperServiceProvider.createDynamicComponent(this.vc, viewContent);
 
           

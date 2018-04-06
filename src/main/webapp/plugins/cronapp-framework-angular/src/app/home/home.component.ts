@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HelperServiceProvider } from '../../providers/helper-service/helper-service';
@@ -9,16 +9,21 @@ import { CommonVariableProvider } from '../../providers/common-variable/common-v
 
 @Component({
   selector: 'app-home',
-  template: "<ng-container #vc></ng-container>",
+  template: "{{pages}}<ng-container #vc></ng-container>",
 })
 export class HomeComponent implements OnInit {
+
+  @Input() pages;
+
 
   @ViewChild('vc', {read: ViewContainerRef}) vc;
 
   constructor(private route:ActivatedRoute, private httpService: HttpClient, private helperServiceProvider: HelperServiceProvider) {
+    debugger;
   }
 
   ngOnInit() {
+    debugger;
   }
 
   ngAfterViewInit() {
@@ -51,7 +56,7 @@ export class HomeComponent implements OnInit {
               this.router = router;
 
               this.session = commonVariable.getSession();
-              this.router.navigate(['home', 'admin', 'user']);
+              // this.router.navigate(['home', 'admin', 'user']);
             }
 
             
@@ -84,7 +89,7 @@ export class HomeComponent implements OnInit {
             successLogin(data) {
               debugger;
               this.commonVariable.startSession(data._body);
-              this.router.navigate(['home'])
+              // this.router.navigate(['home'])
             }
 
             errorLogin(err:HttpErrorResponse) {
