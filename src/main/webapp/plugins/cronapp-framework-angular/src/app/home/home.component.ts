@@ -18,7 +18,6 @@ export class HomeComponent implements OnInit {
   vars: any;
 
   constructor(private commonVariable: CommonVariableProvider) {
-    debugger;
     this.vars = {};
   }
 

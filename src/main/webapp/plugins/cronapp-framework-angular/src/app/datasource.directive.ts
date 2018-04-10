@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, HostListener, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, HostListener, OnInit, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Directive({
@@ -6,8 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
   
 })
 export class DatasourceDirective implements OnInit {
-
-    
 
     @Input() entity: string;
     @Input() name: string;
@@ -38,9 +36,13 @@ export class DatasourceDirective implements OnInit {
     @Input() dependentLazyPost: string;
     @Input() dependentLazyPostField: string;
 
-    constructor(private el: ElementRef,  private translate: TranslateService) { 
-        
-        
+    constructor(private el: ElementRef,  private translate: TranslateService, public viewContainerRef: ViewContainerRef) { 
+        debugger;
+        var moduleId = this.viewContainerRef["_view"].context.constructor.__annotations__[0].moduleId
+        //TODO: Fazer um provider para o datasource, funcionar como o Factory no angular 1
+
+
+
     }
 
     ngOnInit(): void {
@@ -75,13 +77,13 @@ export class DatasourceDirective implements OnInit {
             dependentBy: this.dependentBy,
             dependentLazyPost: this.dependentLazyPost, 
             dependentLazyPostField: this.dependentLazyPostField, 
-          };
+        };
 
-          var firstLoad = {
+        var firstLoad = {
             filter: true,
             entity: true,
             enabled: true
-          };
+        };
 
     }
 

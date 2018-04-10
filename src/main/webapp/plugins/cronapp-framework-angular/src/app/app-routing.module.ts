@@ -45,11 +45,7 @@ const rootModule: RootModule = {
         {
           token: "parameters",
           deps: [Transition],
-          resolveFn: (trans: Transition) => {
-            debugger;
-            return trans.params();
-            // return trans;
-          } 
+          resolveFn: (trans: Transition) => trans.params()
         }
       ]
     },

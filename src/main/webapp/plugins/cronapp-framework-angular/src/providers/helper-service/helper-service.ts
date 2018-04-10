@@ -155,10 +155,14 @@ export class HelperServiceProvider {
         return viewContent;
     }
 
+    private uniqueId() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+    }
+
     createDynamicComponent(viewChild: any, viewContent:any) {
         viewContent = this.parseAttributesAngular5(viewContent);
         const tmpCmp = Component({
-            moduleId: module.id,
+            moduleId: this.uniqueId(),
             template: viewContent
             })
             (
@@ -185,7 +189,7 @@ export class HelperServiceProvider {
     createDynamicComponentWithContextClass(contextClass:any ,viewChild: any, viewContent:any) {
         viewContent = this.parseAttributesAngular5(viewContent);
         const tmpCmp = Component({
-                moduleId: module.id,
+                moduleId: this.uniqueId(),
                 template: viewContent
             })
             (
