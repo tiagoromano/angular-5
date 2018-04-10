@@ -123,7 +123,7 @@ export class HelperServiceProvider {
         return false;
     }
 
-    private parseAttributesAngular5(viewContent: string) {
+    parseAttributesAngular5(viewContent: string) {
         var tags = this.getTagsHtml(viewContent);
         let tagsToReplace: Map<string, string> = new Map<string, string>();
 
@@ -156,7 +156,6 @@ export class HelperServiceProvider {
     }
 
     createDynamicComponent(viewChild: any, viewContent:any) {
-        viewContent = this.parseAttributesAngular5(viewContent);
         const tmpCmp = Component({
             moduleId: module.id,
             template: viewContent
@@ -183,7 +182,6 @@ export class HelperServiceProvider {
     }
 
     createDynamicComponentWithContextClass(contextClass:any ,viewChild: any, viewContent:any) {
-        viewContent = this.parseAttributesAngular5(viewContent);
         const tmpCmp = Component({
                 moduleId: module.id,
                 template: viewContent

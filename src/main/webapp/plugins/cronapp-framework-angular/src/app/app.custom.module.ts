@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
 
 
@@ -21,6 +22,7 @@ export function createTranslateLoader(http: HttpClient) {
         // ImportClass
     ],
     imports: [
+        // NgbModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -29,12 +31,18 @@ export function createTranslateLoader(http: HttpClient) {
             }
         }),
         FormsModule,
-        BrowserModule
+        BrowserModule,
+
+        // BsDropdownModule.forRoot(),
+        // TooltipModule.forRoot(),
+        // ModalModule.forRoot()
     ],
     exports: [
         TranslateModule,
         FormsModule,
         BrowserModule,
+
+        // BsDropdownModule, TooltipModule, ModalModule
     ],
     providers: [],
     bootstrap: [],
