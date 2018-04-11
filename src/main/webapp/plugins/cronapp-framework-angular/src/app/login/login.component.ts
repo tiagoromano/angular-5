@@ -8,6 +8,7 @@ import { ImportClass } from '../common/import-class.component';
 import { RequestOptions, Headers, Http } from '@angular/http';
 import { CommonVariableProvider } from '../../providers/common-variable/common-variable';
 import { StateService } from '@uirouter/core';
+import { ComponentServiceProvider } from '../../providers/component-service/component-service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('vc', {read: ViewContainerRef}) vc;
   
-  constructor(private httpService: HttpClient, private helperServiceProvider: HelperServiceProvider) {
+  constructor(private httpService: HttpClient, private helperServiceProvider: HelperServiceProvider, 
+              private componentServiceProvider: ComponentServiceProvider) {
   }
 
   ngOnInit() {
@@ -92,7 +94,7 @@ export class LoginComponent implements OnInit {
 
         };
 
-        this.helperServiceProvider.createDynamicComponentWithContextClass(contextClass, this.vc, viewContent);          
+        this.componentServiceProvider.createDynamicComponentWithContextClass(contextClass, this.vc, viewContent);          
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);

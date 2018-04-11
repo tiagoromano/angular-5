@@ -5,6 +5,10 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { DatasourceDirective } from './datasource.directive';
+import { HelperServiceProvider } from '../providers/helper-service/helper-service';
+import { CommonVariableProvider } from '../providers/common-variable/common-variable';
+import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
 
@@ -19,10 +23,9 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
     declarations: [
-        // ImportClass
+        DatasourceDirective
     ],
     imports: [
-        // NgbModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -32,19 +35,18 @@ export function createTranslateLoader(http: HttpClient) {
         }),
         FormsModule,
         BrowserModule,
-
-        // BsDropdownModule.forRoot(),
-        // TooltipModule.forRoot(),
-        // ModalModule.forRoot()
     ],
     exports: [
         TranslateModule,
         FormsModule,
         BrowserModule,
-
-        // BsDropdownModule, TooltipModule, ModalModule
+        DatasourceDirective
     ],
-    providers: [],
+    providers: [
+        // HelperServiceProvider,
+        // CommonVariableProvider,
+        // DatasourceManagerProvider
+    ],
     bootstrap: [],
 })
 

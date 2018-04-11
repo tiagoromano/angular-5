@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { RootModule, UIRouterModule, Transition } from '@uirouter/angular';
 import { LoginComponent } from './login/login.component';
 import { PageComponent } from './page/page.component';
+import { TestComponentComponent } from './test-component/test-component.component';
 
 // const routes: Routes = [
 //     {
@@ -44,14 +45,15 @@ const rootModule: RootModule = {
         {
           token: "parameters",
           deps: [Transition],
-          resolveFn: (trans: Transition) => {
-            debugger;
-            return trans.params();
-            // return trans;
-          } 
+          resolveFn: (trans: Transition) => trans.params()
         }
       ]
-    }
+    },
+    {
+      name: "test",
+      url: "/test",
+      component: TestComponentComponent,
+    },
   ],
   useHash: true,
   otherwise: "/login"

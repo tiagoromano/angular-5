@@ -2,8 +2,9 @@ import { Component, OnInit, Injector, ViewChild, NgModule, NgModuleRef, ViewCont
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HelperServiceProvider } from '../../providers/helper-service/helper-service';
+// import { HelperServiceProvider } from '../../providers/helper-service/helper-service';
 import { Transition } from '@uirouter/core';
+import { ComponentServiceProvider } from '../../providers/component-service/component-service';
 
 @Component({
   selector: 'app-page',
@@ -15,7 +16,7 @@ export class PageComponent implements OnInit {
   @Input() parameters:any;
   @ViewChild('vc', {read: ViewContainerRef}) vc;
 
-  constructor(private httpService: HttpClient, private helperServiceProvider: HelperServiceProvider) {
+  constructor(private httpService: HttpClient, private componentServiceProvider: ComponentServiceProvider) {
   }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class PageComponent implements OnInit {
   ngAfterViewInit() {
     this.httpService.get('../../../views/'+ this.parameters.name + '.view.html', {responseType: 'text'}).subscribe(
       viewContent => {
-        this.helperServiceProvider.createDynamicComponent(this.vc, viewContent);
+        this.componentServiceProvider.createDynamicComponent(this.vc, viewContent);
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);
