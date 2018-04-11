@@ -22,6 +22,7 @@ import { CommonVariableProvider } from '../providers/common-variable/common-vari
 import {UIRouterModule} from "@uirouter/angular";
 // import {mainState, loginState, homeState, homePageState, testState} from "./app.states";
 import { AppRoutingModule } from './app-routing.module';
+import { CronappSecurityDirective } from './cronapp-security.directive';
 
 // const appRoutes:Routes = [
 //   {
@@ -55,6 +56,7 @@ import { AppRoutingModule } from './app-routing.module';
     PageComponent,
     LoginComponent,
     TestComponentComponent,
+    CronappSecurityDirective,
   ],
   imports: [
     // 
