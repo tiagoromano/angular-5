@@ -9,6 +9,7 @@ import { DatasourceDirective } from './datasource.directive';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
+import { CronappSecurityDirective } from './cronapp-security.directive';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
 
@@ -23,7 +24,8 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
     declarations: [
-        DatasourceDirective
+        DatasourceDirective,
+        CronappSecurityDirective
     ],
     imports: [
         TranslateModule.forRoot({
@@ -40,7 +42,8 @@ export function createTranslateLoader(http: HttpClient) {
         TranslateModule,
         FormsModule,
         BrowserModule,
-        DatasourceDirective
+        DatasourceDirective,
+        CronappSecurityDirective
     ],
     providers: [
         // HelperServiceProvider,
