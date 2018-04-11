@@ -1,11 +1,14 @@
 import { Directive, ElementRef, Input, HostListener, OnInit, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 
 @Directive({
   selector: 'datasource',
   
 })
 export class DatasourceDirective implements OnInit {
+
+    
 
     @Input() entity: string;
     @Input() name: string;
@@ -36,7 +39,7 @@ export class DatasourceDirective implements OnInit {
     @Input() dependentLazyPost: string;
     @Input() dependentLazyPostField: string;
 
-    constructor(private el: ElementRef,  private translate: TranslateService, public viewContainerRef: ViewContainerRef) { 
+    constructor(private el: ElementRef,  private translate: TranslateService, public viewContainerRef: ViewContainerRef, private datasourceFactory: DatasourceManagerProvider) { 
         debugger;
         var moduleId = this.viewContainerRef["_view"].context.constructor.__annotations__[0].moduleId
         //TODO: Fazer um provider para o datasource, funcionar como o Factory no angular 1
@@ -85,6 +88,7 @@ export class DatasourceDirective implements OnInit {
             enabled: true
         };
 
+        var dts = this.datasourceFactory.initDataset(props, this.viewContainerRef["_view"].context);
     }
 
     @HostListener('mouseenter') onMouseEnter() {

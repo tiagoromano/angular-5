@@ -680,7 +680,7 @@ angular.module('datasourcejs', [])
           if (this.onStartInserting) {
             this.onStartInserting();
           }
-          
+
           this.active = { id: "-1"};
         };
 
@@ -890,7 +890,7 @@ angular.module('datasourcejs', [])
          */
         this.nextPage = function() {
           var resourceURL = (window.hostApp || "") + this.entity;
-          
+
           if (!this.hasNextPage()) {
             return;
           }
@@ -1170,7 +1170,7 @@ angular.module('datasourcejs', [])
           var sucessHandler = function(data, headers) {
             var springVersion = false;
             this.responseHeaders = headers || {};
-            
+
             if (this.entity.indexOf('//') > -1 && this.entity.indexOf('://') < 0)
               data = [];
             if (data) {
@@ -1391,7 +1391,7 @@ angular.module('datasourcejs', [])
           else
             return false;
         }
-        
+
         if (window.afterDatasourceCreate) {
           var args = [$q, $timeout, $rootScope, $window, Notification];
           window.afterDatasourceCreate.apply(this, args);
@@ -1411,116 +1411,116 @@ angular.module('datasourcejs', [])
           /**
            * Initialize a new dataset
            */
-          this.initDataset = function(props, scope) {
+      this.initDataset = function(props, scope) {
 
-            var endpoint = (props.endpoint) ? props.endpoint : "";
-            var dts = new DataSet(props.name, scope);
-            var defaultApiVersion = 1;
+        var endpoint = (props.endpoint) ? props.endpoint : "";
+        var dts = new DataSet(props.name, scope);
+        var defaultApiVersion = 1;
 
-            dts.entity = props.entity;
-            if (app && app.config && app.config.datasourceApiVersion) {
-              defaultApiVersion = app.config.datasourceApiVersion;
+        dts.entity = props.entity;
+        if (app && app.config && app.config.datasourceApiVersion) {
+          defaultApiVersion = app.config.datasourceApiVersion;
+        }
+
+        dts.apiVersion = props.apiVersion ? parseInt(props.apiVersion) : defaultApiVersion;
+        dts.keys = (props.keys && props.keys.length > 0) ? props.keys.split(",") : [];
+        dts.rowsPerPage = props.rowsPerPage ? props.rowsPerPage : 100; // Default 100 rows per page
+        dts.append = props.append;
+        dts.prepend = props.prepend;
+        dts.endpoint = props.endpoint;
+        dts.filterURL = props.filterURL;
+        dts.autoPost = props.autoPost;
+        dts.deleteMessage = props.deleteMessage;
+        dts.enabled = props.enabled;
+        dts.offset = (props.offset) ? props.offset : 0; // Default offset is 0
+        dts.onError = props.onError;
+        dts.defaultNotSpecifiedErrorMessage = props.defaultNotSpecifiedErrorMessage;
+        dts.onAfterFill = props.onAfterFill;
+        dts.onBeforeCreate = props.onBeforeCreate;
+        dts.onAfterCreate = props.onAfterCreate;
+        dts.onBeforeUpdate = props.onBeforeUpdate;
+        dts.onAfterUpdate = props.onAfterUpdate;
+        dts.onBeforeDelete = props.onBeforeDelete;
+        dts.onAfterDelete = props.onAfterDelete;
+        dts.dependentBy = props.dependentBy;
+
+        if (props.dependentLazyPost && props.dependentLazyPost.length > 0) {
+          dts.dependentLazyPost = props.dependentLazyPost;
+          eval(dts.dependentLazyPost).addDependentData(dts);
+        }
+
+        dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
+
+        // Check for headers
+        if (props.headers && props.headers.length > 0) {
+          dts.headers = {"X-From-DataSource": "true"};
+          var headers = props.headers.trim().split(";");
+          var header;
+          for (var i = 0; i < headers.length; i++) {
+            header = headers[i].split(":");
+            if (header.length === 2) {
+              dts.headers[header[0]] = header[1];
             }
+          }
+        }
 
-            dts.apiVersion = props.apiVersion ? parseInt(props.apiVersion) : defaultApiVersion;
-            dts.keys = (props.keys && props.keys.length > 0) ? props.keys.split(",") : [];
-            dts.rowsPerPage = props.rowsPerPage ? props.rowsPerPage : 100; // Default 100 rows per page
-            dts.append = props.append;
-            dts.prepend = props.prepend;
-            dts.endpoint = props.endpoint;
-            dts.filterURL = props.filterURL;
-            dts.autoPost = props.autoPost;
-            dts.deleteMessage = props.deleteMessage;
-            dts.enabled = props.enabled;
-            dts.offset = (props.offset) ? props.offset : 0; // Default offset is 0
-            dts.onError = props.onError;
-            dts.defaultNotSpecifiedErrorMessage = props.defaultNotSpecifiedErrorMessage;
-            dts.onAfterFill = props.onAfterFill;
-            dts.onBeforeCreate = props.onBeforeCreate;
-            dts.onAfterCreate = props.onAfterCreate;
-            dts.onBeforeUpdate = props.onBeforeUpdate;
-            dts.onAfterUpdate = props.onAfterUpdate;
-            dts.onBeforeDelete = props.onBeforeDelete;
-            dts.onAfterDelete = props.onAfterDelete;
-            dts.dependentBy = props.dependentBy;
+        this.storeDataset(dts);
+        dts.allowFetch = true;
 
-            if (props.dependentLazyPost && props.dependentLazyPost.length > 0) {
-              dts.dependentLazyPost = props.dependentLazyPost;
-              eval(dts.dependentLazyPost).addDependentData(dts);
-            }
+        if (dts.dependentBy && dts.dependentBy !== "" && dts.dependentBy.trim() !== "") {
+          dts.allowFetch = false;
 
-            dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
+          //if dependentBy was loaded, the filter in this ds not will be changed and the filter observer not will be called
+          var dependentBy = null;
+          try {
+            dependentBy = JSON.parse(dependentBy);
+          } catch (ex) {
+            dependentBy = eval(dependentBy);
+          }
 
-            // Check for headers
-            if (props.headers && props.headers.length > 0) {
-              dts.headers = {"X-From-DataSource": "true"};
-              var headers = props.headers.trim().split(";");
-              var header;
-              for (var i = 0; i < headers.length; i++) {
-                header = headers[i].split(":");
-                if (header.length === 2) {
-                  dts.headers[header[0]] = header[1];
-                }
-              }
-            }
-
-            this.storeDataset(dts);
+          if (dependentBy && dependentBy.loadedFinish)
             dts.allowFetch = true;
+        }
 
-            if (dts.dependentBy && dts.dependentBy !== "" && dts.dependentBy.trim() !== "") {
-              dts.allowFetch = false;
+        if (!props.lazy && dts.allowFetch && (Object.prototype.toString.call(props.watch) !== "[object String]") && !props.filterURL) {
+          // Query string object
+          var queryObj = {};
 
-              //if dependentBy was loaded, the filter in this ds not will be changed and the filter observer not will be called
-              var dependentBy = null;
-              try {
-                dependentBy = JSON.parse(dependentBy);
-              } catch (ex) {
-                dependentBy = eval(dependentBy);
+          // Fill the dataset
+          dts.fetch({
+            params: queryObj
+          }, {
+            success: function(data) {
+              if (data && data.length > 0) {
+                this.active = data[0];
+                this.cursor = 0;
               }
-
-              if (dependentBy && dependentBy.loadedFinish)
-                dts.allowFetch = true;
             }
+          });
+        }
 
-            if (!props.lazy && dts.allowFetch && (Object.prototype.toString.call(props.watch) !== "[object String]") && !props.filterURL) {
-              // Query string object
-              var queryObj = {};
+        if (props.lazy && props.autoPost) {
+          dts.startAutoPost();
+        }
 
-              // Fill the dataset
-              dts.fetch({
-                params: queryObj
-              }, {
-                success: function(data) {
-                  if (data && data.length > 0) {
-                    this.active = data[0];
-                    this.cursor = 0;
-                  }
-                }
-              });
-            }
+        if (props.watch && Object.prototype.toString.call(props.watch) === "[object String]") {
+          this.registerObserver(props.watch, dts);
+          dts.watchFilter = props.watchFilter;
+        }
 
-            if (props.lazy && props.autoPost) {
-              dts.startAutoPost();
-            }
+        // Filter the dataset if the filter property was set
+        if (props.filterURL && props.filterURL.length > 0 && dts.allowFetch) {
+          dts.filter(props.filterURL);
+        }
 
-            if (props.watch && Object.prototype.toString.call(props.watch) === "[object String]") {
-              this.registerObserver(props.watch, dts);
-              dts.watchFilter = props.watchFilter;
-            }
+        // Add this instance into the root scope
+        // This will expose the dataset name as a
+        // global variable
+        $rootScope[dts.name] = dts;
+        window[dts.name] = dts;
 
-            // Filter the dataset if the filter property was set
-            if (props.filterURL && props.filterURL.length > 0 && dts.allowFetch) {
-              dts.filter(props.filterURL);
-            }
-
-            // Add this instance into the root scope
-            // This will expose the dataset name as a
-            // global variable
-            $rootScope[dts.name] = dts;
-            window[dts.name] = dts;
-
-            return dts;
-          };
+        return dts;
+      };
 
       /**
        * Register a dataset as an observer to another one

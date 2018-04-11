@@ -5,6 +5,11 @@ export class CommonVariableProvider {
 
     private session:any;
 
+    userEvents: any = {};
+    //Configuration
+    config: any = {
+        datasourceApiVersion : 2
+    };
 
     startSession(data: string) {
         sessionStorage.setItem("_u", data);
