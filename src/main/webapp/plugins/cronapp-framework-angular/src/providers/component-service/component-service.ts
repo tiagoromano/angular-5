@@ -2,6 +2,7 @@ import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef, NO_ERR
 import { TranslateService } from '@ngx-translate/core';
 import { ngModuleJitUrl } from "@angular/compiler";
 import { AppCustomModule } from "../../app/app.custom.module";
+import { CrnDatasourceDirective } from "../../app/crn-datasource.directive";
 
 @Injectable()
 export class ComponentServiceProvider {
@@ -20,13 +21,18 @@ export class ComponentServiceProvider {
         this.attributesToReplace.set("ng-submit", "(ngSubmit)");
         this.attributesToReplace.set("ng-src", "src");
         this.attributesToReplace.set("aria-label", "attr.aria-label");
-        // <ui-view>
+        this.attributesToReplace.set("ng-hide", "[hidden]");
+        this.attributesToReplace.set("ng-click", "(click)");
         
         
         //Atributos que devem ser setados nas tags (elementos)
         //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
         //no "hasAttribute", caso o "containerTag" seja vazio, será setado o "attributeToSet" em todos os elementos que contenham o "hasAttribute"
         this.attributesToSetInTag.push( {containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
+
+        //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.
+        //! { ' " 
+        this.attributesToSetInTag.push( {angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
     }
 
     private getAttributes(element: string) {

@@ -25,6 +25,10 @@ export class DatasourceManagerProvider {
         this.datasets[targetName].addObserver(dataset);
     };
 
+    getAllDataset() {
+        return this.datasets;
+    }
+
     initDataset(props:any, scope: any) {
         var endpoint = (props.endpoint) ? props.endpoint : "";
         var dts = new DataSet(props.name, scope, this.http, this.helperService);

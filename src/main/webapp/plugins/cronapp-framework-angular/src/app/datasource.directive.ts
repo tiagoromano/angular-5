@@ -4,7 +4,6 @@ import { DatasourceManagerProvider } from '../providers/datasource-manager/datas
 
 @Directive({
   selector: 'datasource',
-  
 })
 export class DatasourceDirective implements OnInit {
 

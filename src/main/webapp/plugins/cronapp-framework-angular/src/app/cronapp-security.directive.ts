@@ -24,7 +24,6 @@ export class CronappSecurityDirective {
               private renderer: Renderer) {}
   
   ngOnInit() {
-    debugger;
     var perms = this.permissionSecurity;
     var roles = [];
     if (this.common.getSession() && this.common.getSession().roles) {
