@@ -2,20 +2,23 @@ import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef, NO_ERR
 import { TranslateService } from '@ngx-translate/core';
 import { ngModuleJitUrl } from "@angular/compiler";
 import { AppCustomModule } from "../../app/app.custom.module";
-import { CrnDatasourceDirective } from "../../app/crn-datasource.directive";
+
 
 @Injectable()
 export class ComponentServiceProvider {
 
-
+    readonly SET_IN_TAG: string = "setInTag";
+    readonly ANGULAR_SET_FROM_ATTR: string = "angularFromAttr";
+    readonly MODIFY_SINTAX: string = "modifySintax";
     private attributesToReplace : Map<string, string> = new Map<string, string>();
-    private attributesToSetInTag : any = [];
+    private complexAttributes : any = [];
 
     
     constructor( private _compiler: Compiler, private _injector: Injector, private _m: NgModuleRef<any>, private translateService: TranslateService) {
         this.fillAttributes();
     }
 
+ 
     private fillAttributes() {
         this.attributesToReplace.set("ng-model", "[(ngModel)]");
         this.attributesToReplace.set("ng-submit", "(ngSubmit)");
@@ -23,16 +26,26 @@ export class ComponentServiceProvider {
         this.attributesToReplace.set("aria-label", "attr.aria-label");
         this.attributesToReplace.set("ng-hide", "[hidden]");
         this.attributesToReplace.set("ng-click", "(click)");
-        
+        this.attributesToReplace.set("on-error", "onError");
+        this.attributesToReplace.set("on-after-fill", "onAfterFill");
+        this.attributesToReplace.set("on-before-create", "onBeforeCreate");
+        this.attributesToReplace.set("on-after-create", "onAfterCreate");
+        this.attributesToReplace.set("on-before-update", "onBeforeUpdate");
+        this.attributesToReplace.set("on-after-update", "onAfterUpdate");
+        this.attributesToReplace.set("on-before-delete", "onBeforeDelete");
+        this.attributesToReplace.set("on-after-delete", "onAfterDelete");
         
         //Atributos que devem ser setados nas tags (elementos)
         //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
         //no "hasAttribute", caso o "containerTag" seja vazio, será setado o "attributeToSet" em todos os elementos que contenham o "hasAttribute"
-        this.attributesToSetInTag.push( {containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
+        this.complexAttributes.push( {type: this.SET_IN_TAG, containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
 
-        //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.
-        //! { ' " 
-        this.attributesToSetInTag.push( {angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
+        //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.        
+        this.complexAttributes.push( {type: this.ANGULAR_SET_FROM_ATTR, angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
+    
+        let sintaxReplace: Map<string, string> = new Map<string, string>();
+        sintaxReplace.set("in", "of");
+        this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-repeat", attrDest: "*ngFor", addBeginExpression: "let ", sintaxReplace: sintaxReplace} );
     }
 
     private getAttributes(element: string) {
@@ -129,9 +142,58 @@ export class ComponentServiceProvider {
         return false;
     }
 
+    private getContentOfAttribute(rawHtml: string, attrName: string) {
+        var idx = rawHtml.indexOf(attrName) + attrName.length;
+        var contentAttr = "";
+        var stopChar = "";
+        var idxStpopChar = -1;
+        while (idx <= rawHtml.length) {
+            if (rawHtml[idx] == " " || rawHtml[idx] == "=")
+                idx++;
+            else if (rawHtml[idx] == "'" || rawHtml[idx] == '"') {
+                stopChar = rawHtml[idx];
+                idxStpopChar = idx;
+                break;
+            }
+            else
+                break;
+        }
+        if (idxStpopChar > -1) {
+            if (rawHtml.length > idxStpopChar+1) {
+                contentAttr = rawHtml.substr(idxStpopChar+1);
+                var endIndex = contentAttr.indexOf(stopChar);
+                contentAttr = contentAttr.substr(0, endIndex);
+            }
+        }
+        return contentAttr;
+    }
+
+    private getNearestValueFromAttribute(angularExpression: string, attributeToSearch: string, idxTag: number, tags:any) {
+        var valueFromAttr = "";
+        //Verificar se o valor está dentro de algum atributo na froma de expressão (com .)
+        var isInsideInSomeAttribute = false;
+        tags[idxTag].attributes.forEach(attr => {
+            var contentAttr = this.getContentOfAttribute(tags[idxTag].raw, attr);
+            if (contentAttr.indexOf(angularExpression) > -1)
+                isInsideInSomeAttribute = true;
+        });
+        
+        //Se estiver dentro de algum atributo, verifica qual o conteudo do atributo e retonra
+        if (isInsideInSomeAttribute) {
+            idxTag--;
+            while (idxTag > -1) {
+                if (tags[idxTag].attributes.includes("crn-datasource"))
+                    return this.getContentOfAttribute(tags[idxTag].raw, "crn-datasource")
+                idxTag--;
+            }
+        }
+        return "";
+    }
+
     private parseAttributesAngular5(viewContent: string) {
         var tags = this.getTagsHtml(viewContent);
-        let tagsToReplace: Map<string, string> = new Map<string, string>();
+        // let tagsToReplace: Map<string, string> = new Map<string, string>();
+        let tagsToReplace: any = [];
 
         for (var i = 0; i < tags.length; i++) {
             var hasReplacement = false;           
@@ -143,20 +205,63 @@ export class ComponentServiceProvider {
                     tagRawReplaced = tagRawReplaced.split(key).join(value);
                 }
             });
-            this.attributesToSetInTag.forEach((attrToSetInElement) => {
-                if (tags[i].attributes.includes(attrToSetInElement.hasAttribute)) {
-                    if (this.isInsideTag(attrToSetInElement.containerTag, i, tags)) {
-                        hasReplacement = true;
-                        tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + attrToSetInElement.attributeToSet);
+            this.complexAttributes.forEach((cpxAttr) => {
+                if (cpxAttr.type == this.SET_IN_TAG) {
+                    if (tags[i].attributes.includes(cpxAttr.hasAttribute)) {
+                        if (this.isInsideTag(cpxAttr.containerTag, i, tags)) {
+                            hasReplacement = true;
+                            tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + cpxAttr.attributeToSet);
+                        }
                     }
+                }
+                else if (cpxAttr.type == this.ANGULAR_SET_FROM_ATTR) {
+                    if (tagRawReplaced.indexOf(cpxAttr.angularExpression+".") > -1) {
+                        var newAngularValue = this.getNearestValueFromAttribute(cpxAttr.angularExpression+"." ,cpxAttr.replaceByContentOfNearestAttribute, i, tags);
+                        if (newAngularValue.length > 0) {
+                            hasReplacement = true;
+                            tagRawReplaced = tagRawReplaced.split(cpxAttr.angularExpression + ".").join(newAngularValue + ".");
+                        }
+                    }
+                }
+                else if (cpxAttr.type == this.MODIFY_SINTAX) {
+                    if (tags[i].attributes.includes(cpxAttr.attrOrign)) {
+
+                        var contentOfAttribute = this.getContentOfAttribute(tagRawReplaced, cpxAttr.attrOrign);
+                        var contentOfAttributeSintaxReplaced = contentOfAttribute;
+                        cpxAttr.sintaxReplace.forEach((value, key) => {
+                            contentOfAttributeSintaxReplaced = contentOfAttributeSintaxReplaced.split(key).join(value);
+                        });
+                        if (cpxAttr.addBeginExpression)
+                            contentOfAttributeSintaxReplaced =  cpxAttr.addBeginExpression + contentOfAttributeSintaxReplaced;
+                        
+                        tagRawReplaced = tagRawReplaced.split(contentOfAttribute).join(contentOfAttributeSintaxReplaced);
+                        tagRawReplaced = tagRawReplaced.split(cpxAttr.attrOrign).join(cpxAttr.attrDest);
+                        hasReplacement = true;
+                    }
+
+                    // if (tagRawReplaced.indexOf(cpxAttr.angularExpression+".") > -1) {
+                    //     var newAngularValue = this.getNearestValueFromAttribute(cpxAttr.angularExpression+"." ,cpxAttr.replaceByContentOfNearestAttribute, i, tags);
+                    //     if (newAngularValue.length > 0) {
+                    //         hasReplacement = true;
+                    //         tagRawReplaced = tagRawReplaced.split(cpxAttr.angularExpression + ".").join(newAngularValue + ".");
+                    //     }
+                    // }
                 }
             });
             
             if (hasReplacement)
-                tagsToReplace.set(tags[i].raw, tagRawReplaced);
+                tagsToReplace.push({ key: tags[i].raw, value: tagRawReplaced});
         }
-        tagsToReplace.forEach((value, key) => {
-            viewContent = viewContent.split(key).join(value);
+        tagsToReplace.forEach((replacement) => {
+            var indexOfKey = viewContent.indexOf(replacement.key);
+            var lengthKey = replacement.key.length;
+            var leftContent = viewContent.substr(0, indexOfKey);
+            var rightContent = viewContent.substr(indexOfKey + lengthKey);
+            viewContent = leftContent + replacement.value + rightContent;
+            //Split da primeira ocorrencia apenas, remove o espaço em branco e substitui pelo value
+            // var splited = viewContent.split(/replacement.key(.+)/);
+            // splited.splice(splited.length-1,1);
+            // viewContent = splited.join(replacement.value);
         });
         return viewContent;
     }

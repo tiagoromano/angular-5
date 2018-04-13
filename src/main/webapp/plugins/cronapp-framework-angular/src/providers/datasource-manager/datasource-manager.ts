@@ -57,10 +57,10 @@ export class DatasourceManagerProvider {
         dts.onAfterDelete = props.onAfterDelete;
         dts.dependentBy = props.dependentBy;
 
-        if (props.dependentLazyPost && props.dependentLazyPost.length > 0) {
-          dts.dependentLazyPost = props.dependentLazyPost;
-          eval(dts.dependentLazyPost).addDependentData(dts);
-        }
+        // if (props.dependentLazyPost && props.dependentLazyPost.length > 0) {
+        //   dts.dependentLazyPost = props.dependentLazyPost;
+        //   eval(dts.dependentLazyPost).addDependentData(dts);
+        // }
 
         dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
 
