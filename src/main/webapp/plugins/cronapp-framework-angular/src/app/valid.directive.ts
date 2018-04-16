@@ -29,7 +29,6 @@ export class ValidDirective implements Validator {
       }
 
       if (!isValid) {
-        debugger;
         const dataErrorMessage = this.element.nativeElement.getAttribute('data-error-message');
         this.element.nativeElement.setCustomValidity(dataErrorMessage);
         return {
