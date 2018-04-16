@@ -39,6 +39,9 @@ export class ComponentServiceProvider {
         //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
         //no "hasAttribute", caso o "containerTag" seja vazio, será setado o "attributeToSet" em todos os elementos que contenham o "hasAttribute"
         this.complexAttributes.push( {type: this.SET_IN_TAG, containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
+        
+        //Caso necessite inserir um atributo a uma tag especifica informar o nome deste em tag, o valor em attributeToSet e o type = this.SET_IN_TAG
+        this.complexAttributes.push( {type: this.SET_IN_TAG, tag: "form", attributeToSet:"ngNativeValidate" } );
 
         //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.        
         this.complexAttributes.push( {type: this.ANGULAR_SET_FROM_ATTR, angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
@@ -207,7 +210,10 @@ export class ComponentServiceProvider {
             });
             this.complexAttributes.forEach((cpxAttr) => {
                 if (cpxAttr.type == this.SET_IN_TAG) {
-                    if (tags[i].attributes.includes(cpxAttr.hasAttribute)) {
+                    if ((cpxAttr.tag) && (tags[i].name == cpxAttr.tag)) {
+                        hasReplacement = true;
+                        tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + cpxAttr.attributeToSet);
+                    } else if (tags[i].attributes.includes(cpxAttr.hasAttribute)) {
                         if (this.isInsideTag(cpxAttr.containerTag, i, tags)) {
                             hasReplacement = true;
                             tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + cpxAttr.attributeToSet);
