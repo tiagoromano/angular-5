@@ -51,7 +51,6 @@ export class DatasourceDirective implements OnInit {
     }
 
     ngOnInit(): void {
-        debugger;
         var myleft = this.el.nativeElement;
         var props = {
             name: this.name,

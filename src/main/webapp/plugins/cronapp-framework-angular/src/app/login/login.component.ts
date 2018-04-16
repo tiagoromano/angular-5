@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
           }
 
           login(user, password, token) {
-            debugger;
             var requestOptions = new RequestOptions({
               headers: new Headers({
                 'Content-Type':  'application/x-www-form-urlencoded',
@@ -77,13 +76,11 @@ export class LoginComponent implements OnInit {
           }
 
           successLogin(data) {
-            debugger;
             this.commonVariable.startSession(data._body);
             this.stateService.go('home');
           }
 
           errorLogin(err:HttpErrorResponse) {
-            debugger;
             if (err.error instanceof Error) {
               console.log('Client-side error occured.');
             } else {
