@@ -38,8 +38,8 @@ export class DataSet {
     keys :any;
     enabled :any;
     endpoint :any;
-    inserting :any;
-    editing :any;
+    inserting :boolean;
+    editing :boolean;
     fetchSize :any;
     observers :any;
     rowsPerPage :any;
