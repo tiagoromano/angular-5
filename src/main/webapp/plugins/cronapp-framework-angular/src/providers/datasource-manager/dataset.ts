@@ -3,7 +3,7 @@ import { HelperServiceProvider } from "../helper-service/helper-service";
 
 // import * as $ from 'jquery';
 declare var $ :any;
-declare var $http: any;
+// declare var $http: any;
 export class DataSet {
 
     
@@ -28,6 +28,7 @@ export class DataSet {
     NO_FILE_UPLOAD = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTQ4LjE3NiA1NDguMTc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NDguMTc2IDU0OC4xNzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNTI0LjMyNiwyOTcuMzUyYy0xNS44OTYtMTkuODktMzYuMjEtMzIuNzgyLTYwLjk1OS0zOC42ODRjNy44MS0xMS44LDExLjcwNC0yNC45MzQsMTEuNzA0LTM5LjM5OSAgIGMwLTIwLjE3Ny03LjEzOS0zNy40MDEtMjEuNDA5LTUxLjY3OGMtMTQuMjczLTE0LjI3Mi0zMS40OTgtMjEuNDExLTUxLjY3NS0yMS40MTFjLTE4LjA4MywwLTMzLjg3OSw1LjkwMS00Ny4zOSwxNy43MDMgICBjLTExLjIyNS0yNy40MS0yOS4xNzEtNDkuMzkzLTUzLjgxNy02NS45NWMtMjQuNjQ2LTE2LjU2Mi01MS44MTgtMjQuODQyLTgxLjUxNC0yNC44NDJjLTQwLjM0OSwwLTc0LjgwMiwxNC4yNzktMTAzLjM1Myw0Mi44MyAgIGMtMjguNTUzLDI4LjU0NC00Mi44MjUsNjIuOTk5LTQyLjgyNSwxMDMuMzUxYzAsMi40NzQsMC4xOTEsNi41NjcsMC41NzEsMTIuMjc1Yy0yMi40NTksMTAuNDY5LTQwLjM0OSwyNi4xNzEtNTMuNjc2LDQ3LjEwNiAgIEM2LjY2MSwyOTkuNTk0LDAsMzIyLjQzLDAsMzQ3LjE3OWMwLDM1LjIxNCwxMi41MTcsNjUuMzI5LDM3LjU0NCw5MC4zNThjMjUuMDI4LDI1LjAzNyw1NS4xNSwzNy41NDgsOTAuMzYyLDM3LjU0OGgzMTAuNjM2ICAgYzMwLjI1OSwwLDU2LjA5Ni0xMC43MTEsNzcuNTEyLTMyLjEyYzIxLjQxMy0yMS40MDksMzIuMTIxLTQ3LjI0NiwzMi4xMjEtNzcuNTE2QzU0OC4xNzIsMzM5Ljk0NCw1NDAuMjIzLDMxNy4yNDgsNTI0LjMyNiwyOTcuMzUyICAgeiBNMzYyLjcyOSwyODkuNjQ4Yy0xLjgxMywxLjgwNC0zLjk0OSwyLjcwNy02LjQyLDIuNzA3aC02My45NTN2MTAwLjUwMmMwLDIuNDcxLTAuOTAzLDQuNjEzLTIuNzExLDYuNDIgICBjLTEuODEzLDEuODEzLTMuOTQ5LDIuNzExLTYuNDIsMi43MTFoLTU0LjgyNmMtMi40NzQsMC00LjYxNS0wLjg5Ny02LjQyMy0yLjcxMWMtMS44MDQtMS44MDctMi43MTItMy45NDktMi43MTItNi40MlYyOTIuMzU1ICAgSDE1NS4zMWMtMi42NjIsMC00Ljg1My0wLjg1NS02LjU2My0yLjU2M2MtMS43MTMtMS43MTQtMi41NjgtMy45MDQtMi41NjgtNi41NjZjMC0yLjI4NiwwLjk1LTQuNTcyLDIuODUyLTYuODU1bDEwMC4yMTMtMTAwLjIxICAgYzEuNzEzLTEuNzE0LDMuOTAzLTIuNTcsNi41NjctMi41N2MyLjY2NiwwLDQuODU2LDAuODU2LDYuNTY3LDIuNTdsMTAwLjQ5OSwxMDAuNDk1YzEuNzE0LDEuNzEyLDIuNTYyLDMuOTAxLDIuNTYyLDYuNTcxICAgQzM2NS40MzgsMjg1LjY5NiwzNjQuNTM1LDI4Ny44NDUsMzYyLjcyOSwyODkuNjQ4eiIgZmlsbD0iI2NlY2VjZSIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
 
     active: any;
+    lastActive: any;
     name: string;
     Notification: any;
     scope: any;
@@ -930,16 +931,16 @@ export class DataSet {
     // /**
     //  * Put the datasource into the editing state
     //  */
-    // this.startEditing = function(item) {
-    //     if (item) {
-    //     this.active = this.copy(item);
-    //     this.lastActive = item;
-    //     } else {
-    //     this.lastActive = this.active;
-    //     this.active = this.copy(this.active);
-    //     }
-    //     this.editing = true;
-    // };
+    startEditing(item) {
+        if (item) {
+            this.active = this.copy(item, null);
+            this.lastActive = item;
+        } else {
+            this.lastActive = this.active;
+            this.active = this.copy(this.active, null);
+        }
+        this.editing = true;
+    }
 
     // /**
     //  * Remove an object from this dataset by using the given id.
@@ -1129,6 +1130,8 @@ export class DataSet {
     // /**
     //  *  Try to fetch the previous page
     //  */
+    nextPage = function() {
+    }
     // this.nextPage = function() {
     //     var resourceURL = (window.hostApp || "") + this.entity;
         
@@ -1175,6 +1178,9 @@ export class DataSet {
     // /**
     //  *  Check if has more pages
     //  */
+    hasNextPage = function() {
+        return false;
+    }
     // this.hasNextPage = function() {
     //     return this.hasMoreResults && (this.rowsPerPage != -1);
     // };
@@ -1182,6 +1188,9 @@ export class DataSet {
     // /**
     //  *  Check if has previews pages
     //  */
+    hasPrevPage = function() {
+        return false;
+    }
     // this.hasPrevPage = function() {
     //     return this.offset > 0 && !this.append && !this.prepend;
     // };
@@ -1218,20 +1227,20 @@ export class DataSet {
     // /**
     //  *  filter dataset by URL
     //  */
-    // this.filter = function(url) {
-    //     var oldoffset = this.offset;
-    //     this.offset = 0;
-    //     this.fetch({
-    //     path: url
-    //     }, {
-    //     beforeFill: function(oldData) {
-    //         this.cleanup();
-    //     },
-    //     error: function(error) {
-    //         this.offset = oldoffset;
-    //     }
-    //     });
-    // };
+    filter = function(url) {
+        var oldoffset = this.offset;
+        this.offset = 0;
+        this.fetch({
+                path: url
+            },{
+                beforeFill: function(oldData) {
+                    this.cleanup();
+                },
+                error: function(error) {
+                    this.offset = oldoffset;
+                }
+            });
+    }
 
     // this.doSearchAll = function(terms, caseInsensitive) {
     //     this.searchTimeout = null;
@@ -1415,7 +1424,6 @@ export class DataSet {
 
         // Success Handler
         var sucessHandler = function(data, headers) {
-            debugger;
             var springVersion = false;
             this.responseHeaders = headers || {};
             
@@ -1528,11 +1536,11 @@ export class DataSet {
                 'Content-Type':  'application/json',
             })
         });
-        this.http.get(resourceURL +'?' + this.helperService.parseJsonToUrlParameters(props.params) , requestOptions).subscribe(
+        var promise = this.http.get(resourceURL +'?' + this.helperService.parseJsonToUrlParameters(props.params) , requestOptions).subscribe(
             sucessHandler.bind(this),
             (error) => { debugger; console.log(error);  }
             // this.errorLogin.bind(this)
-          );
+        );
     }
 
     // /**
@@ -1577,25 +1585,23 @@ export class DataSet {
     // /**
     //  * Clone a JSON Object
     //  */
-    // this.copy = function(from, to) {
-    //     if (from === null || Object.prototype.toString.call(from) !== '[object Object]')
-    //     return from;
+    copy (from: any, to: any) {
+        if (from === null || Object.prototype.toString.call(from) !== '[object Object]')
+            return from;
 
-    //     to = to || {};
+        to = to || {};
 
-    //     for (var key in from) {
-    //     if (from.hasOwnProperty(key) && key.indexOf('$') == -1) {
-    //         to[key] = this.copy(from[key]);
-    //     }
-    //     }
-    //     //Verificando os campos que não existem mais no registro (Significa que foi setado para nulo)
-    //     for (var key in to) {
-    //     if (from[key] == undefined)
-    //         delete to[key];
-    //     }
-
-    //     return to;
-    // };
+        for (var key in from) {
+            if (from.hasOwnProperty(key) && key.indexOf('$') == -1) {
+                to[key] = this.copy(from[key], null);
+            }
+        }
+        //Verificando os campos que não existem mais no registro (Significa que foi setado para nulo)
+        for (var key in to) 
+            if (from[key] == undefined)
+                delete to[key];
+        return to;
+    }
 
     // /**
     //  * Used to monitore the this datasource data for change (insertion and deletion)

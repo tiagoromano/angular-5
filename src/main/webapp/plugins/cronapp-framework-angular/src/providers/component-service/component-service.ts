@@ -46,9 +46,13 @@ export class ComponentServiceProvider {
         //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.        
         this.complexAttributes.push( {type: this.ANGULAR_SET_FROM_ATTR, angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
     
+        //Atributos que devem ter a sintaxe do conteudo modificada
         let sintaxReplace: Map<string, string> = new Map<string, string>();
         sintaxReplace.set("in", "of");
         this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-repeat", attrDest: "*ngFor", addBeginExpression: "let ", sintaxReplace: sintaxReplace} );
+    
+        this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-show", attrDest: "[hidden]", wrapContent: "!({content})"} );
+    
     }
 
     private getAttributes(element: string) {
@@ -234,24 +238,21 @@ export class ComponentServiceProvider {
 
                         var contentOfAttribute = this.getContentOfAttribute(tagRawReplaced, cpxAttr.attrOrign);
                         var contentOfAttributeSintaxReplaced = contentOfAttribute;
-                        cpxAttr.sintaxReplace.forEach((value, key) => {
-                            contentOfAttributeSintaxReplaced = contentOfAttributeSintaxReplaced.split(key).join(value);
-                        });
+                        
+                        if (cpxAttr.sintaxReplace) {
+                            cpxAttr.sintaxReplace.forEach((value, key) => {
+                                contentOfAttributeSintaxReplaced = contentOfAttributeSintaxReplaced.split(key).join(value);
+                            });
+                        }
                         if (cpxAttr.addBeginExpression)
                             contentOfAttributeSintaxReplaced =  cpxAttr.addBeginExpression + contentOfAttributeSintaxReplaced;
-                        
+                        if (cpxAttr.wrapContent)
+                            contentOfAttributeSintaxReplaced =  cpxAttr.wrapContent.split("{content}").join(contentOfAttributeSintaxReplaced);
                         tagRawReplaced = tagRawReplaced.split(contentOfAttribute).join(contentOfAttributeSintaxReplaced);
                         tagRawReplaced = tagRawReplaced.split(cpxAttr.attrOrign).join(cpxAttr.attrDest);
                         hasReplacement = true;
                     }
 
-                    // if (tagRawReplaced.indexOf(cpxAttr.angularExpression+".") > -1) {
-                    //     var newAngularValue = this.getNearestValueFromAttribute(cpxAttr.angularExpression+"." ,cpxAttr.replaceByContentOfNearestAttribute, i, tags);
-                    //     if (newAngularValue.length > 0) {
-                    //         hasReplacement = true;
-                    //         tagRawReplaced = tagRawReplaced.split(cpxAttr.angularExpression + ".").join(newAngularValue + ".");
-                    //     }
-                    // }
                 }
             });
             
