@@ -4,12 +4,10 @@ import { CommonVariableProvider } from "../providers/common-variable/common-vari
 @Directive({
   selector: '[cronapp-security]'
 })
-export class CronappSecurityDirective {
+export class CronappSecurityDirective implements OnInit {
 
   @Input('cronapp-security') directiveValue: string;
 
-  private session:any;
-  
   private permissionSecurity = {
     visible: {
       public: true
@@ -24,7 +22,6 @@ export class CronappSecurityDirective {
               private renderer: Renderer) {}
   
   ngOnInit() {
-    debugger;
     var perms = this.permissionSecurity;
     var roles = [];
     if (this.common.getSession() && this.common.getSession().roles) {
@@ -35,7 +32,7 @@ export class CronappSecurityDirective {
 
     var show = false;
     var enabled = false;
-    for (var i=0;i<roles.length;i++) {
+    for (var i=0; i <roles.length; i++) {
       var role = roles[i].trim();
       if (role) {
         if (perms.visible[role]) {
@@ -48,7 +45,7 @@ export class CronappSecurityDirective {
     }
 
     if (!show) {
-      this.renderer.setElementStyle(this.element.nativeElement, 'display', 'none');
+      this.element.nativeElement.style.display = 'none'
     }
 
     if (!enabled) {

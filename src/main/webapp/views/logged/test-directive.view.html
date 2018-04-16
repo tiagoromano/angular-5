@@ -1,0 +1,70 @@
+<div class="container">
+  <h3>Cliente</h3>
+
+  <div id="crn-form-form-Cliente">
+    <div class="form">
+      <form name="myForm" class="">
+        <div class="active-bar">
+          <button type="submit" class="btn btn-success">
+            <i class="glyphicon glyphicon-ok"></i></button>
+          <button class="btn btn-danger">
+            <i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+
+        <br/>
+
+        <fieldset>
+          <div id="crn-textinput-nome" class="" >
+            <div class="form-group">
+              <label for="textinput-nome" class="">Nome</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="textinput-nome"
+                  placeholder="Nome"
+                  name="nome"
+                  >
+            </div>
+          </div>
+
+          <div id="crn-textinput-cpf" class="">
+            <div class="form-group">
+              <label for="textinput-cpf" class="">CPF</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="textinput-cpf"
+                  placeholder="CPF"
+                  name="cpf"
+                  >
+            </div>
+          </div>
+
+          <div id="crn-textinput-cnpj" class="">
+            <div class="form-group">
+              <label for="cnpj" class="">CNPJ</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="cnpj"
+                  placeholder="CNPJ"
+                  name="cnpj"
+                  valid="cnpj"
+                  data-error-message="CNPJ Inválido TESTE."
+                  [(ngModel)]="cnpjText"
+                  #cnpj="ngModel"
+                  >
+            </div>
+          </div>
+        </fieldset>
+        <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
+             class="alert alert-danger">
+
+          <div *ngIf="cnpj.errors.valid">
+            CNPJ Invalid {{cnpj.errors.message}}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
