@@ -11,8 +11,6 @@ export class ValidDirective implements Validator {
 
   @Input('valid') valid: string;
 
-  @Input('dataErrorMessage') dataErrorMessage: string;
-
   constructor(private element: ElementRef) {}
 
   validate(ctrl: FormControl): {[key: string]: any} {
@@ -31,7 +29,9 @@ export class ValidDirective implements Validator {
       }
 
       if (!isValid) {
-        this.element.nativeElement.setCustomValidity(this.dataErrorMessage);
+        debugger;
+        const dataErrorMessage = this.element.nativeElement.getAttribute('data-error-message');
+        this.element.nativeElement.setCustomValidity(dataErrorMessage);
         return {
           valid : true
         };

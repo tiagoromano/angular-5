@@ -19,6 +19,25 @@ export class CPF {
   STRICT_STRIP_REGEX = /[.-]/g;
   LOOSE_STRIP_REGEX = /[^\d]/g;
 
+  verifierDigit = function(numbers) {
+    numbers = numbers
+      .split('')
+      .map(function(number){ return parseInt(number, 10); })
+    ;
+
+    var modulus = numbers.length + 1;
+
+    var multiplied = numbers.map(function(number, index) {
+      return number * (modulus - index);
+    });
+
+    var mod = multiplied.reduce(function(buffer, number){
+      return buffer + number;
+    }) % 11;
+
+    return (mod < 2 ? 0 : 11 - mod);
+  };
+
   private format = function(number) {
     return this.strip(number).replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
   };

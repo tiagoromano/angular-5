@@ -23,20 +23,31 @@
                   id="textinput-nome"
                   placeholder="Nome"
                   name="nome"
-                  >
+              >
             </div>
           </div>
 
           <div id="crn-textinput-cpf" class="">
             <div class="form-group">
-              <label for="textinput-cpf" class="">CPF</label>
+              <label for="cpf" class="">CPF</label>
               <input
                   type="text"
                   class="form-control"
-                  id="textinput-cpf"
+                  id="cpf"
                   placeholder="CPF"
                   name="cpf"
-                  >
+                  valid="cpf"
+                  data-error-message="CPF Inválido."
+                  [(ngModel)]="cpfText"
+                  #cpf="ngModel"
+              >
+            </div>
+          </div>
+          <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
+               class="alert alert-danger">
+
+            <div *ngIf="cpf.errors.valid">
+              CPF Invalid
             </div>
           </div>
 
@@ -51,19 +62,20 @@
                   name="cnpj"
                   valid="cnpj"
                   data-error-message="CNPJ Inválido TESTE."
+                  cronapp-security="enabled : Administrators"
                   [(ngModel)]="cnpjText"
                   #cnpj="ngModel"
-                  >
+              >
+            </div>
+          </div>
+          <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
+               class="alert alert-danger">
+
+            <div *ngIf="cnpj.errors.valid">
+              CNPJ Invalid
             </div>
           </div>
         </fieldset>
-        <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
-             class="alert alert-danger">
-
-          <div *ngIf="cnpj.errors.valid">
-            CNPJ Invalid {{cnpj.errors.message}}
-          </div>
-        </div>
       </form>
     </div>
   </div>
