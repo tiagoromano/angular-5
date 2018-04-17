@@ -179,7 +179,13 @@
 
           <div class="component-holder ng-binding ng-scope col-xs-12 col-sm-12 col-md-12 col-lg-12" data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-453587"><div class="form-group"><label for="">Função</label>
             <!--<ui-select crn-datasource="AllRoles" ng-model="RoleGrid.active" ng-disabled="disabled" theme="bootstrap" class="crn-select" ng-required="false"><ui-select-match placeholder="Select..." class="">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat="rowData as rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay=""><div class="">{{rowData.name}}</div></ui-select-choices></ui-select>-->
-          </div></div>
+          </div>
+
+          <select ng-model="RoleGrid.active">
+            <option *ngFor="let oo of AllRoles.data" [value]="oo">{{oo.name}}</option>
+          </select>
+
+          </div>
         </div>
       </div>
         <div class="modal-footer">

@@ -3,6 +3,7 @@ import { DataSet } from "./dataset";
 import { CommonVariableProvider } from "../common-variable/common-variable";
 import { Http } from "@angular/http";
 import { HelperServiceProvider } from "../helper-service/helper-service";
+import { EVENT_MANAGER_PLUGINS } from "@angular/platform-browser";
 
 @Injectable()
 export class DatasourceManagerProvider {
@@ -23,7 +24,11 @@ export class DatasourceManagerProvider {
      */
     private registerObserver (targetName, dataset) {
         this.datasets[targetName].addObserver(dataset);
-    };
+    }
+
+    private registerLazyPost (targetName, dataset) {
+      this.datasets[targetName].addDependentData(dataset);
+    }
 
     getAllDataset() {
         return this.datasets;
@@ -31,10 +36,9 @@ export class DatasourceManagerProvider {
 
     initDataset(props:any, scope: any) {
         var endpoint = (props.endpoint) ? props.endpoint : "";
-        var dts = new DataSet(props.name, scope, this.http, this.helperService);
+        var dts = new DataSet(props.name, props.entity, scope, this.http, this.helperService);
         var defaultApiVersion = this.commonVariable.config.datasourceApiVersion;
 
-        dts.entity = props.entity;
         dts.apiVersion = props.apiVersion ? parseInt(props.apiVersion) : defaultApiVersion;
         dts.keys = (props.keys && props.keys.length > 0) ? props.keys.split(",") : [];
         dts.rowsPerPage = props.rowsPerPage ? props.rowsPerPage : 100; // Default 100 rows per page
@@ -56,29 +60,19 @@ export class DatasourceManagerProvider {
         dts.onBeforeDelete = props.onBeforeDelete;
         dts.onAfterDelete = props.onAfterDelete;
         dts.dependentBy = props.dependentBy;
-
-        // if (props.dependentLazyPost && props.dependentLazyPost.length > 0) {
-        //   dts.dependentLazyPost = props.dependentLazyPost;
-        //   eval(dts.dependentLazyPost).addDependentData(dts);
-        // }
-
-        dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
-
-        // Check for headers
-        if (props.headers && props.headers.length > 0) {
-          dts.headers = {"X-From-DataSource": "true"};
-          var headers = props.headers.trim().split(";");
-          var header;
-          for (var i = 0; i < headers.length; i++) {
-            header = headers[i].split(":");
-            if (header.length === 2) {
-              dts.headers[header[0]] = header[1];
-            }
-          }
+        dts.dependentLazyPost = props.dependentLazyPost;
+        
+        if (dts.dependentLazyPost && dts.dependentLazyPost.length > 0) {
+            this.registerLazyPost(dts.dependentLazyPost, dts);
         }
 
-        
+        dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
+        dts.rawHeaders = props.headers;
         dts.allowFetch = true;
+
+       
+
+        
 
         if (dts.dependentBy && dts.dependentBy !== "" && dts.dependentBy.trim() !== "") {
           dts.allowFetch = false;
@@ -95,22 +89,27 @@ export class DatasourceManagerProvider {
             dts.allowFetch = true;
         }
 
+        dts.initialize();
+
         if (!props.lazy && dts.allowFetch && (Object.prototype.toString.call(props.watch) !== "[object String]") && !props.filterURL) {
           // Query string object
           var queryObj = {};
 
           // Fill the dataset
-          dts.fetch({
-            params: queryObj
-          }, {
-            success: function(data) {
-              if (data && data.length > 0) {
-                this.active = data[0];
-                this.cursor = 0;
+          dts.fetch(
+            {
+              params: queryObj
+            }, 
+            {
+              success: function(data) {
+                if (data && data.length > 0) {
+                  this.active = data[0];
+                  this.cursor = 0;
+                }
               }
-            }
-          },
-            null);
+            },
+            null
+          );
         }
 
         // if (props.lazy && props.autoPost) {
@@ -131,6 +130,8 @@ export class DatasourceManagerProvider {
         // // This will expose the dataset name as a
         // // global variable
         // $rootScope[dts.name] = dts;
+
+        
 
         this.storeDataset(dts);
         window[dts.name] = dts;
