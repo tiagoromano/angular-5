@@ -5,7 +5,6 @@ export class ServiceHttp {
     window: any;
 
     constructor(private http: Http, private dataset: any) {
-        debugger;
         this.window = (window as any);
     }
 
@@ -94,19 +93,23 @@ export class ServiceHttp {
                 res => {        
                     debugger;
                     this.dataset.busy = false;
-                    var data = res.json()
+
+                    var data = null;
+                    if (res._body && res._body.length > 0)
+                        data = res.json()
+                    
                     if (_callback) _callback(isCronapiQuery ? data.value : data);
                     // if (isCronapiQuery) {
                     //     _self.$scope.cronapi.evalInContext(JSON.stringify(data));
                     // }                            
-                    resolve(res.json());
+                    resolve(data);
                 },
                 error => {   
                     debugger;     
                     this.dataset.busy = false;
                     var data = error.json();
                     this.dataset.handleError(isCronapiQuery && data.value ? data.value : data);
-                    resolve(error.json());
+                    reject(data);
                 }
             );
             

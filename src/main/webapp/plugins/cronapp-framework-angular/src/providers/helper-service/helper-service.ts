@@ -12,7 +12,7 @@ export class HelperServiceProvider {
     parseJsonToUrlParameters(json: any) {
         let parameters:string = "";
         for (var attr in json) {
-            parameters += attr + "=" + json[attr] + "&";
+            parameters += attr + "=" + encodeURIComponent(json[attr]) + "&";
         }
         return parameters;
     }
