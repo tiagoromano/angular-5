@@ -1,0 +1,138 @@
+import { Directive, ElementRef, Renderer2, OnInit } from '@angular/core';
+import { TranslateService, TranslateModule } from "@ngx-translate/core";
+import { NgControl } from '@angular/forms';
+import { NgModel } from '@angular/forms';
+
+import { parseMaskType } from './generic-mask';
+
+@Directive({
+  selector: '[as-date]'
+})
+export class AsDateDirective implements OnInit{
+
+  constructor(private element: ElementRef, 
+              private renderer: Renderer2,
+              private translate: TranslateService, 
+              private translateModule: TranslateModule,
+              private ngModel: NgModel) {}
+
+  private type : string;
+
+  ngOnInit() {
+    debugger;
+
+    const attrsMask = this.element.nativeElement.getAttribute('mask');
+    const attrsAsDate = this.element.nativeElement.getAttribute('asDate');
+    const attrsFormat = this.element.nativeElement.getAttribute('format');
+    this.type = this.element.nativeElement.getAttribute('type');
+    
+    if (attrsMask !== null) {
+      return;
+    }
+
+    if (this.type == "checkbox" || this.type == "password") {
+      return;
+    }
+
+    // this.element.nativeElement.dataset("type", this.type);
+
+    this.renderer.setAttribute(this.element.nativeElement, "type", this.type);
+
+    if (attrsAsDate !== undefined && this.type == 'text') {
+      this.type = "date";
+    }
+
+    var attrMask = parseMaskType(this.type, this.translate);
+
+    var mask = attrMask.replace(';1', '').replace(';0', '').trim();
+    if (mask == undefined || mask.length == 0) {
+      return;
+    }
+
+    this.formatDate(mask);
+  }
+
+  private formatDate(mask) {
+
+    var options = {
+      format: mask,
+      locale: this.translate.currentLang,
+      showTodayButton: true,
+      useStrict: true,
+      sideBySide: false,
+      tooltips: {
+        today: this.translate.instant('DatePicker.today'),
+        clear: this.translate.instant('DatePicker.clear'),
+        close: this.translate.instant('DatePicker.close'),
+        selectMonth: this.translate.instant('DatePicker.selectMonth'),
+        prevMonth: this.translate.instant('DatePicker.prevMonth'),
+        nextMonth: this.translate.instant('DatePicker.nextMonth'),
+        selectYear: this.translate.instant('DatePicker.selectYear'),
+        prevYear: this.translate.instant('DatePicker.prevYear'),
+        nextYear: this.translate.instant('DatePicker.nextYear'),
+        selectDecade: this.translate.instant('DatePicker.selectDecade'),
+        prevDecade: this.translate.instant('DatePicker.prevDecade'),
+        nextDecade: this.translate.instant('DatePicker.nextDecade'),
+        prevCentury: this.translate.instant('DatePicker.prevCentury'),
+        nextCentury: this.translate.instant('DatePicker.nextCentury')
+      }
+    };
+
+    if (mask != 'DD/MM/YYYY' && mask != 'MM/DD/YYYY') {
+      options.sideBySide = true;
+    }
+
+    this.element.nativeElement.wrap('<div style=\"position:relative\"></div>');
+    
+    var useUTC = this.type == 'date' || this.type == 'datetime' || this.type == 'time';
+
+    // this.element.nativeElement.on('dp.change', function () {
+    //   if (this.element.nativeElement.is(":visible")) {
+    //     this.element.nativeElement.trigger('change');
+    //     scope.$apply(function () {
+    //       var value = this.element.nativeElement.val();
+    //       var momentDate = null;
+    //       if (useUTC) {
+    //         momentDate = moment.utc(value, mask);
+    //       } else {
+    //         momentDate = moment(value, mask);
+    //       }
+    //       if (momentDate.isValid() && ngModelCtrl)
+    //         ngModelCtrl.$setViewValue(momentDate.toDate());
+    //     });
+    //   }
+    // });
+
+    // if (ngModelCtrl) {
+    //   ngModelCtrl.$formatters.push(function (value) {
+    //     if (value) {
+    //       var momentDate = null;
+
+    //       if (useUTC) {
+    //         momentDate = moment.utc(value);
+    //       } else {
+    //         momentDate = moment(value);
+    //       }
+
+    //       return momentDate.format(mask);
+    //     }
+
+    //     return null;
+    //   });
+
+    //   ngModelCtrl.$parsers.push(function (value) {
+    //     if (value) {
+    //       var momentDate = null;
+    //       if (useUTC) {
+    //         momentDate = moment.utc(value, mask);
+    //       } else {
+    //         momentDate = moment(value, mask);
+    //       }
+    //       return momentDate.toDate();
+    //     }
+
+    //     return null;
+    //   });
+  }
+
+}
