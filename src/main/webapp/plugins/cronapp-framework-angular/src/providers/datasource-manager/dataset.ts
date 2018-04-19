@@ -1,6 +1,7 @@
 import { Http, RequestOptions, Headers } from "@angular/http";
 import { HelperServiceProvider } from "../helper-service/helper-service";
 import { ServiceHttp } from "./service-http";
+import { RequestArgs } from "../helper-service/request-args";
 
 declare var $ :any;
 export class DataSet {
@@ -71,7 +72,6 @@ export class DataSet {
     private service: ServiceHttp;
 
     constructor(name: string, entity: string, scope: any, private http: Http, private helperService: HelperServiceProvider) {
-        // TODO: VERIFICAR OS NOTIFIERS, NOTIFICAR OS OUTROS DATASOURCES -> Start watching for changes in activeRow to notify observers
         // TODO: Adicionar o Notification (Peojeto geral) -> o maximo parecido possivel do angular 1.6 - ui-notification
         this.active = {};
         this.name = name;
@@ -120,21 +120,8 @@ export class DataSet {
         var dsScope = this;
         // Get the service resource
         this.defineHeaders();
-        this.service = new ServiceHttp(this.http, this);
-
-        
-        var active;
-        var watch = setInterval(function() {
-            if (!active)
-                active = this.active;
-            if (this.active != active) {
-                active = this.active;
-                if (active) {
-                    this.notifyObservers();
-                }
-            }
-        }.bind(this), 500);
-
+        this.service = new ServiceHttp(this.http, this, this.helperService);
+        this.watchActive();
     }
 
     /**
@@ -161,6 +148,20 @@ export class DataSet {
         this.headers = new RequestOptions({
             headers: newHeader
         });
+    }
+
+    private watchActive() {
+        var active;
+        var watch = setInterval(function() {
+            if (!active)
+                active = this.active;
+            if (this.active != active) {
+                active = this.active;
+                if (active) {
+                    this.notifyObservers();
+                }
+            }
+        }.bind(this), 500);
     }
 
     /**
@@ -442,7 +443,6 @@ export class DataSet {
     }
 
     storeAndResetDependentBuffer (action: string) {
-        debugger;
         var thisContextDataSet = this;
        
         if (action == 'post' && this.dependentBufferLazyPostData) {
@@ -642,98 +642,43 @@ export class DataSet {
                 url += this.active[key] + '/';
             }
 
-            let promise = new Promise((resolve, reject) => {
-                this.http.get(url , this.headers)
-                .toPromise()
-                .then(
-                  res => { 
-                    this.busy = false;
-                    var rows = res.json();
+            this.helperService.promiseHttp(new RequestArgs("GET", url, null, this.headers))
+            .then( (rows:any) => {
+                this.busy = false;
+                var row = null;
+                if (rows && rows.length > 0)
+                    row = rows[0];
 
-                    var row = null;
-                    if (rows && rows.length > 0)
-                        row = rows[0];
-
-                    var indexFound = -1;
-                    var i = 0;
-                    this.active = row;
-                    this.data.forEach(function(currentRow) {
-                        var found = false;
-                        var idsFound = 0;
-                        var idsTotal = 0;
-                        for (var key in keyObj) {
-                            idsTotal++;
-                            if (currentRow[key] && currentRow[key] === keyObj[key]) {
-                                idsFound++;
-                            }
+                var indexFound = -1;
+                var i = 0;
+                this.active = row;
+                this.data.forEach(function(currentRow) {
+                    var found = false;
+                    var idsFound = 0;
+                    var idsTotal = 0;
+                    for (var key in keyObj) {
+                        idsTotal++;
+                        if (currentRow[key] && currentRow[key] === keyObj[key]) {
+                            idsFound++;
                         }
-                        if (idsFound == idsTotal)
-                            found = true;
-
-                        if (found) {
-                            indexFound = i;
-                            if (row)
-                            this.copy(row, currentRow);
-                        }
-                        i++;
-                    }.bind(this));
-
-                    //Atualizou e o registro deixou de existir, remove da lista
-                    if (indexFound > -1 && !row) {
-                        this.data.splice(indexFound, 1);
                     }
+                    if (idsFound == idsTotal)
+                        found = true;
 
-                    resolve(rows);
-                  },
-                  error => {
-                    reject();
-                  }
-                );
+                    if (found) {
+                        indexFound = i;
+                        if (row)
+                        this.copy(row, currentRow);
+                    }
+                    i++;
+                }.bind(this));
+
+                //Atualizou e o registro deixou de existir, remove da lista
+                if (indexFound > -1 && !row) {
+                    this.data.splice(indexFound, 1);
+                }
             });
-
-            // this.$promise = $http({
-            //     method: "GET",
-            //     url: url,
-            //     headers: this.headers
-            // }).success(function(rows, status, headers, config) {
-            //     var row = null;
-            //     if (rows && rows.length > 0)
-            //     row = rows[0];
-
-            //     var indexFound = -1;
-            //     var i = 0;
-            //     this.active = row;
-            //     this.data.forEach(function(currentRow) {
-            //     var found = false;
-            //     var idsFound = 0;
-            //     var idsTotal = 0;
-            //     for (var key in keyObj) {
-            //         idsTotal++;
-            //         if (currentRow[key] && currentRow[key] === keyObj[key]) {
-            //         idsFound++;
-            //         }
-            //     }
-            //     if (idsFound == idsTotal)
-            //         found = true;
-
-            //     if (found) {
-            //         indexFound = i;
-            //         if (row)
-            //         this.copy(row, currentRow);
-            //     }
-            //     i++;
-            //     }.bind(this));
-
-            //     //Atualizou e o registro deixou de existir, remove da lista
-            //     if (indexFound > -1 && !row) {
-            //     this.data.splice(indexFound, 1);
-            //     }
-
-            // }.bind(this)).error(function(data, status, headers, config) {
-            //     return;
-            // }.bind(this));
         }
-
     }
 
     getColumn (index) {
@@ -856,25 +801,20 @@ export class DataSet {
         }
     }
 
-
-
     /**
      * Remove an object from this dataset by using the given id.
      * the objects
      */
     remove (object, callback) {
-        debugger;
         this.busy = true;
 
         var _remove = function(object, callback) {
-            debugger;
             if (!object) {
                 object = this.active;
             }
 
             var keyObj = this.getKeyValues(object);
 
-            //TRM
             if (this.dependentBufferLazyPostData) {
                 if (this.dependentBufferLazyPostData.indexOf(object) > -1) {
                     var indexObj = this.dependentBufferLazyPostData.indexOf(object);
@@ -1337,26 +1277,21 @@ export class DataSet {
         // Make the datasource busy
         this.busy = true;
      
-        let promise = new Promise((resolve, reject) => {
-
-            this.http.get(resourceURL +'?' + this.helperService.parseJsonToUrlParameters(props.params) , this.headers)
-            .toPromise()
-            .then(
-              res => { 
+        
+        this.helperService.promiseHttp(new RequestArgs("GET", resourceURL, props.params, this.headers), 
+            res => {
                 this.busy = false;
                 var data = res.json();
                 this.sucessHandlerFetch(data, res.headers["_headers"], callbacks, isNextOrPrev);
-                resolve(data);
-              },
-              error => {
+            },
+            error => {
                 this.busy = false;
                 var data = error.json();
                 this.handleError(data);
                 if (callbacks.error) callbacks.error.call(this, data);
-                reject(data);
-              }
-            );
-        });
+            }
+        );
+       
     }
 
     // Success Handler
@@ -1537,37 +1472,37 @@ export class DataSet {
      */
     startAutoPost () {
         // this.unregisterDataWatch = $rootScope.$watch(function() {
-        // return this.data;
+        //     return this.data;
         // }.bind(this), function(newData, oldData) {
 
-        // if (!this.enabled) {
-        //     this.unregisterDataWatch();
-        //     return;
-        // }
-
-        // // Get the difference between both arrays
-        // var difSize = newData.length - oldData.length;
-
-        // if (difSize > 0) {
-        //     // If the value is positive
-        //     // Some item was added
-        //     for (var i = 1; i <= difSize; i++) {
-        //     // Make a new request
-        //     this.insert(newData[newData.length - i], function() {});
+        //     if (!this.enabled) {
+        //         this.unregisterDataWatch();
+        //         return;
         //     }
-        // } else if (difSize < 0) {
-        //     // If it is negative
-        //     // Some item was removed
-        //     var removedItems = oldData.filter(function(oldItem) {
-        //     return newData.filter(function(newItem) {
-        //         return this.objectIsEquals(oldItem, newItem);
-        //     }).length == 0;
-        //     });
 
-        //     for (var i = 0; i < removedItems.length; i++) {
-        //     this.remove(removedItems[i], function() {});
+        //     // Get the difference between both arrays
+        //     var difSize = newData.length - oldData.length;
+
+        //     if (difSize > 0) {
+        //         // If the value is positive
+        //         // Some item was added
+        //         for (var i = 1; i <= difSize; i++) {
+        //         // Make a new request
+        //         this.insert(newData[newData.length - i], function() {});
+        //         }
+        //     } else if (difSize < 0) {
+        //         // If it is negative
+        //         // Some item was removed
+        //         var removedItems = oldData.filter(function(oldItem) {
+        //         return newData.filter(function(newItem) {
+        //             return this.objectIsEquals(oldItem, newItem);
+        //         }).length == 0;
+        //         });
+
+        //         for (var i = 0; i < removedItems.length; i++) {
+        //         this.remove(removedItems[i], function() {});
+        //         }
         //     }
-        // }
         // }.bind(this));
     }
 

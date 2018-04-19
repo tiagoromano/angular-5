@@ -293,8 +293,7 @@ export class ComponentServiceProvider {
             template: viewContent
             })
             (
-                class {
-                    // definedVariable = "hahahahah"
+                class {                    
                     //TODO: Adicionar nesse Componente dinamico as dependencias, cronapi... userEvents... (NgModule - abaixo)
                     vars: any;
                     constructor () {

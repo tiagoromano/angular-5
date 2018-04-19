@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ViewChild, NgModule } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { HelperServiceProvider } from '../../providers/helper-service/helper-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -9,6 +9,7 @@ import { RequestOptions, Headers, Http } from '@angular/http';
 import { CommonVariableProvider } from '../../providers/common-variable/common-variable';
 import { StateService } from '@uirouter/core';
 import { ComponentServiceProvider } from '../../providers/component-service/component-service';
+import { RequestArgs } from '../../providers/helper-service/request-args';
 
 @Component({
   selector: 'app-login',
@@ -68,15 +69,21 @@ export class LoginComponent implements OnInit {
               password: password?password:this.password.value
             };
 
-            this.http.post('auth', this.helperService.parseJsonToUrlParameters(userParam), requestOptions).subscribe(
-              this.successLogin.bind(this),
-              this.errorLogin.bind(this)
-            );
-
+            // this.http.post('auth', this.helperService.parseJsonToUrlParameters(userParam), requestOptions).subscribe(
+            //   this.successLogin.bind(this),
+            //   this.errorLogin.bind(this)
+            // );
+            this.helperService.promiseHttp(new RequestArgs("POST", "auth", userParam, requestOptions))
+            .then(data => {
+              this.successLogin(data);
+            })
+            .catch(error => {
+              this.errorLogin(error);
+            });
           }
 
           successLogin(data) {
-            this.commonVariable.startSession(data._body);
+            this.commonVariable.startSession(data);
             this.stateService.go('home');
           }
 

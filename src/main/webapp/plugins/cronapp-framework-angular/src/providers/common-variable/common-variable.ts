@@ -12,7 +12,7 @@ export class CommonVariableProvider {
     };
 
     startSession(data: string) {
-        sessionStorage.setItem("_u", data);
+        sessionStorage.setItem("_u", JSON.stringify(data));
         this.session = JSON.parse(sessionStorage._u);
     }
 
@@ -21,6 +21,12 @@ export class CommonVariableProvider {
             this.session = JSON.parse(sessionStorage._u);
 
         return this.session;
+    }
+
+    getToken() {
+        if (this.getSession())
+            return this.getSession().token;
+        return "";
     }
 
 
