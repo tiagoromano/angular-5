@@ -1,3 +1,9 @@
+<!--
+  Esta tela foi utilizada para testar as seguintes diretivas:
+    - cronapp-security
+    - valid
+    - as-date
+-->
 <div class="container">
   <h3>Cliente</h3>
 
@@ -14,7 +20,7 @@
         <br/>
 
         <fieldset>
-          <div id="crn-textinput-nome" class="" >
+          <div id="crn-textinput-nome" class="col-md-12">
             <div class="form-group">
               <label for="textinput-nome" class="">Nome</label>
               <input
@@ -22,50 +28,71 @@
                   class="form-control"
                   id="textinput-nome"
                   placeholder="Nome"
-                  name="nome"
-              >
+                  name="nome">
             </div>
           </div>
 
-          <div id="crn-textinput-cpf" class="">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nascimento" class="">Nascimento</label>
+              <input class="form-control"
+                   [date]="date"
+                   as-date
+                   id="nascimento"
+                   name="nascimento"
+                   [(ngModel)]="nascimentoModel"
+                   [options]="a2eOptions"
+                   #nascimento/>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="nascimento2" class="">Nascimento 2</label>
+              <input class="form-control"
+               id="nascimento2"
+               name="nascimento2"
+               [(ngModel)]="nascimentoModel"/>
+            </div>
+          </div>
+
+          <div id="crn-textinput-cpf" class="col-md-12">
             <div class="form-group">
               <label for="cpf" class="">CPF</label>
               <input
-                  type="text"
-                  class="form-control"
-                  id="cpf"
-                  placeholder="CPF"
-                  name="cpf"
-                  valid="cpf"
-                  data-error-message="CPF Inválido."
-                  [(ngModel)]="cpfText"
-                  #cpf="ngModel"
-              >
+                type="text"
+                class="form-control"
+                id="cpf"
+                placeholder="CPF"
+                name="cpf"
+                valid="cpf"
+                data-error-message="CPF Inválido."
+                [(ngModel)]="cpfText"
+                #cpf="ngModel">
+            </div>
+            <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
+                 class="alert alert-danger">
+
+              <div *ngIf="cpf.errors.valid">
+                CPF Invalid
+              </div>
             </div>
           </div>
-          <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
-               class="alert alert-danger">
 
-            <div *ngIf="cpf.errors.valid">
-              CPF Invalid
-            </div>
-          </div>
-
-          <div id="crn-textinput-cnpj" class="">
+          <div id="crn-textinput-cnpj" class="col-md-12">
             <div class="form-group">
               <label for="cnpj" class="">CNPJ</label>
               <input
-                  type="text"
-                  class="form-control"
-                  id="cnpj"
-                  placeholder="CNPJ"
-                  name="cnpj"
-                  valid="cnpj"
-                  data-error-message="CNPJ Inválido TESTE."
-                  cronapp-security="enabled : Administrators"
-                  [(ngModel)]="cnpjText"
-                  #cnpj="ngModel"
-              >
+                type="text"
+                class="form-control"
+                id="cnpj"
+                placeholder="CNPJ"
+                name="cnpj"
+                valid="cnpj"
+                data-error-message="CNPJ Inválido TESTE."
+                cronapp-security="enabled : Administrators"
+                [(ngModel)]="cnpjText"
+                #cnpj="ngModel">
             </div>
           </div>
           <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
