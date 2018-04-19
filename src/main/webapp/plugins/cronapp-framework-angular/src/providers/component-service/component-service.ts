@@ -10,15 +10,16 @@ export class ComponentServiceProvider {
     readonly SET_IN_TAG: string = "setInTag";
     readonly ANGULAR_SET_FROM_ATTR: string = "angularFromAttr";
     readonly MODIFY_SINTAX: string = "modifySintax";
+    readonly COPY_ATTR_TO_ANOTHER: string = "copyAttrToAnother"
     private attributesToReplace : Map<string, string> = new Map<string, string>();
     private complexAttributes : any = [];
 
-    
+
     constructor( private _compiler: Compiler, private _injector: Injector, private _m: NgModuleRef<any>, private translateService: TranslateService) {
         this.fillAttributes();
     }
 
- 
+
     private fillAttributes() {
         this.attributesToReplace.set("ng-model", "[(ngModel)]");
         this.attributesToReplace.set("ng-submit", "(ngSubmit)");
@@ -34,25 +35,29 @@ export class ComponentServiceProvider {
         this.attributesToReplace.set("on-after-update", "onAfterUpdate");
         this.attributesToReplace.set("on-before-delete", "onBeforeDelete");
         this.attributesToReplace.set("on-after-delete", "onAfterDelete");
-        
+
         //Atributos que devem ser setados nas tags (elementos)
         //Irá inserir nos elementos que estejam dentro do "containerTag", o valor do "attributeToSet", desde que o elemento contenha o atributo setado
         //no "hasAttribute", caso o "containerTag" seja vazio, será setado o "attributeToSet" em todos os elementos que contenham o "hasAttribute"
         this.complexAttributes.push( {type: this.SET_IN_TAG, containerTag: "form", hasAttribute: "ng-model", attributeToSet:"[ngModelOptions]=\"{standalone:true}\"" } );
-        
+
         //Caso necessite inserir um atributo a uma tag especifica informar o nome deste em tag, o valor em attributeToSet e o type = this.SET_IN_TAG
         this.complexAttributes.push( {type: this.SET_IN_TAG, tag: "form", attributeToSet:"ngNativeValidate" } );
 
-        //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.        
+        //Fazer copia de atributo para outro atributo
+        this.complexAttributes.push( {type: this.COPY_ATTR_TO_ANOTHER, attributes: ["ng-model", "[(ngModel)]"], toAnotherAttr: "ngmodelname" } );
+
+
+        //Expressões angular que devem ser substituidas por valores que estejam em determinado atributo.
         this.complexAttributes.push( {type: this.ANGULAR_SET_FROM_ATTR, angularExpression: "datasource", replaceByContentOfNearestAttribute: "crn-datasource"} );
-    
+
         //Atributos que devem ter a sintaxe do conteudo modificada
         let sintaxReplace: Map<string, string> = new Map<string, string>();
         sintaxReplace.set("in", "of");
         this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-repeat", attrDest: "*ngFor", addBeginExpression: "let ", sintaxReplace: sintaxReplace} );
-    
+
         this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-show", attrDest: "[hidden]", wrapContent: "!({content})"} );
-    
+
     }
 
     private getAttributes(element: string) {
@@ -99,7 +104,7 @@ export class ComponentServiceProvider {
             if (indexFirstSpace > -1) {
                 var tag = { name:"", raw:"", startTag: false, endTag: false, attributes:[] };
                 tag.name = tags[i].substr(0, indexFirstSpace);
-                
+
                 //despreza, tags de comentários
                 if (tag.name.startsWith("!--")) {
                     continue;
@@ -111,7 +116,7 @@ export class ComponentServiceProvider {
                 }
                 tag.endTag = tag.name.startsWith('/');
                 tag.startTag = !tag.name.startsWith('/');
-                if (tag.endTag) 
+                if (tag.endTag)
                     tag.name = tag.name.replace("/","");
                 var indexGT = tags[i].indexOf(">") + 1;
                 tag.raw = '<' + tags[i].substr(0, indexGT);
@@ -129,7 +134,7 @@ export class ComponentServiceProvider {
             var endTagsIds = [];
             var startTagsIds = [];
             var idxSearchEnd = tags.length - 1;
-            
+
             while (idxSearchEnd > -1) {
                 if (tags[idxSearchEnd].name == containerTag && tags[idxSearchEnd].endTag && !endTagsIds.includes(idxSearchEnd)) {
                     endTagsIds.push(idxSearchEnd);
@@ -143,7 +148,7 @@ export class ComponentServiceProvider {
                         }
                     }
                 }
-                idxSearchEnd--; 
+                idxSearchEnd--;
             }
         }
         return false;
@@ -184,7 +189,7 @@ export class ComponentServiceProvider {
             if (contentAttr.indexOf(angularExpression) > -1)
                 isInsideInSomeAttribute = true;
         });
-        
+
         //Se estiver dentro de algum atributo, verifica qual o conteudo do atributo e retonra
         if (isInsideInSomeAttribute) {
             idxTag--;
@@ -203,7 +208,7 @@ export class ComponentServiceProvider {
         let tagsToReplace: any = [];
 
         for (var i = 0; i < tags.length; i++) {
-            var hasReplacement = false;           
+            var hasReplacement = false;
             var tagRawReplaced = tags[i].raw;
 
             this.attributesToReplace.forEach((value, key)=> {
@@ -238,7 +243,7 @@ export class ComponentServiceProvider {
 
                         var contentOfAttribute = this.getContentOfAttribute(tagRawReplaced, cpxAttr.attrOrign);
                         var contentOfAttributeSintaxReplaced = contentOfAttribute;
-                        
+
                         if (cpxAttr.sintaxReplace) {
                             cpxAttr.sintaxReplace.forEach((value, key) => {
                                 contentOfAttributeSintaxReplaced = contentOfAttributeSintaxReplaced.split(key).join(value);
@@ -252,10 +257,18 @@ export class ComponentServiceProvider {
                         tagRawReplaced = tagRawReplaced.split(cpxAttr.attrOrign).join(cpxAttr.attrDest);
                         hasReplacement = true;
                     }
-
+                }
+                else if (cpxAttr.type == this.COPY_ATTR_TO_ANOTHER) {
+                    cpxAttr.attributes.forEach(attr => {
+                        if (tags[i].attributes.includes(attr)) {
+                          var contentAttr = this.getContentOfAttribute(tags[i].raw, attr);
+                          tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + cpxAttr.toAnotherAttr + ' = "' + contentAttr + '"');
+                          hasReplacement = true;
+                        }
+                    });
                 }
             });
-            
+
             if (hasReplacement)
                 tagsToReplace.push({ key: tags[i].raw, value: tagRawReplaced});
         }
@@ -265,16 +278,12 @@ export class ComponentServiceProvider {
             var leftContent = viewContent.substr(0, indexOfKey);
             var rightContent = viewContent.substr(indexOfKey + lengthKey);
             viewContent = leftContent + replacement.value + rightContent;
-            //Split da primeira ocorrencia apenas, remove o espaço em branco e substitui pelo value
-            // var splited = viewContent.split(/replacement.key(.+)/);
-            // splited.splice(splited.length-1,1);
-            // viewContent = splited.join(replacement.value);
         });
         return viewContent;
     }
 
     private uniqueId() {
-        return (((1+Math.random())*0x10000)|0).toString(16).substring(1); 
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     }
 
     createDynamicComponent(viewChild: any, viewContent:any) {
