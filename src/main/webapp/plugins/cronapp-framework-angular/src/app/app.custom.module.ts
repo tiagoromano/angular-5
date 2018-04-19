@@ -11,7 +11,8 @@ import { CommonVariableProvider } from '../providers/common-variable/common-vari
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 import { CronappSecurityDirective } from './cronapp-security.directive';
 import { ValidDirective } from './valid.directive';
-import { AsDateDirective } from './as-date.directive';
+import { MaskDateDirective } from './mask-date.directive';
+import { MaskTextDirective } from './mask-text.directive';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -30,7 +31,7 @@ export function createTranslateLoader(http: HttpClient) {
         DatasourceDirective,
         CronappSecurityDirective,
         ValidDirective,
-        AsDateDirective
+        MaskDateDirective
     ],
     imports: [
         TranslateModule.forRoot({
@@ -50,7 +51,7 @@ export function createTranslateLoader(http: HttpClient) {
         DatasourceDirective,
         CronappSecurityDirective,
         ValidDirective,
-        AsDateDirective
+        MaskDateDirective
     ],
     providers: [
         // HelperServiceProvider,

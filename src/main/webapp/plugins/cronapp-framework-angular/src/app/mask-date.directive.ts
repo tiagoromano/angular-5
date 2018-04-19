@@ -28,12 +28,12 @@ import * as moment from 'moment';
 import { parseMaskType } from './generic-mask';
 
 @Directive({
-  selector: '[as-date]',
+  selector: '[type="date"][mask]',
   providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => AsDateDirective), multi: true}
+    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MaskDateDirective), multi: true}
   ]
 })
-export class AsDateDirective implements OnInit, OnDestroy, DoCheck {
+export class MaskDateDirective implements OnInit, OnDestroy, DoCheck {
 
   _value: moment.Moment;
 
@@ -63,7 +63,7 @@ export class AsDateDirective implements OnInit, OnDestroy, DoCheck {
 
   private USE_UTC;
 
-  private attrMask;
+  private mask;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -78,26 +78,28 @@ export class AsDateDirective implements OnInit, OnDestroy, DoCheck {
   }
 
   ngOnInit(): void {
-    const attrsAsDate = this.element.nativeElement.getAttribute('asDate');
-    const attrsFormat = this.element.nativeElement.getAttribute('format');
+    const attrAsDate = this.element.nativeElement.getAttribute('asDate');
+    const attrFormat = this.element.nativeElement.getAttribute('format');
+    let attrMask = this.element.nativeElement.getAttribute('mask');
     let type = this.element.nativeElement.getAttribute('type');
-    
-    if (this.element.nativeElement.getAttribute('mask') !== null) {
-      return;
-    }
 
     if (type == 'checkbox' || type == 'password') {
       return;
     }
 
+    this.dpElement.data("type", type);
     this.dpElement.attr('type', 'text');
 
-    if ((attrsAsDate !== null && type == 'text') || (type == null)) {
+    if ((attrAsDate !== null && type == 'text') || (type == null)) {
       type = 'date';
     }
 
-    this.attrMask = parseMaskType(type, this.translate);
-    this.options = this.getOptions(this.attrMask);
+    this.mask = attrMask || attrFormat;
+    if (!this.mask) {
+      this.mask = parseMaskType(type, this.translate);
+    } 
+
+    this.options = this.getOptions(this.mask);
     this.dpinitialized = true;
     this.dpElement.wrap('<div style=\"position:relative\"></div>');
     
@@ -117,9 +119,9 @@ export class AsDateDirective implements OnInit, OnDestroy, DoCheck {
             var momentDate = null;
             
             if (this.USE_UTC) {
-              momentDate = moment.utc(value, this.attrMask);
+              momentDate = moment.utc(value, this.mask);
             } else {
-              momentDate = moment(value, this.attrMask);
+              momentDate = moment(value, this.mask);
             }
 
             if (momentDate.isValid()) {
@@ -143,9 +145,9 @@ export class AsDateDirective implements OnInit, OnDestroy, DoCheck {
 
       var momentDate = null;
       if (this.USE_UTC) {
-        momentDate = moment.utc(val, this.attrMask);
+        momentDate = moment.utc(val, this.mask);
       } else {
-        momentDate = moment(val, this.attrMask);
+        momentDate = moment(val, this.mask);
       }
 
       val = momentDate.toDate();
