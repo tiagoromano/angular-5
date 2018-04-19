@@ -16,7 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
-import { DatasourceDirective } from './datasource.directive';
+// import { DatasourceDirective } from './datasource.directive';
 import { ComponentServiceProvider } from '../providers/component-service/component-service';
 // import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 // import { DatasourceDirective } from './datasource.directive';

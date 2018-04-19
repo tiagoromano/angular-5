@@ -69,10 +69,7 @@ export class LoginComponent implements OnInit {
               password: password?password:this.password.value
             };
 
-            // this.http.post('auth', this.helperService.parseJsonToUrlParameters(userParam), requestOptions).subscribe(
-            //   this.successLogin.bind(this),
-            //   this.errorLogin.bind(this)
-            // );
+           
             this.helperService.promiseHttp(new RequestArgs("POST", "auth", userParam, requestOptions))
             .then(data => {
               this.successLogin(data);
