@@ -11,7 +11,7 @@ export class CommonVariableProvider {
         datasourceApiVersion : 2
     };
 
-    startSession(data: string) {
+    startSession(data: any) {
         sessionStorage.setItem("_u", JSON.stringify(data));
         this.session = JSON.parse(sessionStorage._u);
     }

@@ -69,10 +69,7 @@ export class DatasourceManagerProvider {
         dts.dependentLazyPostField = props.dependentLazyPostField; //TRM
         dts.rawHeaders = props.headers;
         dts.allowFetch = true;
-
-       
-
-        
+ 
 
         if (dts.dependentBy && dts.dependentBy !== "" && dts.dependentBy.trim() !== "") {
           dts.allowFetch = false;
@@ -112,26 +109,19 @@ export class DatasourceManagerProvider {
           );
         }
 
-        // if (props.lazy && props.autoPost) {
-        //   dts.startAutoPost();
-        // }
+        if (props.lazy && props.autoPost) {
+          dts.startAutoPost();
+        }
 
-        // if (props.watch && Object.prototype.toString.call(props.watch) === "[object String]") {
-        //   this.registerObserver(props.watch, dts);
-        //   dts.watchFilter = props.watchFilter;
-        // }
+        if (props.watch && Object.prototype.toString.call(props.watch) === "[object String]") {
+          this.registerObserver(props.watch, dts);
+          dts.watchFilter = props.watchFilter;
+        }
 
-        // // Filter the dataset if the filter property was set
-        // if (props.filterURL && props.filterURL.length > 0 && dts.allowFetch) {
-        //   dts.filter(props.filterURL);
-        // }
-
-        // // Add this instance into the root scope
-        // // This will expose the dataset name as a
-        // // global variable
-        // $rootScope[dts.name] = dts;
-
-        
+        // Filter the dataset if the filter property was set
+        if (props.filterURL && props.filterURL.length > 0 && dts.allowFetch) {
+          dts.filter(props.filterURL);
+        }
 
         this.storeDataset(dts);
         window[dts.name] = dts;
