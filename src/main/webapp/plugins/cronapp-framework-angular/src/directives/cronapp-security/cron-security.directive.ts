@@ -3,11 +3,13 @@ import { CommonVariableProvider } from '../../providers/common-variable/common-v
 import { CronappSecurity } from './cronapp-security';
 
 @Directive({
-  selector: '[cronapp-security]'
+  selector: '[cron-security]'
 })
-export class CronappSecurityDirective  { 
+export class CronSecurityDirective  { 
 
-  @Input('cronapp-security') directiveValue: string;
+  @Input('cron-security') directiveValue: string;
+
+  private security: CronappSecurity
 
   constructor(private element: ElementRef, 
               private renderer: Renderer,

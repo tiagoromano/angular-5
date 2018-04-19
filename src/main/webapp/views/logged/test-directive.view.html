@@ -32,16 +32,37 @@
             </div>
           </div>
 
+          <!--<div class="component-holder ng-binding ng-scope" data-component="crn-combobox" id="crn-combobox-249449">-->
+            <!--<div class="form-group">-->
+              <!--<label for="lista">Teste Cruso</label>-->
+              <!--<ui-select-->
+                  <!--id="lista"-->
+
+                  <!--crn-datasource="[{'id': 1,'nome':'FULANO'},{'id': 2,'nome':'BELTRANO'},{'id': 3,'nome':'CICRANO'}]"-->
+                  <!--ng-model="Cliente.active.ramoAtividade"-->
+                  <!--ng-required="false"-->
+                  <!--ng-disabled="disabled"-->
+                  <!--class="crn-select">-->
+                <!--<ui-select-match placeholder="Select..." class="">-->
+                  <!--{{$select.selected.value}}-->
+                <!--</ui-select-match>-->
+                <!--<ui-select-choices repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">-->
+                  <!--<div class="">{{rowData.value}}</div>-->
+                <!--</ui-select-choices>-->
+              <!--</ui-select>-->
+              <!--ID: {{Cliente.active.ramoAtividade}}-->
+            <!--</div>-->
+          <!--</div>-->
+
           <div class="col-md-6">
             <div class="form-group">
               <label for="nascimento" class="">Nascimento</label>
               <input class="form-control"
-                   [date]="date"
-                   as-date
+                   type="date"
+                   mask="DD/MM/YYYY HH:mm:ss"
                    id="nascimento"
                    name="nascimento"
                    [(ngModel)]="nascimentoModel"
-                   [options]="a2eOptions"
                    #nascimento/>
             </div>
           </div>
@@ -50,9 +71,11 @@
             <div class="form-group">
               <label for="nascimento2" class="">Nascimento 2</label>
               <input class="form-control"
-               id="nascimento2"
-               name="nascimento2"
-               [(ngModel)]="nascimentoModel"/>
+                   type="text"
+                   mask=""
+                   id="nascimento2"
+                   name="nascimento2"
+                   [(ngModel)]="nascimentoModel"/>
             </div>
           </div>
 
@@ -90,16 +113,16 @@
                 name="cnpj"
                 valid="cnpj"
                 data-error-message="CNPJ Inválido TESTE."
-                cronapp-security="enabled : Administrators"
+                cron-security="enabled : Administrators"
                 [(ngModel)]="cnpjText"
                 #cnpj="ngModel">
             </div>
-          </div>
-          <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
-               class="alert alert-danger">
+            <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
+                 class="alert alert-danger">
 
-            <div *ngIf="cnpj.errors.valid">
-              CNPJ Invalid
+              <div *ngIf="cnpj.errors.valid">
+                CNPJ Invalid
+              </div>
             </div>
           </div>
         </fieldset>

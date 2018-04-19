@@ -17,6 +17,7 @@ import { ValidDirective } from '../directives/valid/valid.directive';
 import { DatasourceDirective } from '../directives/datasource/datasource.directive';
 import { MaskDateDirective } from '../directives/mask/mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
+import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 // import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -35,6 +36,7 @@ export function createTranslateLoader(http: HttpClient) {
     declarations: [
         DatasourceDirective,
         CronappSecurityDirective,
+        CronSecurityDirective,
         ValidDirective,
         MaskDateDirective
     ],
@@ -55,6 +57,7 @@ export function createTranslateLoader(http: HttpClient) {
         BrowserModule,
         DatasourceDirective,
         CronappSecurityDirective,
+        CronSecurityDirective,
         ValidDirective,
         MaskDateDirective
     ],
