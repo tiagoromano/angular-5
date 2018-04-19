@@ -34,7 +34,6 @@ export class HelperServiceProvider {
     }
 
     private requestArgsAdapater(requestArgs: RequestArgs) {
-        debugger;
         requestArgs.headers.headers.set(this.authToken, this.commonVariableProvider.getToken());
 
         if (requestArgs.method.toUpperCase() == this.verbGET)
