@@ -40,3 +40,35 @@ export function parseMaskType(type, translate: TranslateService) {
     
     return type;
 }
+
+export function buildOptions(mask, translate) {
+    const options = {
+        format: mask,
+        locale: translate.currentLang,
+        showTodayButton: true,
+        useStrict: true,
+        sideBySide: false,
+        tooltips: {
+            today: translate.instant('DatePicker.today'),
+            clear: translate.instant('DatePicker.clear'),
+            close: translate.instant('DatePicker.close'),
+            selectMonth: translate.instant('DatePicker.selectMonth'),
+            prevMonth: translate.instant('DatePicker.prevMonth'),
+            nextMonth: translate.instant('DatePicker.nextMonth'),
+            selectYear: translate.instant('DatePicker.selectYear'),
+            prevYear: translate.instant('DatePicker.prevYear'),
+            nextYear: translate.instant('DatePicker.nextYear'),
+            selectDecade: translate.instant('DatePicker.selectDecade'),
+            prevDecade: translate.instant('DatePicker.prevDecade'),
+            nextDecade: translate.instant('DatePicker.nextDecade'),
+            prevCentury: translate.instant('DatePicker.prevCentury'),
+            nextCentury: translate.instant('DatePicker.nextCentury')
+        }
+    };
+
+    if (mask != 'DD/MM/YYYY' && mask != 'MM/DD/YYYY') {
+        options.sideBySide = true;
+    }
+
+    return options;
+}

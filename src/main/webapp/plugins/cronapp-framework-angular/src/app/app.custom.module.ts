@@ -13,6 +13,7 @@ import { ValidDirective } from '../directives/valid/valid.directive';
 import { CronValidDirective } from '../directives/valid/cron-valid.directive';
 import { DatasourceDirective } from '../directives/datasource/datasource.directive';
 import { MaskDateDirective } from '../directives/mask/mask-date.directive';
+import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 
@@ -35,7 +36,8 @@ export function createTranslateLoader(http: HttpClient) {
         CronSecurityDirective,
         ValidDirective,
         CronValidDirective,
-        MaskDateDirective
+        MaskDateDirective,
+        CronMaskDateDirective
     ],
     imports: [
         TranslateModule.forRoot({
@@ -57,7 +59,8 @@ export function createTranslateLoader(http: HttpClient) {
         CronSecurityDirective,
         ValidDirective,
         CronValidDirective,
-        MaskDateDirective
+        MaskDateDirective,
+        CronMaskDateDirective
     ],
     providers: [
         // HelperServiceProvider,
