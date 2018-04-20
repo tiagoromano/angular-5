@@ -1,3 +1,4 @@
+alert('oi');
 (function() {
   'use strict';
 

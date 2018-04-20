@@ -6,6 +6,7 @@ import { CommonVariableProvider } from "../../providers/common-variable/common-v
 import { Router, ActivatedRoute } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { StateService } from "@uirouter/core";
+import { NotificationsService } from "angular2-notifications";
 
 @Component({
     selector: 'import-class',
@@ -18,13 +19,14 @@ export abstract class ImportClass implements OnInit {
 
     constructor (translate: TranslateService, translateModule: TranslateModule, http: Http, helperService: HelperServiceProvider, 
                  commonVariable: CommonVariableProvider,/* router: Router, activatedRoute: ActivatedRoute,*/ httpService: HttpClient,
-                 stateService: StateService) {
-        this.initialize(translate, translateModule, http, helperService, commonVariable,/* router, activatedRoute,*/ httpService, stateService);
+                 stateService: StateService, notificationsService: NotificationsService) {
+        this.initialize(translate, translateModule, http, helperService, commonVariable,/* router, activatedRoute,*/ httpService, stateService,
+                        notificationsService);
     }
 
     abstract initialize(translate: TranslateService, translateModule: TranslateModule, http: Http, helperService: HelperServiceProvider, 
                         commonVariable: CommonVariableProvider,/* router: Router, activatedRoute: ActivatedRoute,*/ httpService: HttpClient,
-                        stateService: StateService): void;
+                        stateService: StateService, notificationsService: NotificationsService): void;
     
     ngOnInit(): void {
     }

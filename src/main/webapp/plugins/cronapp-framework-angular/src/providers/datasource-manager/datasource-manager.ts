@@ -4,6 +4,7 @@ import { CommonVariableProvider } from "../common-variable/common-variable";
 import { Http } from "@angular/http";
 import { HelperServiceProvider } from "../helper-service/helper-service";
 import { EVENT_MANAGER_PLUGINS } from "@angular/platform-browser";
+import { NotificationsService , SimpleNotificationsModule} from "angular2-notifications";
 
 @Injectable()
 export class DatasourceManagerProvider {
@@ -11,7 +12,8 @@ export class DatasourceManagerProvider {
     private window: any;
     private datasets = {};
 
-    constructor(private commonVariable: CommonVariableProvider, private http: Http, private helperService: HelperServiceProvider) {
+    constructor(private commonVariable: CommonVariableProvider, private http: Http, private helperService: HelperServiceProvider,
+                private notificationsService: NotificationsService) {
         this.window = (window as any);
     }
 
@@ -36,7 +38,7 @@ export class DatasourceManagerProvider {
 
     initDataset(props:any, scope: any) {
         var endpoint = (props.endpoint) ? props.endpoint : "";
-        var dts = new DataSet(props.name, props.entity, scope, this.http, this.helperService);
+        var dts = new DataSet(props.name, props.entity, scope, this.http, this.helperService, this.notificationsService);
         var defaultApiVersion = this.commonVariable.config.datasourceApiVersion;
 
         dts.apiVersion = props.apiVersion ? parseInt(props.apiVersion) : defaultApiVersion;

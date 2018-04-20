@@ -18,6 +18,7 @@ import { CommonVariableProvider } from '../providers/common-variable/common-vari
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 // import { DatasourceDirective } from './datasource.directive';
 import { ComponentServiceProvider } from '../providers/component-service/component-service';
+import { SimpleNotificationsModule, optionsFactory } from 'angular2-notifications';
 // import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
 // import { DatasourceDirective } from './datasource.directive';
 
@@ -53,7 +54,6 @@ import { ComponentServiceProvider } from '../providers/component-service/compone
     PageComponent,
     LoginComponent,
     TestComponentComponent,
-    // DatasourceDirective
   ],
   imports: [
     AppRoutingModule,
@@ -61,6 +61,18 @@ import { ComponentServiceProvider } from '../providers/component-service/compone
     HttpClientModule,
     HttpModule,
     AppCustomModule,
+    SimpleNotificationsModule.forRoot(
+      optionsFactory( 
+        {
+          timeOut: 5000,
+          showProgressBar: true,
+          pauseOnHover: true,
+          clickToClose: true,
+          maxLength: 50,
+          position: ["top", "right"]
+        }
+      )
+    )
   ],
   providers: [
     HomeComponent, 
@@ -69,7 +81,7 @@ import { ComponentServiceProvider } from '../providers/component-service/compone
     HelperServiceProvider,
     CommonVariableProvider,
     DatasourceManagerProvider,
-    ComponentServiceProvider
+    ComponentServiceProvider,
   ],
   exports: [
     // TranslateModule

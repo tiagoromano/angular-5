@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 // import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
+// import * as cronapi from "../../../cronapi-js/cronapi.js";
+
 @Component({
   selector: 'app-root',
   template: `
           <div>
-            <!--<router-outlet></router-outlet>-->
+            <!--<router-outlet></router-outlet>-->    
+            <simple-notifications></simple-notifications>        
             <ui-view></ui-view>                
           </div>`
 })

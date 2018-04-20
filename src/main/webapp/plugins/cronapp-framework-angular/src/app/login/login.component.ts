@@ -10,6 +10,7 @@ import { CommonVariableProvider } from '../../providers/common-variable/common-v
 import { StateService } from '@uirouter/core';
 import { ComponentServiceProvider } from '../../providers/component-service/component-service';
 import { RequestArgs } from '../../providers/helper-service/request-args';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-login',
@@ -40,10 +41,12 @@ export class LoginComponent implements OnInit {
           helperService: HelperServiceProvider;
           commonVariable: CommonVariableProvider;
           stateService: StateService;
+          notificationsService: NotificationsService;
+          translate: TranslateService;
           
           
           initialize(translate: TranslateService, translateModule: TranslateModule, http: Http, helperService: HelperServiceProvider, 
-            commonVariable: CommonVariableProvider, httpService: HttpClient, stateService: StateService): void {
+            commonVariable: CommonVariableProvider, httpService: HttpClient, stateService: StateService, notificationsService: NotificationsService): void {
             this.vars = {};
             this.message = { error: ""};
             this.username = {value: "" };
@@ -52,6 +55,8 @@ export class LoginComponent implements OnInit {
             this.helperService = helperService;
             this.commonVariable = commonVariable;
             this.stateService = stateService;
+            this.notificationsService = notificationsService;
+            this.translate = translate;
           }
 
           login(user, password, token) {
@@ -61,8 +66,6 @@ export class LoginComponent implements OnInit {
               })
             });
 
-            // if (token)
-            //   httpOptions.headers.set("X-AUTH-TOKEN", token);
             
             var userParam = {
               username: user?user:this.username.value,
@@ -70,12 +73,9 @@ export class LoginComponent implements OnInit {
             };
 
            
-            this.helperService.promiseHttp(new RequestArgs("POST", "auth", userParam, requestOptions))
+            this.helperService.promiseHttp(new RequestArgs("POST", "auth", userParam, requestOptions), null, this.errorLogin.bind(this))
             .then(data => {
               this.successLogin(data);
-            })
-            .catch(error => {
-              this.errorLogin(error);
             });
           }
 
@@ -84,12 +84,14 @@ export class LoginComponent implements OnInit {
             this.stateService.go('home');
           }
 
-          errorLogin(err:HttpErrorResponse) {
-            if (err.error instanceof Error) {
-              console.log('Client-side error occured.');
-            } else {
-              console.log('Server-side error occured.');
-            }
+          errorLogin(error:any, reject: any) {
+            var data = {};
+            if (error._body && error._body.length)
+              data = error.json();
+
+            var err = error.status == 401 ? this.translate.instant('Login.view.invalidPassword') : data;
+            this.notificationsService.error(err);
+            console.log(error);
           }
 
 
@@ -98,7 +100,7 @@ export class LoginComponent implements OnInit {
         this.componentServiceProvider.createDynamicComponentWithContextClass(contextClass, this.vc, viewContent);          
       },
       (err: HttpErrorResponse) => {
-        console.log (err.message);
+        console.log (err);
       }
     );
   }
