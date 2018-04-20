@@ -28,7 +28,8 @@
                   class="form-control"
                   id="textinput-nome"
                   placeholder="Nome"
-                  name="nome">
+                  name="nome"
+                  cron-security="enabled : Administrators">
             </div>
           </div>
 
@@ -88,14 +89,13 @@
                 id="cpf"
                 placeholder="CPF"
                 name="cpf"
-                valid="cpf"
+                cron-valid="cpf"
                 data-error-message="CPF Inválido."
                 [(ngModel)]="cpfText"
                 #cpf="ngModel">
             </div>
             <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
                  class="alert alert-danger">
-
               <div *ngIf="cpf.errors.valid">
                 CPF Invalid
               </div>
@@ -113,13 +113,11 @@
                 name="cnpj"
                 valid="cnpj"
                 data-error-message="CNPJ Inválido TESTE."
-                cron-security="enabled : Administrators"
                 [(ngModel)]="cnpjText"
                 #cnpj="ngModel">
             </div>
             <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
                  class="alert alert-danger">
-
               <div *ngIf="cnpj.errors.valid">
                 CNPJ Invalid
               </div>

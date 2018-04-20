@@ -3,17 +3,16 @@ import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
 import { Valid } from './valid';
 
 @Directive({
-  selector: '[valid]',
-  providers: [{provide: NG_VALIDATORS, useExisting: ValidDirective, multi: true}]
+  selector: '[cron-valid]',
+  providers: [{provide: NG_VALIDATORS, useExisting: CronValidDirective, multi: true}]
 })
-export class ValidDirective implements Validator {
+export class CronValidDirective implements Validator {
 
-  @Input('valid') valid: string;
+  @Input('cron-valid') valid: string;
 
   constructor(private element: ElementRef) {}
 
   validate(ctrl: FormControl): {[key: string]: any} {
     return new Valid().validate(this.element, ctrl, this.valid);
   }
-
 }

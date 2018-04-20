@@ -9,16 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
-// import { CronappSecurityDirective } from './cronapp-security.directive';
-// import { ValidDirective } from './valid.directive';
-// import { MaskDateDirective } from './mask-date.directive';
-// import { MaskTextDirective } from './mask-text.directive';
 import { ValidDirective } from '../directives/valid/valid.directive';
+import { CronValidDirective } from '../directives/valid/cron-valid.directive';
 import { DatasourceDirective } from '../directives/datasource/datasource.directive';
 import { MaskDateDirective } from '../directives/mask/mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
-// import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -38,6 +34,7 @@ export function createTranslateLoader(http: HttpClient) {
         CronappSecurityDirective,
         CronSecurityDirective,
         ValidDirective,
+        CronValidDirective,
         MaskDateDirective
     ],
     imports: [
@@ -59,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
         CronappSecurityDirective,
         CronSecurityDirective,
         ValidDirective,
+        CronValidDirective,
         MaskDateDirective
     ],
     providers: [
