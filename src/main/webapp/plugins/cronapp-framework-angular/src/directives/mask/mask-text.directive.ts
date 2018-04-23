@@ -9,7 +9,7 @@ import {
   ElementRef
 } from '@angular/core';
 
-import { parseMaskType } from './generic-mask';
+import { parseMaskType } from './mask-util';
 
 @Directive({
   selector: '[type="text"][mask]'

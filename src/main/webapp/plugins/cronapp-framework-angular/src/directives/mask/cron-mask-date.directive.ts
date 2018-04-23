@@ -17,12 +17,12 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractDate } from './abstract-date.directive';
 
 @Directive({
-  selector: '[type="date"][mask]',
+  selector: '[cron-as-date]',
   providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MaskDateDirective), multi: true}
+    {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CronMaskDateDirective), multi: true}
   ]
 })
-export class MaskDateDirective extends AbstractDate {
+export class CronMaskDateDirective extends AbstractDate {
 
   constructor(
     protected changeDetector: ChangeDetectorRef,
