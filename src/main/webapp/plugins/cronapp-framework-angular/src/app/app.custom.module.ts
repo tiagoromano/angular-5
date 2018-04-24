@@ -16,6 +16,7 @@ import { MaskDateDirective } from '../directives/mask/mask-date.directive';
 import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
+import { UiSelectDirective } from '../directives/select/ui-select.directive';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -37,7 +38,8 @@ export function createTranslateLoader(http: HttpClient) {
         ValidDirective,
         CronValidDirective,
         MaskDateDirective,
-        CronMaskDateDirective
+        CronMaskDateDirective,
+        UiSelectDirective
     ],
     imports: [
         TranslateModule.forRoot({
@@ -60,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
         ValidDirective,
         CronValidDirective,
         MaskDateDirective,
-        CronMaskDateDirective
+        CronMaskDateDirective,
+        UiSelectDirective
     ],
     providers: [
         // HelperServiceProvider,
