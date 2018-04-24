@@ -16,8 +16,6 @@ export class UiSelectDirective implements ControlValueAccessor {
 
   private data : any;
 
-  private selectItem : any;
-
   private newInput : any;
 
   @Input('value') _value;
@@ -73,7 +71,7 @@ export class UiSelectDirective implements ControlValueAccessor {
     debugger;
     if (e.item) {
       var dataItem = e.sender.dataItem(e.item.index());
-      // this.model.valueAccessor.writeValue(dataItem);
+      this.value(dataItem);
     } else {
       alert("event :: select");
     }

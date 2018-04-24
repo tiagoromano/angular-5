@@ -2,6 +2,8 @@ import { Http, RequestOptions, Headers } from "@angular/http";
 import { HelperServiceProvider } from "../helper-service/helper-service";
 import { ServiceHttp } from "./service-http";
 import { RequestArgs } from "../helper-service/request-args";
+import { NotificationsService , SimpleNotificationsModule} from "angular2-notifications";
+// import * as $ from 'jquery';
 
 declare var $ :any;
 export class DataSet {
@@ -25,17 +27,17 @@ export class DataSet {
     filterURL: any;
     prepend: boolean;
     apiVersion: any;
-    NO_IMAGE_UPLOAD = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjEyOHB4IiBoZWlnaHQ9IjEyOHB4IiB2aWV3Qm94PSIwIDAgNDQuNTAyIDQ0LjUwMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDQuNTAyIDQ0LjUwMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik05Ljg2MiwzNS42MzhoMjQuNzc5YzAtNS41NDYtMy44NjMtMTAuMjAzLTkuMTEzLTExLjYwNGMyLjc1LTEuMjQ4LDQuNjY4LTQuMDEzLDQuNjY4LTcuMjI5ICAgIGMwLTQuMzg4LTMuNTU5LTcuOTQyLTcuOTQyLTcuOTQyYy00LjM4NywwLTcuOTQzLDMuNTU3LTcuOTQzLDcuOTQyYzAsMy4yMTksMS45MTYsNS45OCw0LjY2OCw3LjIyOSAgICBDMTMuNzI1LDI1LjQzNSw5Ljg2MiwzMC4wOTIsOS44NjIsMzUuNjM4eiIgZmlsbD0iIzkxOTE5MSIvPgoJCTxwYXRoIGQ9Ik0xLjUsMTQuMTY5YzAuODI4LDAsMS41LTAuNjcyLDEuNS0xLjVWNC4zMzNoOC4zMzZjMC44MjgsMCwxLjUtMC42NzIsMS41LTEuNWMwLTAuODI4LTAuNjcyLTEuNS0xLjUtMS41SDIuNzc1ICAgIEMxLjI0NCwxLjMzMywwLDIuNTc3LDAsNC4xMDh2OC41NjFDMCwxMy40OTcsMC42NywxNC4xNjksMS41LDE0LjE2OXoiIGZpbGw9IiM5MTkxOTEiLz4KCQk8cGF0aCBkPSJNNDEuNzI3LDEuMzMzaC04LjU2MmMtMC44MjcsMC0xLjUsMC42NzItMS41LDEuNWMwLDAuODI4LDAuNjczLDEuNSwxLjUsMS41aDguMzM2djguMzM2YzAsMC44MjgsMC42NzMsMS41LDEuNSwxLjUgICAgczEuNS0wLjY3MiwxLjUtMS41di04LjU2QzQ0LjUwMiwyLjU3OSw0My4yNTYsMS4zMzMsNDEuNzI3LDEuMzMzeiIgZmlsbD0iIzkxOTE5MSIvPgoJCTxwYXRoIGQ9Ik00My4wMDIsMzAuMzMzYy0wLjgyOCwwLTEuNSwwLjY3Mi0xLjUsMS41djguMzM2aC04LjMzNmMtMC44MjgsMC0xLjUsMC42NzItMS41LDEuNXMwLjY3MiwxLjUsMS41LDEuNWg4LjU2ICAgIGMxLjUzLDAsMi43NzYtMS4yNDYsMi43NzYtMi43NzZ2LTguNTZDNDQuNTAyLDMxLjAwNSw0My44MywzMC4zMzMsNDMuMDAyLDMwLjMzM3oiIGZpbGw9IiM5MTkxOTEiLz4KCQk8cGF0aCBkPSJNMTEuMzM2LDQwLjE2OUgzdi04LjMzNmMwLTAuODI4LTAuNjcyLTEuNS0xLjUtMS41Yy0wLjgzLDAtMS41LDAuNjcyLTEuNSwxLjV2OC41NmMwLDEuNTMsMS4yNDQsMi43NzYsMi43NzUsMi43NzZoOC41NjEgICAgYzAuODI4LDAsMS41LTAuNjcyLDEuNS0xLjVTMTIuMTY1LDQwLjE2OSwxMS4zMzYsNDAuMTY5eiIgZmlsbD0iIzkxOTE5MSIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
-    NO_FILE_UPLOAD = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTQ4LjE3NiA1NDguMTc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NDguMTc2IDU0OC4xNzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNTI0LjMyNiwyOTcuMzUyYy0xNS44OTYtMTkuODktMzYuMjEtMzIuNzgyLTYwLjk1OS0zOC42ODRjNy44MS0xMS44LDExLjcwNC0yNC45MzQsMTEuNzA0LTM5LjM5OSAgIGMwLTIwLjE3Ny03LjEzOS0zNy40MDEtMjEuNDA5LTUxLjY3OGMtMTQuMjczLTE0LjI3Mi0zMS40OTgtMjEuNDExLTUxLjY3NS0yMS40MTFjLTE4LjA4MywwLTMzLjg3OSw1LjkwMS00Ny4zOSwxNy43MDMgICBjLTExLjIyNS0yNy40MS0yOS4xNzEtNDkuMzkzLTUzLjgxNy02NS45NWMtMjQuNjQ2LTE2LjU2Mi01MS44MTgtMjQuODQyLTgxLjUxNC0yNC44NDJjLTQwLjM0OSwwLTc0LjgwMiwxNC4yNzktMTAzLjM1Myw0Mi44MyAgIGMtMjguNTUzLDI4LjU0NC00Mi44MjUsNjIuOTk5LTQyLjgyNSwxMDMuMzUxYzAsMi40NzQsMC4xOTEsNi41NjcsMC41NzEsMTIuMjc1Yy0yMi40NTksMTAuNDY5LTQwLjM0OSwyNi4xNzEtNTMuNjc2LDQ3LjEwNiAgIEM2LjY2MSwyOTkuNTk0LDAsMzIyLjQzLDAsMzQ3LjE3OWMwLDM1LjIxNCwxMi41MTcsNjUuMzI5LDM3LjU0NCw5MC4zNThjMjUuMDI4LDI1LjAzNyw1NS4xNSwzNy41NDgsOTAuMzYyLDM3LjU0OGgzMTAuNjM2ICAgYzMwLjI1OSwwLDU2LjA5Ni0xMC43MTEsNzcuNTEyLTMyLjEyYzIxLjQxMy0yMS40MDksMzIuMTIxLTQ3LjI0NiwzMi4xMjEtNzcuNTE2QzU0OC4xNzIsMzM5Ljk0NCw1NDAuMjIzLDMxNy4yNDgsNTI0LjMyNiwyOTcuMzUyICAgeiBNMzYyLjcyOSwyODkuNjQ4Yy0xLjgxMywxLjgwNC0zLjk0OSwyLjcwNy02LjQyLDIuNzA3aC02My45NTN2MTAwLjUwMmMwLDIuNDcxLTAuOTAzLDQuNjEzLTIuNzExLDYuNDIgICBjLTEuODEzLDEuODEzLTMuOTQ5LDIuNzExLTYuNDIsMi43MTFoLTU0LjgyNmMtMi40NzQsMC00LjYxNS0wLjg5Ny02LjQyMy0yLjcxMWMtMS44MDQtMS44MDctMi43MTItMy45NDktMi43MTItNi40MlYyOTIuMzU1ICAgSDE1NS4zMWMtMi42NjIsMC00Ljg1My0wLjg1NS02LjU2My0yLjU2M2MtMS43MTMtMS43MTQtMi41NjgtMy45MDQtMi41NjgtNi41NjZjMC0yLjI4NiwwLjk1LTQuNTcyLDIuODUyLTYuODU1bDEwMC4yMTMtMTAwLjIxICAgYzEuNzEzLTEuNzE0LDMuOTAzLTIuNTcsNi41NjctMi41N2MyLjY2NiwwLDQuODU2LDAuODU2LDYuNTY3LDIuNTdsMTAwLjQ5OSwxMDAuNDk1YzEuNzE0LDEuNzEyLDIuNTYyLDMuOTAxLDIuNTYyLDYuNTcxICAgQzM2NS40MzgsMjg1LjY5NiwzNjQuNTM1LDI4Ny44NDUsMzYyLjcyOSwyODkuNjQ4eiIgZmlsbD0iI2NlY2VjZSIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+    // private readonly NO_IMAGE_UPLOAD = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjEyOHB4IiBoZWlnaHQ9IjEyOHB4IiB2aWV3Qm94PSIwIDAgNDQuNTAyIDQ0LjUwMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDQuNTAyIDQ0LjUwMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8Zz4KCTxnPgoJCTxwYXRoIGQ9Ik05Ljg2MiwzNS42MzhoMjQuNzc5YzAtNS41NDYtMy44NjMtMTAuMjAzLTkuMTEzLTExLjYwNGMyLjc1LTEuMjQ4LDQuNjY4LTQuMDEzLDQuNjY4LTcuMjI5ICAgIGMwLTQuMzg4LTMuNTU5LTcuOTQyLTcuOTQyLTcuOTQyYy00LjM4NywwLTcuOTQzLDMuNTU3LTcuOTQzLDcuOTQyYzAsMy4yMTksMS45MTYsNS45OCw0LjY2OCw3LjIyOSAgICBDMTMuNzI1LDI1LjQzNSw5Ljg2MiwzMC4wOTIsOS44NjIsMzUuNjM4eiIgZmlsbD0iIzkxOTE5MSIvPgoJCTxwYXRoIGQ9Ik0xLjUsMTQuMTY5YzAuODI4LDAsMS41LTAuNjcyLDEuNS0xLjVWNC4zMzNoOC4zMzZjMC44MjgsMCwxLjUtMC42NzIsMS41LTEuNWMwLTAuODI4LTAuNjcyLTEuNS0xLjUtMS41SDIuNzc1ICAgIEMxLjI0NCwxLjMzMywwLDIuNTc3LDAsNC4xMDh2OC41NjFDMCwxMy40OTcsMC42NywxNC4xNjksMS41LDE0LjE2OXoiIGZpbGw9IiM5MTkxOTEiLz4KCQk8cGF0aCBkPSJNNDEuNzI3LDEuMzMzaC04LjU2MmMtMC44MjcsMC0xLjUsMC42NzItMS41LDEuNWMwLDAuODI4LDAuNjczLDEuNSwxLjUsMS41aDguMzM2djguMzM2YzAsMC44MjgsMC42NzMsMS41LDEuNSwxLjUgICAgczEuNS0wLjY3MiwxLjUtMS41di04LjU2QzQ0LjUwMiwyLjU3OSw0My4yNTYsMS4zMzMsNDEuNzI3LDEuMzMzeiIgZmlsbD0iIzkxOTE5MSIvPgoJCTxwYXRoIGQ9Ik00My4wMDIsMzAuMzMzYy0wLjgyOCwwLTEuNSwwLjY3Mi0xLjUsMS41djguMzM2aC04LjMzNmMtMC44MjgsMC0xLjUsMC42NzItMS41LDEuNXMwLjY3MiwxLjUsMS41LDEuNWg4LjU2ICAgIGMxLjUzLDAsMi43NzYtMS4yNDYsMi43NzYtMi43NzZ2LTguNTZDNDQuNTAyLDMxLjAwNSw0My44MywzMC4zMzMsNDMuMDAyLDMwLjMzM3oiIGZpbGw9IiM5MTkxOTEiLz4KCQk8cGF0aCBkPSJNMTEuMzM2LDQwLjE2OUgzdi04LjMzNmMwLTAuODI4LTAuNjcyLTEuNS0xLjUtMS41Yy0wLjgzLDAtMS41LDAuNjcyLTEuNSwxLjV2OC41NmMwLDEuNTMsMS4yNDQsMi43NzYsMi43NzUsMi43NzZoOC41NjEgICAgYzAuODI4LDAsMS41LTAuNjcyLDEuNS0xLjVTMTIuMTY1LDQwLjE2OSwxMS4zMzYsNDAuMTY5eiIgZmlsbD0iIzkxOTE5MSIvPgoJPC9nPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+    // private readonly NO_FILE_UPLOAD = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTYuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgNTQ4LjE3NiA1NDguMTc2IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1NDguMTc2IDU0OC4xNzY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPGc+Cgk8cGF0aCBkPSJNNTI0LjMyNiwyOTcuMzUyYy0xNS44OTYtMTkuODktMzYuMjEtMzIuNzgyLTYwLjk1OS0zOC42ODRjNy44MS0xMS44LDExLjcwNC0yNC45MzQsMTEuNzA0LTM5LjM5OSAgIGMwLTIwLjE3Ny03LjEzOS0zNy40MDEtMjEuNDA5LTUxLjY3OGMtMTQuMjczLTE0LjI3Mi0zMS40OTgtMjEuNDExLTUxLjY3NS0yMS40MTFjLTE4LjA4MywwLTMzLjg3OSw1LjkwMS00Ny4zOSwxNy43MDMgICBjLTExLjIyNS0yNy40MS0yOS4xNzEtNDkuMzkzLTUzLjgxNy02NS45NWMtMjQuNjQ2LTE2LjU2Mi01MS44MTgtMjQuODQyLTgxLjUxNC0yNC44NDJjLTQwLjM0OSwwLTc0LjgwMiwxNC4yNzktMTAzLjM1Myw0Mi44MyAgIGMtMjguNTUzLDI4LjU0NC00Mi44MjUsNjIuOTk5LTQyLjgyNSwxMDMuMzUxYzAsMi40NzQsMC4xOTEsNi41NjcsMC41NzEsMTIuMjc1Yy0yMi40NTksMTAuNDY5LTQwLjM0OSwyNi4xNzEtNTMuNjc2LDQ3LjEwNiAgIEM2LjY2MSwyOTkuNTk0LDAsMzIyLjQzLDAsMzQ3LjE3OWMwLDM1LjIxNCwxMi41MTcsNjUuMzI5LDM3LjU0NCw5MC4zNThjMjUuMDI4LDI1LjAzNyw1NS4xNSwzNy41NDgsOTAuMzYyLDM3LjU0OGgzMTAuNjM2ICAgYzMwLjI1OSwwLDU2LjA5Ni0xMC43MTEsNzcuNTEyLTMyLjEyYzIxLjQxMy0yMS40MDksMzIuMTIxLTQ3LjI0NiwzMi4xMjEtNzcuNTE2QzU0OC4xNzIsMzM5Ljk0NCw1NDAuMjIzLDMxNy4yNDgsNTI0LjMyNiwyOTcuMzUyICAgeiBNMzYyLjcyOSwyODkuNjQ4Yy0xLjgxMywxLjgwNC0zLjk0OSwyLjcwNy02LjQyLDIuNzA3aC02My45NTN2MTAwLjUwMmMwLDIuNDcxLTAuOTAzLDQuNjEzLTIuNzExLDYuNDIgICBjLTEuODEzLDEuODEzLTMuOTQ5LDIuNzExLTYuNDIsMi43MTFoLTU0LjgyNmMtMi40NzQsMC00LjYxNS0wLjg5Ny02LjQyMy0yLjcxMWMtMS44MDQtMS44MDctMi43MTItMy45NDktMi43MTItNi40MlYyOTIuMzU1ICAgSDE1NS4zMWMtMi42NjIsMC00Ljg1My0wLjg1NS02LjU2My0yLjU2M2MtMS43MTMtMS43MTQtMi41NjgtMy45MDQtMi41NjgtNi41NjZjMC0yLjI4NiwwLjk1LTQuNTcyLDIuODUyLTYuODU1bDEwMC4yMTMtMTAwLjIxICAgYzEuNzEzLTEuNzE0LDMuOTAzLTIuNTcsNi41NjctMi41N2MyLjY2NiwwLDQuODU2LDAuODU2LDYuNTY3LDIuNTdsMTAwLjQ5OSwxMDAuNDk1YzEuNzE0LDEuNzEyLDIuNTYyLDMuOTAxLDIuNTYyLDYuNTcxICAgQzM2NS40MzgsMjg1LjY5NiwzNjQuNTM1LDI4Ny44NDUsMzYyLjcyOSwyODkuNjQ4eiIgZmlsbD0iI2NlY2VjZSIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
     watchFilter: any;
     
     active: any;
     lastActive: any;
     name: string;
-    Notification: any;
+    // Notification: any;
     scope: any;
-    noImageUpload: any;
-    noFileUpload : any;
+    // noImageUpload: any;
+    // noFileUpload : any;
     columns: any;
     data :any;
     keys :any;
@@ -48,6 +50,7 @@ export class DataSet {
     observers :any;
     rowsPerPage :any;
     append :boolean;
+    preppend: boolean;
     headers :RequestOptions;
     responseHeaders :any;
     _activeValues :any;
@@ -72,7 +75,8 @@ export class DataSet {
     private loaded :any;
     private service: ServiceHttp;
 
-    constructor(name: string, entity: string, scope: any, private http: Http, private helperService: HelperServiceProvider) {
+    constructor(name: string, entity: string, scope: any, private http: Http, private helperService: HelperServiceProvider,
+                private notificationsService: NotificationsService) {
         // TODO: Adicionar o Notification (Peojeto geral) -> o maximo parecido possivel do angular 1.6 - ui-notification
         this.active = {};
         this.name = name;
@@ -80,10 +84,10 @@ export class DataSet {
         this.entityBase = entity;
 
         this.watchFilter = null;
-        this.Notification = Notification;
+        // this.Notification = Notification;
         this.scope = scope;
-        this.noImageUpload = this.NO_IMAGE_UPLOAD;
-        this.noFileUpload = this.NO_FILE_UPLOAD;
+        // this.noImageUpload = this.NO_IMAGE_UPLOAD;
+        // this.noFileUpload = this.NO_FILE_UPLOAD;
         this.columns = [];
         this.data = [];
         this.keys = [];
@@ -246,13 +250,13 @@ export class DataSet {
                         this.onError = func;
                     }
                 } catch (e) {
-                    // isValid = false;
-                    // Notification.error(e);
+                    // this.isValid = false;
+                    this.notificationsService.error(e);
                 }
             }
         } else {
             this.onError = function(error) {
-                // Notification.error(error);
+                this.notificationsService.error(error);
             };
         }
         this.onError.call(this, error);
@@ -323,8 +327,6 @@ export class DataSet {
     //     }.bind(this), true);
     //     }
     // }
-
-    //Public methods
 
     // this.setFile = function($file, object, field) {
     //     if ($file && $file.$error === 'pattern') {
@@ -635,6 +637,13 @@ export class DataSet {
     }
 
     refreshActive () {
+        // this.notificationsService.success(
+        //     'Success',
+        //     'Yeahhh successfull create notification'
+        // );
+        // this.notificationsService.error("erro kcete");
+        // this.notificationsService.success("vai buchecha!");
+
         if (this.active) {
             var keyObj = this.getKeyValues(this.active);
             var url = this.entity;
@@ -688,14 +697,14 @@ export class DataSet {
             returnValue.push(value[index]);
         });
         return returnValue;
-    };
+    }
 
     // Set this datasource back to the normal state
     onBackNomalState () {
         this.busy = false;
         this.editing = false;
         this.inserting = false;
-    };
+    }
 
     /**
      * Cancel the editing or inserting state
@@ -756,9 +765,9 @@ export class DataSet {
         this.synchronizeDependentDatasources();
     }
 
-    // /**
-    //  * Put the datasource into the editing state
-    //  */
+    /**
+     * Put the datasource into the editing state
+     */
     startEditing(item) {
         if (item) {
             this.active = this.copy(item, null);
@@ -861,7 +870,7 @@ export class DataSet {
                         // If it's the object we're loking for
                         // remove it from the array
                         this.data.splice(i, 1)
-                        this.active = (i > 0) ? this.data[i - 1] : null;
+                        this.active = (i > 0) ? this.data[i - 1] : {};
                     }
 
                     this.onBackNomalState();
@@ -920,12 +929,12 @@ export class DataSet {
         return true;
     }
 
-    // /**
-    //  * Check if the object has more itens to iterate
-    //  */
-    // this.hasNext = function() {
-    //     return this.data && (this.cursor < this.data.length - 1);
-    // };
+    /**
+     * Check if the object has more itens to iterate
+     */
+    hasNext () {
+        return this.data && (this.cursor < this.data.length - 1);
+    }
 
     /**
      * Check if the cursor is not at the beginning of the datasource
@@ -934,104 +943,82 @@ export class DataSet {
         return this.data && (this.cursor > 0);
     }
 
-    // /**
-    //  * Check if the object has more itens to iterate
-    //  */
-    // this.order = function(order) {
-    //     this._savedProps.order = order;
-    // };
-
-    // /**
-    //  * Get the values of the active row as an array.
-    //  * This method will ignore any keys and only return the values
-    //  */
-    // this.getActiveValues = function() {
-    //     if (this.active && !this._activeValues) {
-    //     $rootScope.$watch(function(scope) {
-    //             return this.active;
-    //         }.bind(this),
-    //         function(newValue, oldValue) {
-    //             this._activeValues = this.getRowValues(this.active);
-    //         }.bind(this), true);
-    //     }
-    //     return this._activeValues;
-    // }
-
-    // this.__defineGetter__('activeValues', function() {
-    //     return _self.getActiveValues();
-    // });
-
-    // /**
-    //  * Get the values of the given row
-    //  */
-    // this.getRowValues = function(rowData) {
-    //     var arr = [];
-    //     for (var i in rowData) {
-    //     if (rowData.hasOwnProperty(i)) {
-    //         arr.push(rowData[i]);
-    //     }
-    //     }
-    //     return arr;
-    // }
-
-    // /**
-    //  *  Get the current item moving the cursor to the next element
-    //  */
-    // this.next = function() {
-    //     if (!this.hasNext()) {
-    //     this.nextPage();
-    //     }
-    //     this.active = this.copy(this.data[++this.cursor], {});
-    //     return this.active;
-    // };
-
-    // /**
-    //  *  Try to fetch the previous page
-    //  */
-    nextPage () {
+    /**
+     * Get the values of the given row
+     */
+    getRowValues (rowData: any) {
+        var arr = [];
+        for (var i in rowData) {
+            if (rowData.hasOwnProperty(i)) {
+                arr.push(rowData[i]);
+            }
+        }
+        return arr;
     }
-    // this.nextPage = function() {
-    //     var resourceURL = (window.hostApp || "") + this.entity;
+
+    /**
+     *  Get the current item moving the cursor to the next element
+     */
+    next () {
+        if (!this.hasNext()) {
+            this.nextPage();
+        }
+        this.active = this.copy(this.data[++this.cursor], {});
+        return this.active;
+    }
+
+    /**
+     *  Try to fetch the next page
+     */
+    nextPage () {
         
-    //     if (!this.hasNextPage()) {
-    //     return;
-    //     }
-    //     if (this.apiVersion == 1 || resourceURL.indexOf('/cronapi/') == -1) {
-    //     this.offset = parseInt(this.offset) + parseInt(this.rowsPerPage);
-    //     } else {
-    //     this.offset = parseInt(this.offset) + 1;
-    //     }
-    //     this.fetch(this._savedProps, {
-    //     success: function(data) {
-    //         if (!data || data.length < parseInt(this.rowsPerPage)) {
-    //         if (this.apiVersion == 1 || resourceURL.indexOf('/cronapi/') == -1) {
-    //             this.offset = parseInt(this.offset) - this.data.length;
-    //         }
-    //         }
-    //     }
-    //     }, true);
-    // };
+        if (!this.hasNextPage()) {
+            return;
+        }
+        if (this.apiVersion == 1 || this.entity.indexOf('/cronapi/') == -1) {
+            this.offset = parseInt(this.offset) + parseInt(this.rowsPerPage);
+        } 
+        else {
+            this.offset = parseInt(this.offset) + 1;
+        }
+        this.fetch(
+            this._savedProps, 
+            {
+                success: function(data) {
+                    if (!data || data.length < parseInt(this.rowsPerPage)) {
+                        if (this.apiVersion == 1 || this.entity.indexOf('/cronapi/') == -1) {
+                            this.offset = parseInt(this.offset) - this.data.length;
+                        }
+                    }
+                }
+            }, 
+            true);
+    }
 
-    // /**
-    //  *  Try to fetch the previous page
-    //  */
-    // this.prevPage = function() {
-    //     if (!this.append && !this.preppend) {
-    //     this.offset = parseInt(this.offset) - this.data.length;
+    /**
+     *  Try to fetch the previous page
+     */
+    prevPage () {
+        if (!this.append && !this.preppend) {
+            this.offset = parseInt(this.offset) - this.data.length;
 
-    //     if (this.offset < 0) {
-    //         this.offset = 0;
-    //     } else if (this.offset >= 0) {
-    //         this.fetch(this._savedProps, {
-    //         success: function(data) {
-    //             if (!data || data.length === 0) {
-    //             this.offset = 0;
-    //             }
-    //         }
-    //         }, true);
-    //     }
-    //     }
-    // };
+            if (this.offset < 0) {
+                this.offset = 0;
+            } else if (this.offset >= 0) {
+                this.fetch(
+                    this._savedProps, 
+                    {
+                        success: function(data) {
+                            if (!data || data.length === 0) {
+                                this.offset = 0;
+                            }
+                        }
+                    }, 
+                    true
+                );
+            }
+        }
+    }
 
     /**
      *  Check if has more pages
@@ -1504,7 +1491,6 @@ export class DataSet {
      * Used to monitore the this datasource data for change (insertion and deletion)
      */
     startAutoPost () {
-        debugger;
         var data;
         this.dataWatchId = setInterval(function() {
             if (!data)
@@ -1526,7 +1512,6 @@ export class DataSet {
      * Unregister the data watcher
      */
     stopAutoPost() {
-        debugger;
         // Unregister any defined watcher on data variable
         if (this.unregisterDataWatch) {
             this.unregisterDataWatch();

@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-// import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
   template: `
           <div>
-            <!--<router-outlet></router-outlet>-->
+            <simple-notifications></simple-notifications>        
             <ui-view></ui-view>                
           </div>`
 })
 export class AppComponent {
   title = 'app';
 
-  constructor(/*private router: Router,*/ translate: TranslateService) {
+  constructor(translate: TranslateService) {
     
     translate.addLangs(["pt_br", "en_us"]);
     translate.setDefaultLang('pt_br');
@@ -25,6 +24,6 @@ export class AppComponent {
   }
   
   ngOnInit() {
-    // this.router.navigate(['/home']);
+
   }
 }

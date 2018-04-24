@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=5,9,10,11;Edge">
   <!-- CSS -->
-  <link rel="stylesheet" href="plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
+  <!--<link rel="stylesheet" href="plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"> ADDED IN ANGULAR-CLI-->
   <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
   <!--<link rel="stylesheet" href="plugins/angular-ui-select/dist/select.min.css">-->
   <link rel="stylesheet" href="plugins/cronapp-framework-js/dist/css/cronos.css">
@@ -24,6 +24,11 @@
 <body>
 <app-root>
 </app-root>
+<!--<script src="plugins/jquery/dist/jquery.min.js"></script> ADDED IN ANGULAR-CLI-->
+<!--<script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script> ADDED IN ANGULAR-CLI-->
+<!--<script src="plugins/moment/min/moment-with-locales.min.js"></script> ADDED IN ANGULAR-CLI-->
+<!--<script src="plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script> ADDED IN ANGULAR-CLI-->
+
 </body>
 <script src="plugins/jquery/dist/jquery.min.js"></script>
 <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -36,6 +41,7 @@
 <script type="text/javascript" src="plugins/cronapp-framework-angular/dist/styles.bundle.js"></script>
 <script type="text/javascript" src="plugins/cronapp-framework-angular/dist/vendor.bundle.js"></script>
 <script type="text/javascript" src="plugins/cronapp-framework-angular/dist/main.bundle.js"></script>
+<script type="text/javascript" src="plugins/cronapp-framework-angular/dist/scripts.bundle.js"></script>
 
 <!-- revisar os includes do js -->
 <!--<div id="modalTemplateContext" ng-include="'plugins/cronapi-js/include/modal.view.html'"></div>-->
@@ -56,39 +62,39 @@
 <!--<script src="plugins/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>-->
 <!--<script src="plugins/angular-ui-select/dist/select.min.js"></script>-->
 <!--<script src="plugins/ui-select-infinity/lib/index.js"></script>-->
-<script src="plugins/raphael/raphael-min.js"></script>
+<!--<script src="plugins/raphael/raphael-min.js"></script> ADDED IN ANGULAR-CLI -->
 <!--<script src="plugins/justgage-toorshia/justgage.js"></script>-->
-<!--<script src="plugins/angular-justgage/ng-justgage.js"></script>-->
-<!--<script src="plugins/angular-translate/angular-translate.min.js"></script>-->
-<!--<script src="plugins/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>-->
-<!--<script src="plugins/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script>-->
-<!--<script src="plugins/angular-translate-storage-local/angular-translate-storage-local.min.js"></script>-->
-<!--<script src="plugins/angular-translate-handler-log/angular-translate-handler-log.min.js"></script>-->
-<!--<script src="plugins/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>-->
-<!--<script src="plugins/angular-ui-notification/dist/angular-ui-notification.min.js"></script>-->
+<!--<script src="plugins/angular-justgage/ng-justgage.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-translate/angular-translate.min.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-translate-storage-cookie/angular-translate-storage-cookie.min.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-translate-storage-local/angular-translate-storage-local.min.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-translate-handler-log/angular-translate-handler-log.min.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script> ADDED NATIVE ANGULAR 5-->
+<!--<script src="plugins/angular-ui-notification/dist/angular-ui-notification.min.js"></script> ADDED NATIVE ANGULAR 5-->
 <!--<script src="plugins/ng-file-upload/ng-file-upload.min.js"></script>-->
 <!--<script src="plugins/cpf_cnpj/build/cpf.js"></script>-->
 <!--<script src="plugins/cpf_cnpj/build/cnpj.js"></script>-->
-<script src="js/blockly.js"></script>
-<script src="plugins/cronapi-js/dist/cronapi.min.js"></script>
+<script src="js/blockly.js"></script> <!-- NAO DA PRA ADICIONAR NO ANGULUAR-CLI, GERADO DINAMICAMENTE -->
+<!--<script src="plugins/cronapi-js/dist/cronapi.min.js"></script>-->
 <!-- Custom -->
 <script src="js/events.js"></script>
 <!-- CronApp Framework -->
-<!--<script src="plugins/cronapp-framework-js/dist/js/app.authentication.js"></script>-->
-<!--<script src="plugins/cronapp-framework-js/dist/js/controllers.authentication.js"></script>-->
+<!--<script src="plugins/cronapp-framework-js/dist/js/app.authentication.js"></script> IMPLMENTED ANGULAR 5 -->
+<!--<script src="plugins/cronapp-framework-js/dist/js/controllers.authentication.js"></script> IMPLMENTED ANGULAR 5-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/services.js"></script>-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/LocaleService.js"></script>-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/LanguageSelectDirective.js"></script>-->
-<!--<script src="plugins/cronapp-framework-js/dist/js/directives.js"></script>-->
+<!--<script src="plugins/cronapp-framework-js/dist/js/directives.js"></script> WILL BE IMPLMENTED ANGULAR 5-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/filters.js"></script>-->
-<!--<script src="plugins/cronapp-framework-js/dist/components/js/datasource.js"></script>-->
+<!--<script src="plugins/cronapp-framework-js/dist/components/js/datasource.js"></script> IMPLMENTED ANGULAR 5-->
 <!-- CronApp Reports -->
 <!--<script src="plugins/cronapp-framework-js/dist/js/reports/parameters.controller.js"></script>-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/reports/reports.service.js"></script>-->
 <!-- Custom Controllers -->
 <!--<script src="js/custom.controllers.js"></script>-->
-<script src="plugins/cronapp-framework-js/dist/components/js/jquery.mask.min.js"></script>
-<script src="plugins/cronapp-framework-js/dist/components/js/jquery.inputmask.bundle.js"></script>
+<!--<script src="plugins/cronapp-framework-js/dist/components/js/jquery.mask.min.js"></script> ADDED IN ANGULAR CLI-->
+<!--<script src="plugins/cronapp-framework-js/dist/components/js/jquery.inputmask.bundle.js"></script> ADDED IN ANGULAR CLI-->
 <!--<script src="plugins/cronapp-framework-js/dist/js/upload.service.js"></script>-->
 <!--<script src="plugins/cronapp-framework-js/dist/components/js/format.min.js"></script>-->
 <!--<script src="js/system-events.js"></script>-->

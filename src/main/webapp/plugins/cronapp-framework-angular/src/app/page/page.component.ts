@@ -2,7 +2,6 @@ import { Component, OnInit, Injector, ViewChild, NgModule, NgModuleRef, ViewCont
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
-// import { HelperServiceProvider } from '../../providers/helper-service/helper-service';
 import { Transition } from '@uirouter/core';
 import { ComponentServiceProvider } from '../../providers/component-service/component-service';
 

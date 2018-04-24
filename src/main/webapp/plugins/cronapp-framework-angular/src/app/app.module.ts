@@ -8,42 +8,21 @@ import { TestComponentComponent } from './test-component/test-component.componen
 import { HttpModule } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppCustomModule } from './app.custom.module';
-// import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 import {UIRouterModule} from "@uirouter/angular";
 import { AppRoutingModule } from './app-routing.module';
 import { HelperServiceProvider } from '../providers/helper-service/helper-service';
 import { CommonVariableProvider } from '../providers/common-variable/common-variable';
 import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
-// import { DatasourceDirective } from './datasource.directive';
 import { ComponentServiceProvider } from '../providers/component-service/component-service';
-// import { DatasourceManagerProvider } from '../providers/datasource-manager/datasource-manager';
-// import { DatasourceDirective } from './datasource.directive';
+import { SimpleNotificationsModule, optionsFactory } from 'angular2-notifications';
+// import { AngularFontAwesomeModule } from 'angular-font-awesome';
+// import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
-// const appRoutes:Routes = [
-//   {
-//     path: 'home',
-//     component: HomeComponent
-//   },
-//   {
-//     path: '',
-//     component: HomeComponent
-//   },
-//   {
-//     path: 'login',
-//     component: LoginComponent,
-//   },
-//   {
-//     path: 'home/:folder/:page',
-//     component: PageComponent,
-//   },
-//   {
-//     path: 'test',
-//     component: TestComponentComponent,
-//   }
 
-// ]
+// library.add(faCoffee);
 
 @NgModule({
   
@@ -53,14 +32,27 @@ import { ComponentServiceProvider } from '../providers/component-service/compone
     PageComponent,
     LoginComponent,
     TestComponentComponent,
-    // DatasourceDirective
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     HttpClientModule,
     HttpModule,
+    // AngularFontAwesomeModule,
+    // FontAwesomeModule,
     AppCustomModule,
+    SimpleNotificationsModule.forRoot(
+      optionsFactory( 
+        {
+          timeOut: 5000,
+          showProgressBar: true,
+          pauseOnHover: true,
+          clickToClose: true,
+          maxLength: 50,
+          position: ["top", "right"]
+        }
+      )
+    )
   ],
   providers: [
     HomeComponent, 
@@ -69,11 +61,9 @@ import { ComponentServiceProvider } from '../providers/component-service/compone
     HelperServiceProvider,
     CommonVariableProvider,
     DatasourceManagerProvider,
-    ComponentServiceProvider
+    ComponentServiceProvider,
   ],
   exports: [
-    // TranslateModule
-    // DatasourceDirective
   ],
   bootstrap: [AppComponent]
 })
