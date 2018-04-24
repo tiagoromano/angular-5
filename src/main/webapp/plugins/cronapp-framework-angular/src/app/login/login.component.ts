@@ -4,13 +4,13 @@ import { HelperServiceProvider } from '../../providers/helper-service/helper-ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { PageComponent } from '../page/page.component';
-import { ImportClass } from '../common/import-class.component';
 import { RequestOptions, Headers, Http } from '@angular/http';
 import { CommonVariableProvider } from '../../providers/common-variable/common-variable';
 import { StateService } from '@uirouter/core';
 import { ComponentServiceProvider } from '../../providers/component-service/component-service';
 import { RequestArgs } from '../../providers/helper-service/request-args';
 import { NotificationsService } from 'angular2-notifications';
+import { BaseComponent } from '../../common/base-component.component';
 
 @Component({
   selector: 'app-login',
@@ -31,32 +31,16 @@ export class LoginComponent implements OnInit {
     this.httpService.get('../../../views/login.view.html', {responseType: 'text'}).subscribe(
       viewContent => {
         
-        var contextClass = class extends ImportClass {
+        var contextClass = class extends BaseComponent {
 
-          vars: any;
           message: any;
           username: any;
           password: any;
-          http: Http;
-          helperService: HelperServiceProvider;
-          commonVariable: CommonVariableProvider;
-          stateService: StateService;
-          notificationsService: NotificationsService;
-          translate: TranslateService;
           
-          
-          initialize(translate: TranslateService, translateModule: TranslateModule, http: Http, helperService: HelperServiceProvider, 
-            commonVariable: CommonVariableProvider, httpService: HttpClient, stateService: StateService, notificationsService: NotificationsService): void {
-            this.vars = {};
+          initialize(): void {
             this.message = { error: ""};
             this.username = {value: "" };
             this.password = { value: ""};
-            this.http = http;
-            this.helperService = helperService;
-            this.commonVariable = commonVariable;
-            this.stateService = stateService;
-            this.notificationsService = notificationsService;
-            this.translate = translate;
           }
 
           login(user, password, token) {

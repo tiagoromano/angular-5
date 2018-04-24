@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
-// import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
-// import * as cronapi from "../../../cronapi-js/cronapi.js";
 
 @Component({
   selector: 'app-root',
   template: `
           <div>
-            <!--<router-outlet></router-outlet>-->    
             <simple-notifications></simple-notifications>        
             <ui-view></ui-view>                
           </div>`
@@ -16,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent {
   title = 'app';
 
-  constructor(/*private router: Router,*/ translate: TranslateService) {
+  constructor(translate: TranslateService) {
     
     translate.addLangs(["pt_br", "en_us"]);
     translate.setDefaultLang('pt_br');
@@ -28,6 +24,6 @@ export class AppComponent {
   }
   
   ngOnInit() {
-    // this.router.navigate(['/home']);
+
   }
 }

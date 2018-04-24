@@ -3,6 +3,7 @@ import { HelperServiceProvider } from "../helper-service/helper-service";
 import { ServiceHttp } from "./service-http";
 import { RequestArgs } from "../helper-service/request-args";
 import { NotificationsService , SimpleNotificationsModule} from "angular2-notifications";
+// import * as $ from 'jquery';
 
 declare var $ :any;
 export class DataSet {
@@ -642,6 +643,7 @@ export class DataSet {
         // );
         // this.notificationsService.error("erro kcete");
         // this.notificationsService.success("vai buchecha!");
+
         if (this.active) {
             var keyObj = this.getKeyValues(this.active);
             var url = this.entity;

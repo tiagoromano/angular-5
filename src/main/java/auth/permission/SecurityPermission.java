@@ -16,7 +16,10 @@ public class SecurityPermission implements Permission {
     // public
     http.authorizeRequests().antMatchers("/auth/**").permitAll();	
     http.authorizeRequests().antMatchers("/index.html").permitAll();
-    
+    http.authorizeRequests().antMatchers("/index.html").permitAll();
+    http.authorizeRequests().antMatchers("/fontawesome-webfont**").permitAll();
+
+
     http.authorizeRequests().antMatchers("/favicon.ico").permitAll();
     http.authorizeRequests().antMatchers("/public/**").permitAll();
     http.authorizeRequests().antMatchers("/plugins/**").permitAll();

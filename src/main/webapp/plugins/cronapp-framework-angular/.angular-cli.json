@@ -21,7 +21,15 @@
         "styles.css"
       ],
       "scripts": [        
-        "../../cronapi-js/cronapi.js"
+        "../../cronapi-js/cronapi.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.min.js",
+        "../node_modules/moment/min/moment-with-locales.min.js",
+        "../node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
+        "../node_modules/raphael/raphael-min.js",
+        "../node_modules/jquery-mask-plugin/dist/jquery.mask.min.js",
+        "../node_modules/jquery.inputmask/dist/jquery.inputmask.bundle.js"
+        
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -30,6 +38,10 @@
       }
     }
   ],
+  
+   "addons": [
+     "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
+   ],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"

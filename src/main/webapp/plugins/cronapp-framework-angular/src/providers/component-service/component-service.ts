@@ -2,6 +2,7 @@ import {Injectable, Component, NgModule, Compiler, Injector, NgModuleRef, NO_ERR
 import { TranslateService } from '@ngx-translate/core';
 import { ngModuleJitUrl } from "@angular/compiler";
 import { AppCustomModule } from "../../app/app.custom.module";
+import { BaseComponent } from "../../common/base-component.component";
 
 
 @Injectable()
@@ -287,19 +288,20 @@ export class ComponentServiceProvider {
     }
 
     createDynamicComponent(viewChild: any, viewContent:any) {
+        
         viewContent = this.parseAttributesAngular5(viewContent);
+        
+        var contextClass = class extends BaseComponent {
+            initialize(): void {
+            }
+        }
+
         const tmpCmp = Component({
             moduleId: this.uniqueId(),
             template: viewContent
             })
             (
-                class {                    
-                    //TODO: Adicionar nesse Componente dinamico as dependencias, cronapi... userEvents... (NgModule - abaixo)
-                    vars: any;
-                    constructor () {
-                        this.vars = {};
-                    }
-                }
+                contextClass
             );
             const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule], schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]})(class {});
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)

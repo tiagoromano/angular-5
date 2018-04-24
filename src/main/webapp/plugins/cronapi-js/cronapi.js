@@ -1,8 +1,11 @@
-alert('oi');
 (function() {
   'use strict';
 
   this.cronapi = {};
+
+  this.cronapi.test = function() {
+    console.log('teste');
+  }
 
   this.cronapi.doEval = function(arg) {
     return arg;
