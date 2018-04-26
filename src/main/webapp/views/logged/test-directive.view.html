@@ -36,20 +36,18 @@
 
           <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-249449">
             <div class="form-group">
-              <label for="lista">Ramo Atividade</label>
-              <ui-select
+              <label for="lista">Ramo Atividade (Simple Select) </label>
+              <ui-select id="lista"
                   crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
                   [(ngModel)]="ramoAtividadeModel"
                   ng-required="false"
                   ng-disabled="disabled"
                   class="crn-select"
-                  id="ramoAtividade"
                   name="ramoAtividade"
                   #ramoAtividade>
                 <ui-select-match placeholder="Select..." class="">
-
                 </ui-select-match>
-                <ui-select-choices repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
+                <ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
                   <div class=""></div>
                 </ui-select-choices>
               </ui-select>
@@ -58,11 +56,11 @@
 
           <div id="crn-combo-box" class="col-md-6">
             <div class="form-group">
-              <label for="textinput-ramo2" class="">Valida ComboBox</label>
+              <label for="textinput-ramo2" class="">Valida ComboBox (Simple Select)</label>
               <input
+                  id="textinput-ramo2"
                   type="text"
                   class="form-control"
-                  id="textinput-ramo2"
                   name="nome"
                   [(ngModel)]="ramoAtividadeModel">
             </div>

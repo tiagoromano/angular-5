@@ -15,7 +15,10 @@ import { MaskDateDirective } from '../directives/mask/mask-date.directive';
 import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
-import { UiSelectDirective } from '../directives/select/ui-select.directive';
+import { UiSelectComponent } from '../directives/select/ui-select.component';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
+import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -40,7 +43,7 @@ export function createTranslateLoader(http: HttpClient) {
         CronValidDirective,
         MaskDateDirective,
         CronMaskDateDirective,
-        UiSelectDirective
+        UiSelectComponent
     ],
     imports: [
         TranslateModule.forRoot({
@@ -65,8 +68,7 @@ export function createTranslateLoader(http: HttpClient) {
         ValidDirective,
         CronValidDirective,
         MaskDateDirective,
-        CronMaskDateDirective,
-        UiSelectDirective
+        CronMaskDateDirective
     ],
     providers: [
 
@@ -74,7 +76,7 @@ export function createTranslateLoader(http: HttpClient) {
         // CommonVariableProvider,
         // DatasourceManagerProvider
     ],
-    bootstrap: [],
+    bootstrap: []
 })
 
 export class AppCustomModule {
