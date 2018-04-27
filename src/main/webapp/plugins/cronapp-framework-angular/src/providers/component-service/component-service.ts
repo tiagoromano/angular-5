@@ -306,11 +306,7 @@ export class ComponentServiceProvider {
             const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule], schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]})(class {});
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
             .then((factories) => {
-                const f = factories.componentFactories[0];
-                const cmpRef = f.create(this._injector, [], null, this._m);
-                cmpRef.instance.name = 'dynamic';
-                viewChild.remove(0);
-                viewChild.insert(cmpRef.hostView);
+                this.buildFactory(viewChild, factories);
             });
     }
 
@@ -326,12 +322,19 @@ export class ComponentServiceProvider {
             const tmpModule = NgModule({declarations: [tmpCmp], imports: [AppCustomModule], schemas:[NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]})(contextClass);
             this._compiler.compileModuleAndAllComponentsAsync(tmpModule)
             .then((factories) => {
-                const f = factories.componentFactories[0];
-                const cmpRef = f.create(this._injector, [], null, this._m);
+                this.buildFactory(viewChild, factories)
+            });
+    }
+
+    buildFactory(viewChild: any, factories: any) {
+        factories.componentFactories.forEach((factory) =>{
+            if ((factory) && (factory.selector != null) && (factory.selector == 'ng-component')) {
+                const cmpRef = factory.create(this._injector, [], null, this._m);
                 cmpRef.instance.name = 'dynamic';
                 viewChild.remove(0);
                 viewChild.insert(cmpRef.hostView);
-            });
+            }
+        })
     }
 
 }

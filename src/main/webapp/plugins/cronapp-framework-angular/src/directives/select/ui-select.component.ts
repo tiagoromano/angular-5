@@ -1,21 +1,16 @@
 import { 
   Component, 
-  NgModule,
   OnInit,
-  ViewChild,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  Inject,
   ElementRef,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
   Input,
-  forwardRef
+  forwardRef,
+  ViewChild,
+  ContentChild
 } from '@angular/core'
 
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
+import { UiSelectMatchComponent } from './ui-select-match.component';
 
 declare var $: any;
 
@@ -43,6 +38,10 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
   
   @Input() public placeholder: string;
 
+  @Input() public textField: string;
+  
+  @Input() public valueField: string;
+  
   constructor(private element: ElementRef) {
     super();
   }
@@ -50,12 +49,13 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
   ngOnInit() { 
     debugger;
     let $element = $(this.element.nativeElement);   
-    this.items = this.getCronDataSource(this.element);
+    this.items = this.buildCronDataSource(this.element);
     if (this.items != null) {
       this.dataSource = this.items.slice();
     }
-    this.switchComboBox(this.element);
-    this.buildPlaceholder($element);
+    this.switchDropDowns(this.element);
+    this.extractValueAndPlaceholder($element);
+    this.extractValue($element);
   }
 
   handleFilter(value): void {
@@ -66,7 +66,7 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
     this.value = value;
   }
 
-  switchComboBox(element): void {
+  switchDropDowns(element): void {
     this.multiple = false;
     const multiselect = element.nativeElement.getAttribute('multiple');
     if (multiselect != undefined && this.multiple != null){
@@ -74,7 +74,7 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
     }
   }
 
-  getCronDataSource(element): any {
+  buildCronDataSource(element): any {
     const crnDatasource = element.nativeElement.getAttribute('crn-datasource');
     if (crnDatasource != null) { 
       var newCrnDatasource = crnDatasource.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
@@ -85,12 +85,22 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
     }
   }
 
-  buildPlaceholder($element): void {
+  extractValueAndPlaceholder($element): void {
     const selectMatch = $element.find('ui-select-match');
 
     if (selectMatch != null) {
       this.placeholder = $(selectMatch).attr('placeholder');
+      const val = selectMatch.text();
+      selectMatch.remove();
     } 
   }
 
+  extractValue($element) {
+    const selectChoices = $element.find('ui-select-choices');
+
+    if (selectChoices != null) {
+      const val = selectChoices.text();
+      selectChoices.remove();
+    }    
+  }
 }

@@ -46,9 +46,10 @@
                   name="ramoAtividade"
                   #ramoAtividade>
                 <ui-select-match placeholder="Select..." class="">
+                  $select.selected.value
                 </ui-select-match>
                 <ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
-                  <div class=""></div>
+                  <div class="">rowData.value</div>
                 </ui-select-choices>
               </ui-select>
             </div>
@@ -62,7 +63,40 @@
                   type="text"
                   class="form-control"
                   name="nome"
-                  [(ngModel)]="ramoAtividadeModel">
+                  value="{{ramoAtividadeModel | json}}">
+            </div>
+          </div>
+
+          <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-56565">
+            <div class="form-group">
+              <label for="lista3">Ramo Atividade (MultiSelect) </label>
+              <ui-select id="lista3" multiple
+                         crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
+                         [(ngModel)]="ramoAtividadeModel2"
+                         ng-required="false"
+                         ng-disabled="disabled"
+                         class="crn-select"
+                         name="ramoAtividade"
+                         #ramoAtividade>
+                <ui-select-match placeholder="Select..." class="">
+                  $select.selected.value
+                </ui-select-match>
+                <ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
+                  <div class="">rowData.value</div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div id="crn-combo-box4" class="col-md-6">
+            <div class="form-group">
+              <label for="textinput-ramo4" class="">Valida ComboBox (MultiSelect)</label>
+              <input
+                  id="textinput-ramo4"
+                  type="text"
+                  class="form-control"
+                  name="ramoAtividade4"
+                  value="{{ramoAtividadeModel2 | json}}">
             </div>
           </div>
 
@@ -71,7 +105,7 @@
               <label for="cadastro" class="">Cadastro</label>
               <input class="form-control"
                    type="date"
-                   mask="DD/MM/YYYY HH:mm:ss"
+                   mask="DD/MM/YYYY"
                    id="cadastro"
                    name="cadastro"
                    [(ngModel)]="cadastroModel"

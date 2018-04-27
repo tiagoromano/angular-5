@@ -2,8 +2,8 @@
         *ngIf="multiple" 
         #list
         [data]="items"
-        [textField]="'value'"
-        [valueField]="'key'"
+        [textField]="textField"
+        [valueField]="valueField"
         [filterable]="true"
         [placeholder]="placeholder"
         [(ngModel)]="selectedItem"
@@ -13,11 +13,12 @@
     <kendo-combobox 
         *ngIf="!multiple" 
         [data]="items"
-        [textField]="'value'"
-        [valueField]="'key'"
+        [textField]="textField"
+        [valueField]="valueField"
         [filterable]="true"
         [placeholder]="placeholder"
         [(ngModel)]="selectedItem"
         (filterChange)="handleFilter($event)"
         (valueChange)="handleChangeItem($event)">
     </kendo-combobox>
+    <ng-content></ng-content>

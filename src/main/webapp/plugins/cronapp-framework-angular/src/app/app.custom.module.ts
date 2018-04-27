@@ -17,8 +17,8 @@ import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 import { UiSelectComponent } from '../directives/select/ui-select.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-import { ComboBoxComponent } from '@progress/kendo-angular-dropdowns';
-import { MultiSelectComponent } from '@progress/kendo-angular-dropdowns';
+// import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
+// import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -55,7 +55,8 @@ export function createTranslateLoader(http: HttpClient) {
         }),
         FormsModule,
         BrowserModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        DropDownsModule
     ],
     exports: [
         TranslateModule,
@@ -68,7 +69,9 @@ export function createTranslateLoader(http: HttpClient) {
         ValidDirective,
         CronValidDirective,
         MaskDateDirective,
-        CronMaskDateDirective
+        CronMaskDateDirective,
+        DropDownsModule,
+        UiSelectComponent
     ],
     providers: [
 
