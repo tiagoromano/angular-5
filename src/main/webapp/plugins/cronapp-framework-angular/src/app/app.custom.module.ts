@@ -16,6 +16,7 @@ import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directi
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 import { UiSelectComponent } from '../directives/select/ui-select.component';
+import { CronSelectComponent } from '../directives/select/cron-select.component';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 // import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
 // import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
@@ -43,7 +44,8 @@ export function createTranslateLoader(http: HttpClient) {
         CronValidDirective,
         MaskDateDirective,
         CronMaskDateDirective,
-        UiSelectComponent
+        UiSelectComponent,
+        CronSelectComponent
     ],
     imports: [
         TranslateModule.forRoot({
@@ -71,7 +73,8 @@ export function createTranslateLoader(http: HttpClient) {
         MaskDateDirective,
         CronMaskDateDirective,
         DropDownsModule,
-        UiSelectComponent
+        UiSelectComponent,
+        CronSelectComponent
     ],
     providers: [
 
