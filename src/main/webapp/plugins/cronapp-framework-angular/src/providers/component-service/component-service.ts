@@ -12,6 +12,7 @@ export class ComponentServiceProvider {
     readonly ANGULAR_SET_FROM_ATTR: string = "angularFromAttr";
     readonly MODIFY_SINTAX: string = "modifySintax";
     readonly COPY_ATTR_TO_ANOTHER: string = "copyAttrToAnother"
+    readonly REPLACE_CONTENT_TAG: string = "replaceContentTag"
     private attributesToReplace : Map<string, string> = new Map<string, string>();
     private complexAttributes : any = [];
 
@@ -59,6 +60,9 @@ export class ComponentServiceProvider {
 
         this.complexAttributes.push( {type: this.MODIFY_SINTAX, attrOrign: "ng-show", attrDest: "[hidden]", wrapContent: "!({content})"} );
 
+        //Mudar conteúdo das tags
+        this.complexAttributes.push( {type: this.REPLACE_CONTENT_TAG, tag: "ui-select", oldContent: "{{", newContent: ""} );
+        this.complexAttributes.push( {type: this.REPLACE_CONTENT_TAG, tag: "ui-select", oldContent: "}}", newContent: ""} );
     }
 
     private getAttributes(element: string) {
@@ -207,6 +211,7 @@ export class ComponentServiceProvider {
         var tags = this.getTagsHtml(viewContent);
         // let tagsToReplace: Map<string, string> = new Map<string, string>();
         let tagsToReplace: any = [];
+        let tagsToReplaceContent: any = [];
 
         for (var i = 0; i < tags.length; i++) {
             var hasReplacement = false;
@@ -219,7 +224,12 @@ export class ComponentServiceProvider {
                 }
             });
             this.complexAttributes.forEach((cpxAttr) => {
-                if (cpxAttr.type == this.SET_IN_TAG) {
+                if (cpxAttr.type == this.REPLACE_CONTENT_TAG) {
+                    if ((cpxAttr.tag) && (tags[i].name == cpxAttr.tag)) {
+                        tagsToReplaceContent.push({key: tags[i].raw, tag: tags[i].name, oldContent: cpxAttr.oldContent, newContent: cpxAttr.newContent});
+                    }
+                }
+                else if (cpxAttr.type == this.SET_IN_TAG) {
                     if ((cpxAttr.tag) && (tags[i].name == cpxAttr.tag)) {
                         hasReplacement = true;
                         tagRawReplaced = tagRawReplaced.split('<' + tags[i].name).join('<' + tags[i].name + ' ' + cpxAttr.attributeToSet);
@@ -273,6 +283,21 @@ export class ComponentServiceProvider {
             if (hasReplacement)
                 tagsToReplace.push({ key: tags[i].raw, value: tagRawReplaced});
         }
+
+        tagsToReplaceContent.forEach((replaceContent) => {
+            const indexOfKey = viewContent.indexOf(replaceContent.key);
+            const indexOfStartContent = indexOfKey + replaceContent.key.length;
+            const endTag = '</'+replaceContent.tag+'>';
+            if (replaceContent.key != endTag) {
+                const indexOfEndContent = viewContent.indexOf(endTag, indexOfKey);
+                let content = viewContent.substring(indexOfStartContent, indexOfEndContent);
+                var leftContent = viewContent.substr(0, indexOfStartContent);
+                var rightContent = viewContent.substring(indexOfEndContent);
+                content = content.replace(new RegExp(replaceContent.oldContent, 'g'), replaceContent.newContent);
+                viewContent = leftContent + content + rightContent;
+            }
+        });
+
         tagsToReplace.forEach((replacement) => {
             var indexOfKey = viewContent.indexOf(replacement.key);
             var lengthKey = replacement.key.length;
@@ -280,6 +305,7 @@ export class ComponentServiceProvider {
             var rightContent = viewContent.substr(indexOfKey + lengthKey);
             viewContent = leftContent + replacement.value + rightContent;
         });
+
         return viewContent;
     }
 

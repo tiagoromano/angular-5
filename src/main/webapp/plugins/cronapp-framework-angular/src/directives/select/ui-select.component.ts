@@ -10,7 +10,6 @@ import {
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
-import { UiSelectMatchComponent } from './ui-select-match.component';
 
 declare var $: any;
 
@@ -29,6 +28,8 @@ const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
 export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements OnInit {
 
   private items: any;
+
+  private fixedItems: boolean;
 
   private dataSource: any;
 
@@ -54,8 +55,9 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
       this.dataSource = this.items.slice();
     }
     this.switchDropDowns(this.element);
-    this.extractValueAndPlaceholder($element);
-    this.extractValue($element);
+    this.extractPlaceholder($element);
+    this.extractTextField($element);
+    this.valueField = "key";
   }
 
   handleFilter(value): void {
@@ -77,29 +79,35 @@ export class UiSelectComponent extends CrontrolValueAccessorBase<any> implements
   buildCronDataSource(element): any {
     const crnDatasource = element.nativeElement.getAttribute('crn-datasource');
     if (crnDatasource != null) { 
-      var newCrnDatasource = crnDatasource.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
-      newCrnDatasource = newCrnDatasource.replace(/'/g, '"');
+      this.fixedItems = (Array.isArray(crnDatasource.split(',')));
+      var newCrnDatasource = crnDatasource;
+      if (this.fixedItems) { 
+        var newCrnDatasource = crnDatasource.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
+        newCrnDatasource = newCrnDatasource.replace(/'/g, '"');
+      }
       return JSON.parse(newCrnDatasource);
     } else {
       return null;
     }
   }
 
-  extractValueAndPlaceholder($element): void {
+  extractPlaceholder($element): void {
     const selectMatch = $element.find('ui-select-match');
 
-    if (selectMatch != null) {
+    if (selectMatch != null && this.placeholder == null) {
       this.placeholder = $(selectMatch).attr('placeholder');
-      const val = selectMatch.text();
       selectMatch.remove();
     } 
   }
 
-  extractValue($element) {
+  extractTextField($element) {
+    debugger;
     const selectChoices = $element.find('ui-select-choices');
 
     if (selectChoices != null) {
-      const val = selectChoices.text();
+      const value = selectChoices.text();
+      const field = value.trim().split('.'); 
+      this.textField = field[field.length - 1];
       selectChoices.remove();
     }    
   }

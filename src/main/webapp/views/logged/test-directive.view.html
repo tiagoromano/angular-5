@@ -36,22 +36,16 @@
 
           <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-249449">
             <div class="form-group">
-              <label for="lista">Ramo Atividade (Simple Select) </label>
+              <label for="lista">Ramo Atividade (Simple Select - Fixed Items) </label>
               <ui-select id="lista"
                   crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
+                  id="lista"
                   [(ngModel)]="ramoAtividadeModel"
                   ng-required="false"
                   ng-disabled="disabled"
                   class="crn-select"
                   name="ramoAtividade"
-                  #ramoAtividade>
-                <ui-select-match placeholder="Select..." class="">
-                  $select.selected.value
-                </ui-select-match>
-                <ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
-                  <div class="">rowData.value</div>
-                </ui-select-choices>
-              </ui-select>
+                  #ramoAtividade><ui-select-match placeholder="Select..." class="">{{$select.selected.value}}</ui-select-match><ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class=""><div class="">{{rowData.value}}</div></ui-select-choices></ui-select>
             </div>
           </div>
 
@@ -69,7 +63,7 @@
 
           <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-56565">
             <div class="form-group">
-              <label for="lista3">Ramo Atividade (MultiSelect) </label>
+              <label for="lista3">Ramo Atividade (MultiSelect  - Fixed Items) </label>
               <ui-select id="lista3" multiple
                          crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
                          [(ngModel)]="ramoAtividadeModel2"
@@ -79,10 +73,10 @@
                          name="ramoAtividade"
                          #ramoAtividade>
                 <ui-select-match placeholder="Select..." class="">
-                  $select.selected.value
+                  {{$select.selected.value}}
                 </ui-select-match>
                 <ui-select-choices  repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">
-                  <div class="">rowData.value</div>
+                  <div class="">{{rowData.value}}</div>
                 </ui-select-choices>
               </ui-select>
             </div>
@@ -102,7 +96,7 @@
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="cadastro" class="">Cadastro</label>
+              <label for="cadastro" class="">Data Simples</label>
               <input class="form-control"
                    type="date"
                    mask="DD/MM/YYYY"
@@ -115,7 +109,7 @@
           
           <div class="col-md-6">
             <div class="form-group">
-              <label for="nascimento2" class="">Cadastro 2</label>
+              <label for="nascimento2" class="">Valida Data Simples</label>
               <input class="form-control"
                    type="text"
                    mask=""
@@ -127,7 +121,7 @@
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="nascimento" class="">Nascimento</label>
+              <label for="nascimento" class="">DataTime</label>
               <input class="form-control"
                      type="date"
                      cron-as-date="DD/MM/YYYY HH:mm:ss"
@@ -140,7 +134,7 @@
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="nascimento2" class="">Nascimento 2</label>
+              <label for="nascimento2" class="">Valida DateTime</label>
               <input class="form-control"
                      type="text"
                      mask=""
