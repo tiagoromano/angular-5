@@ -18,6 +18,8 @@ const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
   multi: true
 };
 
+declare var $: any;
+
 @Component({
   selector: 'cron-select',
   templateUrl: './cron-select.component.html',

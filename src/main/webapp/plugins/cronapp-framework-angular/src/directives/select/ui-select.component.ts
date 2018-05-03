@@ -9,7 +9,6 @@ import {
 } from '@angular/core'
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
 import { CronAbstractSelect } from './cron-abstract-select';
 
 const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
@@ -21,8 +20,7 @@ const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'ui-select',
   templateUrl: './cron-select.component.html',
-  providers: [COMBOBOX_CONTROL_VALUE_ACCESSOR],
-
+  providers: [COMBOBOX_CONTROL_VALUE_ACCESSOR]
 })
 export class UiSelectComponent extends CronAbstractSelect implements OnInit {
   
@@ -46,8 +44,8 @@ export class UiSelectComponent extends CronAbstractSelect implements OnInit {
     } 
   }
 
+
   extractTextAndValueField($element) {
-    debugger;
     let selectChoices = $element.find('ui-select-choices');
 
     if (selectChoices != null) {
@@ -82,12 +80,12 @@ export class UiSelectComponent extends CronAbstractSelect implements OnInit {
         });
       }
 
-      if (this.valueField == null && this.fixedItems) {
-        this.valueField = 'key';
+      if (this.valueField == null) {
+        this.valueField = this.textField;
       }
 
       selectChoices.remove();
     }    
   }
-  
+
 }

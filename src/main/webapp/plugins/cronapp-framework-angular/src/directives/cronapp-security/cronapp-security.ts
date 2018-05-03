@@ -13,7 +13,7 @@ export class CronappSecurity {
   }
 
   constructor() {}
-  
+
   public initSecurity(common: CommonVariableProvider, element: ElementRef, renderer: Renderer, directiveValue) {
     var perms = this.permissionSecurity;
     var roles = [];

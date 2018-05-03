@@ -181,9 +181,26 @@
             <!--<ui-select crn-datasource="AllRoles" ng-model="RoleGrid.active" ng-disabled="disabled" theme="bootstrap" class="crn-select" ng-required="false"><ui-select-match placeholder="Select..." class="">{{$select.selected.name}}</ui-select-match><ui-select-choices repeat="rowData as rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay=""><div class="">{{rowData.name}}</div></ui-select-choices></ui-select>-->
           </div>
 
-          <select ng-model="RoleGrid.active">
-            <option *ngFor="let oo of AllRoles.data" [value]="oo">{{oo.name}}</option>
-          </select>
+          <!--<select ng-model="RoleGrid.active">-->
+            <!--<option *ngFor="let oo of AllRoles.data" [value]="oo">{{oo.name}}</option>-->
+          <!--</select>-->
+
+          <ui-select crn-datasource="AllRoles.data"
+                     [(ngModel)]="RoleGrid.active"
+                     ng-disabled="disabled"
+                     theme="bootstrap"
+                     class="crn-select"
+                     name="regras"
+                     ng-required="false">
+            <ui-select-match placeholder="Select..." class="">
+              {{$select.selected.name}}
+            </ui-select-match>
+            <ui-select-choices repeat="rowData as rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay="">
+              <div class="">
+                {{rowData.name}}
+              </div>
+            </ui-select-choices>
+          </ui-select>
 
           </div>
         </div>

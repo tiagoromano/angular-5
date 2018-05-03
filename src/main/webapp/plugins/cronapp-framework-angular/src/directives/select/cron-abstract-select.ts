@@ -1,75 +1,81 @@
-import { 
-  Component, 
+import {
+  Component,
   OnInit,
   ElementRef,
-  Input,
-  forwardRef,
-  ViewChild,
-  ContentChild
+  Input
 } from '@angular/core'
 
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
 
 declare var $: any;
 
-export class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
-
-  protected items: any;
-
-  protected dataSource: any;
+export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
 
   protected selectedItem: any;
 
   protected fixedItems : boolean;
-  
-  @Input() public multiple: boolean;
-  
-  @Input() public placeholder: string;
 
-  @Input() public textField: string;
+  protected dataSource: any;
   
-  @Input() public valueField: string;
-  
+  @Input('multiple') public multiple: boolean;
+
+  @Input('placeholder') public placeholder: string;
+
+  @Input('textField') public textField: string;
+
+  @Input('valueField') public valueField: string;
+
+  @Input('class') public clazz: string;
+
+  @Input('style') public style: string;
+
+  @Input('data') public data: any;
+
   constructor(protected element: ElementRef) {
     super();
   }
 
-  ngOnInit() { 
-    let $element = $(this.element.nativeElement);   
-    this.items = this.buildCronDataSource(this.element);
-    if (this.items != null) {
-      this.dataSource = this.items.slice();
+  ngOnInit() {
+    debugger;
+    const $element = $(this.element.nativeElement);
+    this.data = this.buildCronDataSource(this.element);
+
+    if (this.data != null) {
+      this.dataSource = this.data.slice();
     }
+
     this.switchDropDowns(this.element);
+    this.setStyleAndClasses(this.element);
   }
 
   handleFilter(value): void {
-    this.items = this.dataSource.filter((item) => item.value.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    this.data = this.dataSource.filter((item) => item.value.toLowerCase().indexOf(value.toLowerCase()) !== -1);
   }
 
   handleChangeItem(value): void {
     this.value = value;
   }
 
+  setStyleAndClasses(element) {
+    const clazz = element.nativeElement.getAttribute('class');
+    if (clazz) {
+      this.clazz = clazz;
+    }
+  }
+
   switchDropDowns(element): void {
     this.multiple = false;
     const multiselect = element.nativeElement.getAttribute('multiple');
     if (multiselect != undefined && this.multiple != null){
-      this.multiple = true
+      this.multiple = true;
     }
   }
 
   buildCronDataSource(element): any {
     const crnDatasource = element.nativeElement.getAttribute('crn-datasource');
-    if (crnDatasource != null) { 
-      this.fixedItems = (Array.isArray(crnDatasource.split(',')));
-      let newCrnDatasource = crnDatasource;
-      if (this.fixedItems) { 
-        newCrnDatasource = crnDatasource.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
-        newCrnDatasource = newCrnDatasource.replace(/'/g, '"');
-      }
-      return JSON.parse(newCrnDatasource);
+
+    if (crnDatasource != null) {
+      return eval(crnDatasource);
     } else {
       return null;
     }

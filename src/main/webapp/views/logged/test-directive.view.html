@@ -39,11 +39,11 @@
               <label for="lista">Ramo Atividade (Simple Select [ui-select]) </label>
               <ui-select id="lista"
                          crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
-                         id="lista"
                          [(ngModel)]="ramoAtividadeModel"
-                         ng-required="false"
+                         ng-required="true"
                          ng-disabled="disabled"
                          name="ramoAtividade"
+                         class="crn-select"
                          #ramoAtividade>
                 <ui-select-match placeholder="Select..." class="">
                     {{$select.selected.value}}
@@ -77,6 +77,7 @@
                          [(ngModel)]="ramoAtividadeModel2"
                          textField="value"
                          valueField="key"
+                         placeholder="Select items..."
                          ng-required="false"
                          ng-disabled="disabled"
                          class="crn-select"
@@ -158,7 +159,7 @@
                   placeholder="CPF"
                   name="cpf"
                   cron-valid="cpf"
-                  data-error-message="CPF Inválido."
+                  data-error-message="CPF Inválido"
                   [(ngModel)]="cpfText"
                   #cpf="ngModel">
             </div>
@@ -180,7 +181,7 @@
                   placeholder="CNPJ"
                   name="cnpj"
                   valid="cnpj"
-                  data-error-message="CNPJ Inválido TESTE."
+                  data-error-message="CNPJ Inválido"
                   [(ngModel)]="cnpjText"
                   #cnpj="ngModel">
             </div>
