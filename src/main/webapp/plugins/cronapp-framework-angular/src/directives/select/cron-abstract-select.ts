@@ -11,8 +11,6 @@ declare var $: any;
 
 export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
 
-  protected selectedItem: any;
-
   protected fixedItems : boolean;
 
   protected dataSource: any;

@@ -18,7 +18,9 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
   }
 
   writeValue(value: T) {
-    this.innerValue = value;
+    if (value !== this.innerValue) {
+      this.innerValue = value;
+    }
   }
  
   registerOnChange(fn: (_: any) => void): void {
