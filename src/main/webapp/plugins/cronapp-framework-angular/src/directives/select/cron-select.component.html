@@ -9,7 +9,7 @@
         [(ngModel)]="selectedItem"
         (filterChange)="handleFilter($event)"
         (valueChange)="handleChangeItem($event)"
-        [class]="'crn-select'"
+        [class]="'crn-select, form-control'"
         [style]="style">
     </kendo-multiselect>
     <kendo-combobox
@@ -22,7 +22,7 @@
         [(ngModel)]="selectedItem"
         (filterChange)="handleFilter($event)"
         (valueChange)="handleChangeItem($event)"
-        [class]="'crn-select'"
+        [class]="'crn-select, form-control'"
         [style]="style">
     </kendo-combobox>
     <ng-content></ng-content>

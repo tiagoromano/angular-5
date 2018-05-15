@@ -1475,9 +1475,10 @@ export class DataSet {
         } else if (difSize < 0) {
             // If it is negative
             // Some item was removed
+            const _self = this;
             var removedItems = oldData.filter(function(oldItem) {
                 return newData.filter(function(newItem) {
-                    return this.objectIsEquals(oldItem, newItem);
+                    return _self.objectIsEquals(oldItem, newItem);
                 }).length == 0;
             });
 

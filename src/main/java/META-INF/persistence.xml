@@ -7,6 +7,10 @@
         <class>app.entity.Role</class>
         <class>app.entity.PedidoItem</class>
         <class>app.entity.Pedido</class>
+        <class>app.entity.Municipio</class>
+        <class>app.entity.Instrutor</class>
+        <class>app.entity.Curso</class>
+        <class>app.entity.CursoInstrutor</class>
         <properties>
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
         </properties>

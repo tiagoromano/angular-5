@@ -36,12 +36,15 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
   }
 
   ngOnInit() {
-    debugger;
     const $element = $(this.element.nativeElement);
-    this.data = this.buildCronDataSource(this.element);
+    const dataSet = this.buildCronDataSource(this.element);
 
-    if (this.data != null) {
-      this.dataSource = this.data.slice();
+    if (dataSet && dataSet.data && dataSet.data.slice) {
+      this.dataSource = dataSet.data.slice();
+      this.data = dataSet.data;
+    } else if (dataSet && dataSet.slice) {
+      this.dataSource = dataSet.slice();
+      this.data = dataSet;
     }
 
     this.switchDropDowns(this.element);
@@ -49,7 +52,9 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
   }
 
   handleFilter(value): void {
-    this.data = this.dataSource.filter((item) => item.value.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    if (this.dataSource) {
+      this.data = this.dataSource.filter((item) => item.value.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    }
   }
 
   handleChangeItem(value): void {
