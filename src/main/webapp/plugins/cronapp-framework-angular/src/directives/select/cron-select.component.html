@@ -10,7 +10,8 @@
         (filterChange)="handleFilter($event)"
         (valueChange)="handleChangeItem($event)"
         [class]="'crn-select, form-control'"
-        [style]="style">
+        [style]="style"
+        [valuePrimitive]="valuePrimitive">
     </kendo-multiselect>
     <kendo-combobox
         *ngIf="!multiple"
@@ -23,6 +24,7 @@
         (filterChange)="handleFilter($event)"
         (valueChange)="handleChangeItem($event)"
         [class]="'crn-select, form-control'"
-        [style]="style">
+        [style]="style"
+        [valuePrimitive]="valuePrimitive">
     </kendo-combobox>
     <ng-content></ng-content>

@@ -11,8 +11,6 @@ declare var $: any;
 
 export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
 
-  protected fixedItems : boolean;
-
   protected dataSource: any;
   
   @Input('multiple') public multiple: boolean;
@@ -29,20 +27,23 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
 
   @Input('data') public data: any;
 
+  @Input('valuePrimitive') public valuePrimitive: boolean;
+
   constructor(protected element: ElementRef) {
     super();
   }
 
   ngOnInit() {
     const $element = $(this.element.nativeElement);
-    const dataSet = this.buildCronDataSource(this.element);
+    const formDataSource = this.buildCronDataSource(this.element);
 
-    if (dataSet && dataSet.data && dataSet.data.slice) {
-      this.dataSource = dataSet.data.slice();
-      this.data = dataSet.data;
-    } else if (dataSet && dataSet.slice) {
-      this.dataSource = dataSet.slice();
-      this.data = dataSet;
+    this.valuePrimitive = !(formDataSource && formDataSource.data && formDataSource.data.slice);
+    if (formDataSource && formDataSource.data && formDataSource.data.slice) {
+      this.dataSource = formDataSource.data.slice();
+      this.data = formDataSource.data;
+    } else if (formDataSource && formDataSource.slice) {
+      this.dataSource = formDataSource.slice();
+      this.data = formDataSource;
     }
 
     this.switchDropDowns(this.element);
