@@ -103,11 +103,15 @@ export class ComponentServiceProvider {
 
     private getTagsHtml(html: string) {
         var result = [];
+        html = html.replace(/(?:[^>]\s|^)<!--(?!<!)[^\[>][\s\S]*?-->/gm,'');
         var tags = html.split('<');
         for (var i = 0; i < tags.length; i++) {
             var indexFirstSpace = tags[i].indexOf(" ");
+            if (indexFirstSpace == -1) {
+                indexFirstSpace = tags[i].indexOf(">");
+            }
             if (indexFirstSpace > -1) {
-                var tag = { name:"", raw:"", startTag: false, endTag: false, attributes:[] };
+                var tag = { name:"", raw:"", startTag: false, endTag: false, attributes:[], children:[], parent: null };
                 tag.name = tags[i].substr(0, indexFirstSpace);
 
                 //despreza, tags de comentários
@@ -129,7 +133,117 @@ export class ComponentServiceProvider {
                 result.push(tag);
             }
         }
+        
+        this.groupChildren(result);    
+
         return result;
+    }
+
+    /**
+     * Realiza o agrupamento de tags montando uma estrutura de árvore.
+     *  
+     * @param tags 
+     */
+    private groupChildren(tags) {
+        let countTagStart = 1;
+        let countTagEnd = 0;
+        let group = [];
+
+        for (let posTag = 0; posTag < tags.length -1; posTag++) {
+            if (tags[posTag].startTag) {
+                group.push(tags[posTag]);
+                let foundEndTag = false;
+                for (let pos = posTag + 1; pos < tags.length -1; pos++) {
+                    let element = tags[pos];
+                    group.push(element);
+
+                    if (element.name === tags[posTag].name && element.startTag) {
+                        countTagStart ++;
+                    }
+
+                    if (element.name === tags[posTag].name && element.endTag) {
+                        countTagEnd ++;
+                    }            
+                    
+                    if ((countTagStart - countTagEnd) == 0) {
+                        foundEndTag = true;
+                        break;
+                    }
+                }
+                
+                if ((foundEndTag) && (group.length > 0)) {
+                    group.shift();
+                    group.pop();
+                    tags[posTag].children = this.groupSibling(group, tags[posTag]);
+                }
+                
+                countTagStart = 1;
+                countTagEnd = 0;
+                group = [];
+            }
+        }
+    }
+
+    /**
+     * Realiza o agrupamento de tags irmães. Tags com inicio e fim e tags com apenas início.
+     *  
+     * @param group 
+     * @param parent 
+     */
+    private groupSibling(group, parent) {
+        let countTagStart = 0;
+        let countTagEnd = 0;
+        let siblings = [];
+        let nextSibling = 0;
+        
+        for (let posGroup = 0; posGroup <= group.length -1; posGroup++) {            
+            if ((posGroup == nextSibling) && (group[posGroup].startTag) && ((posGroup + 1) <= group.length)) {
+                /**
+                 * Verifica agrupamento da tag, como inicio e fim ou apenas início, assim pega o inicio da ramificação e sinaliza quem é 
+                 * a próxima tag.
+                 */
+                let firstElement = null;
+                /**
+                 * Caso a tag não tenha fim, antecipo e informo que o próximo irmão é nextSibling = nextSibling + 1.
+                 */
+                nextSibling = nextSibling + 1;
+                for (let pos = posGroup; pos <= group.length -1; pos++) {
+                    let element = group[pos];
+                    if (!firstElement) {
+                        firstElement = element;     
+                    }    
+
+                    if (element.name === group[posGroup].name && element.startTag) {
+                        countTagStart ++;
+                    }
+
+                    if (element.name === group[posGroup].name && element.endTag) {
+                        countTagEnd ++;
+                    }            
+                    
+                    if ((countTagStart - countTagEnd) == 0) {
+                        nextSibling = pos + 1;
+                        break;
+                    }
+                }
+
+                /**
+                 * Se a tag não existir finalização, passa para a próxima startTag.
+                 */
+                if (firstElement) {
+                    siblings.push(firstElement);
+                }
+                
+                countTagStart = 0;
+                countTagEnd = 0;
+            }
+        }
+
+        for (let pos = 0; pos <= siblings.length -1; pos++) {
+            siblings[pos].parent = parent;
+        }
+
+        return siblings;
     }
 
     private isInsideTag(containerTag: string, idxTag: number, tags:any) {
@@ -197,11 +311,13 @@ export class ComponentServiceProvider {
 
         //Se estiver dentro de algum atributo, verifica qual o conteudo do atributo e retonra
         if (isInsideInSomeAttribute) {
-            idxTag--;
-            while (idxTag > -1) {
-                if (tags[idxTag].attributes.includes("crn-datasource"))
-                    return this.getContentOfAttribute(tags[idxTag].raw, "crn-datasource")
-                idxTag--;
+            let tag = tags[idxTag];
+            while (tag) {
+                if (tag.attributes.includes("crn-datasource")) {
+                    return this.getContentOfAttribute(tag.raw, "crn-datasource")
+                }
+
+                tag = tag.parent;
             }
         }
         return "";
