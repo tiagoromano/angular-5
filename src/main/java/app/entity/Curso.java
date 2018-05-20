@@ -37,8 +37,13 @@ public class Curso implements Serializable {
   * @generated
   */
   @Column(name = "nome", nullable = true, unique = false, insertable=true, updatable=true)
-  
   private java.lang.String nome;
+
+  @Column(name = "tipo", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.String tipo;
+
+  @Column(name = "code", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.String code;
 
   /**
    * Construtor
@@ -85,6 +90,24 @@ public class Curso implements Serializable {
    */
   public Curso setNome(java.lang.String nome){
     this.nome = nome;
+    return this;
+  }
+
+  public java.lang.String getTipo(){
+    return this.tipo;
+  }
+
+  public Curso setTipo(java.lang.String tipo){
+    this.tipo = tipo;
+    return this;
+  }
+
+  public String getCode() {
+    return code;
+  }
+
+  public Curso setCode(String code) {
+    this.code = code;
     return this;
   }
 

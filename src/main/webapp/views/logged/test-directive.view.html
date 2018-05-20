@@ -37,23 +37,23 @@
           <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-249449">
             <div class="form-group">
               <label for="lista">Ramo Atividade (Simple Select [ui-select]) </label>
-              <ui-select id="lista"
-                         crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
-                         [(ngModel)]="ramoAtividadeModel"
-                         ng-required="true"
-                         ng-disabled="disabled"
-                         name="ramoAtividade"
-                         class="crn-select"
-                         #ramoAtividade>
-                <ui-select-match placeholder="Select..." class="">
-                    {{$select.selected.value}}
-                </ui-select-match>
-                <ui-select-choices
-                    repeat="rowData.key as rowData in datasource.data | filter: $select.search"
-                    class="">
-                  <div class="">{{rowData.value}}</div>
-                </ui-select-choices>
-              </ui-select>
+              <!--<ui-select id="lista"-->
+                         <!--crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"-->
+                         <!--[(ngModel)]="ramoAtividadeModel"-->
+                         <!--ng-required="true"-->
+                         <!--ng-disabled="disabled"-->
+                         <!--name="ramoAtividade"-->
+                         <!--class="crn-select"-->
+                         <!--#ramoAtividade>-->
+                <!--<ui-select-match placeholder="Select..." class="">-->
+                    <!--{{$select.selected.value}}-->
+                <!--</ui-select-match>-->
+                <!--<ui-select-choices-->
+                    <!--repeat="rowData.key as rowData in datasource.data | filter: $select.search"-->
+                    <!--class="">-->
+                  <!--<div class="">{{rowData.value}}</div>-->
+                <!--</ui-select-choices>-->
+              <!--</ui-select>-->
             </div>
           </div>
 
@@ -72,18 +72,18 @@
           <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-56565">
             <div class="form-group">
               <label for="lista3">Ramo Atividade (MultiSelect - [cron-select]) </label>
-              <cron-select id="lista3" multiple
-                         crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"
-                         [(ngModel)]="ramoAtividadeModel2"
-                         textField="value"
-                         valueField="key"
-                         placeholder="Select items..."
-                         ng-required="false"
-                         ng-disabled="disabled"
-                         class="crn-select"
-                         name="ramoAtividade"
-                         #ramoAtividade>
-              </cron-select>
+              <!--<cron-select id="lista3" multiple-->
+                         <!--crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"-->
+                         <!--[(ngModel)]="ramoAtividadeModel2"-->
+                         <!--textField="value"-->
+                         <!--valueField="key"-->
+                         <!--placeholder="Select items..."-->
+                         <!--ng-required="false"-->
+                         <!--ng-disabled="disabled"-->
+                         <!--class="crn-select"-->
+                         <!--name="ramoAtividade"-->
+                         <!--#ramoAtividade>-->
+              <!--</cron-select>-->
             </div>
           </div>
 
@@ -190,6 +190,30 @@
               <div *ngIf="cnpj.errors.valid">
                 CNPJ Invalid
               </div>
+            </div>
+          </div>
+
+          <div id="crn-qr-code" class="col-md-12">
+            <div class="form-group">
+              <label for="qr-code" class="">Code</label>
+              <input
+                  type="text"
+                  class="form-control"
+                  id="qr-code"
+                  placeholder="CNPJ"
+                  name="qr-code"
+                  valid="qr-code"
+                  data-error-message="CNPJ Inválido"
+                  [(ngModel)]="qrCodeModel"
+                  #cnpj="ngModel">
+            </div>
+          </div>
+
+          <div id="crn-qr" class="col-md-2">
+            <h3>Code</h3>
+            <div qr
+                 [(ngModel)]="qrCodeModel"
+                 id="qrCodeDesign">
             </div>
           </div>
         </fieldset>

@@ -1,0 +1,181 @@
+<div class="container">
+  <h3>Curso</h3>
+
+<!-- div row para pesquisa -->
+<!--<div class="row">-->
+
+    <div ng-hide="Curso.inserting || Curso.editing" data-component="crn-datasource-filter" id="crn-datasource-filter-general" class="">
+        <div class="form-group">
+            <label for="textinput-filter" class="">{{"template.crud.search" | translate}}</label>
+            <input type="text" ng-model="vars.search" cronapp-filter="nome;" cronapp-filter-operator="" cronapp-filter-caseinsensitive="false" cronapp-filter-autopost="true" crn-datasource="Curso" class="form-control" value="" placeholder="{{'template.crud.search' | translate}}">
+        </div>
+    </div>
+
+<div data-component="crn-button" id="crn-button-564202" class="">
+    <button class="btn btn-primary" type="submit" onclick="" data-component="crn-button" ng-click="Curso.startInserting()" ng-hide="Curso.inserting || Curso.editing"><i class="fa fa-user"></i> <span class="">{{"template.crud.new" | translate}}</span></button>
+</div>
+<!-- fim div row para pesquisa -->
+<!--</div>-->
+
+<datasource filter="" name="Curso" entity="api/cronapi/crud/app.entity.Curso" keys="id" rows-per-page="100" delete-message="Deseja remover?" class=""></datasource>
+<div class="component-holder" data-component="crn-grid" id="crn-grid-Curso">
+    <div crn-datasource="Curso" class="" ng-hide="Curso.editing || Curso.inserting">
+        <table class="table  table-bordered table-hover table-striped">
+            <thead>
+            <tr class="table-header">
+                <th class="">
+                    <div class="">Nome</div>
+                </th>
+                <th class="">
+                    <div class="">{{"template.crud.actions" | translate}}</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-content" ng-repeat="rowData in datasource.data">
+                <td class="">
+                    <div class="">
+                                {{rowData.nome  }}
+                    </div>
+                </td>
+                <td class="">
+                    <div class="">
+                        <button class="btn btn-default btn-sm" data-component="crn-button" type="submit" ng-click="datasource.startEditing(rowData)"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-default btn-sm" data-component="crn-button" type="submit" ng-click="datasource.remove(rowData)"><i class="fa fa-times"></i></button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="table-footer-controls">
+            <button class="btn btn-default btn-block btn-clicked" data-component="crn-button" ng-show="datasource.hasNextPage()" ng-click="datasource.nextPage()">{{"template.crud.load_more" | translate}}...</button>
+        </div>
+    </div>
+</div>
+<div data-component="crn-form" id="crn-form-form-Curso">
+    <div class="form" ng-show="Curso.editing || Curso.inserting">
+        <form crn-datasource="Curso" class="">
+            <div class="tool-bar" ng-hide="datasource.editing || datasource.inserting">
+                <button class="btn btn-primary" data-component="crn-button" ng-click="datasource.startInserting()"><i class="glyphicon glyphicon-plus-sign"></i></button>
+                <button class="btn btn-success" data-component="crn-button" ng-click="datasource.startEditing()"><i class="glyphicon glyphicon-edit"></i></button>
+                <button class="btn btn-primary" data-component="crn-button" ng-disabled="!datasource.hasPrevious()" ng-click="datasource.previous()"><i class="glyphicon glyphicon-chevron-left"></i></button>
+                <button class="btn btn-primary" data-component="crn-button" ng-disabled="!datasource.hasNext()" ng-click="datasource.next()"><i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button class="btn btn-primary" data-component="crn-button" ng-click="datasource.remove()"><i class="glyphicon glyphicon-trash"></i></button>
+            </div>
+            <div class="active-bar" ng-hide="!datasource.editing &amp;&amp; !datasource.inserting">
+                <button class="btn btn-success" data-component="crn-button" ng-click="datasource.post()"><i class="glyphicon glyphicon-ok"></i></button>
+                <button class="btn btn-danger" data-component="crn-button" ng-click="datasource.cancel()"><i class="glyphicon glyphicon-remove"></i></button>
+            </div>
+            <br/>
+            <fieldset ng-disabled="!datasource.editing &amp;&amp; !datasource.inserting">
+
+                <div data-component="crn-textinput" id="crn-textinput-nome" class="">
+                    <div class="form-group">
+                      <label for="textinput-nome" class="">Nome</label>
+<!-- else for if !model.hasCronappFramework() -->
+                      <input
+                        type="text"
+                        ng-model="Curso.active.nome"
+                        class="form-control"
+                        id="textinput-nome"
+                        placeholder="Nome"
+                        mask=""
+                        mask-placeholder=""
+                        ng-required="false">
+                       <!-- end if !model.hasCronappFramework() -->
+                    </div>
+                </div>
+
+                <!-- NtoN  -->
+                <!-- TODO: Verificar propriedade enabled do datasource pq a mesma não ta funcionando -->
+                <datasource name="Instrutor" append="false" entity="api/cronapi/crud/app.entity.Curso/{{Curso.active.id}}/relation:instrutor:Instrutor" keys="id" rows-per-page="100" lazy="true" auto-post="true" dependent-lazy-post="Curso" dependent-lazy-post-field="curso"></datasource>
+                <datasource name="AllInstrutor" entity="api/cronapi/crud/app.entity.Instrutor" keys="id" rows-per-page="100"></datasource>
+                <div class="component-holder ng-binding ng-scope " data-component="crn-combobox" ng-show="datasource.editing || datasource.inserting" >
+                  <div class="form-group">
+                    <label for="select-ui">Instrutor</label>
+                    <div id="select-ui" data-component="crn-tags">
+                      <!--<ui-select multiple crn-datasource="AllInstrutor" ng-model="Instrutor.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Curso.editing || Curso.inserting }}" >-->
+                        <!--<ui-select-match placeholder="Instrutor...">-->
+                          <!--{{$item.nome }}-->
+                        <!--</ui-select-match>-->
+                        <!--<ui-select-choices repeat="rowData in datasource.data | filter : $select.search" class="">-->
+                          <!--<div class="" data-container="true" draggable="true">-->
+                            <!--{{rowData.nome}}-->
+                          <!--</div>-->
+                        <!--</ui-select-choices>-->
+                      <!--</ui-select>-->
+                    </div>
+                  </div>
+                </div>
+                <!-- NtoN  end-->
+
+                <div class="component-holder ng-binding ng-scope " data-component="crn-combobox" id="crn-combobox-964202">
+                  <div class="form-group">
+                    <label for="select-tipo">Tipo</label>
+                    <!--<ui-select id="select-tipo"-->
+                        <!--crn-datasource="[{'key':'1','value':'Matutino'},{'key':'2','value':'Vespertino'},{'key':'3','value':'Noturno'}]"-->
+                        <!--ng-model="Curso.active.tipo"-->
+                        <!--ng-required="true"-->
+                        <!--ng-disabled="disabled"-->
+                        <!--class="crn-select">-->
+                      <!--<ui-select-match placeholder="Select..." class="">-->
+                        <!--{{$select.selected.value}}-->
+                      <!--</ui-select-match>-->
+                      <!--<ui-select-choices repeat="rowData.key as rowData in datasource.data | filter: $select.search" class="">-->
+                        <!--<div class="">{{rowData.value}}</div>-->
+                      <!--</ui-select-choices>-->
+                    <!--</ui-select>-->
+
+                    <!--<cron-select id="select-tipo"-->
+                       <!--crn-datasource="[{'key':'1','value':'Matutino'},{'key':'2','value':'Vespertino'},{'key':'3','value':'Noturno'}]"-->
+                       <!--[(ngModel)]="Curso.active.tipo"-->
+                       <!--textField="value"-->
+                       <!--valueField="key"-->
+                       <!--placeholder="Select items..."-->
+                       <!--ng-required="false"-->
+                       <!--ng-disabled="disabled"-->
+                       <!--class="crn-select"-->
+                       <!--name="select-tipo">-->
+                    <!--</cron-select>-->
+                  </div>
+                </div>
+
+              <div data-component="crn-textinput" id="crn-textinput-code" class="">
+                <div class="form-group">
+                  <label for="textinput-code" class="">Nome</label>
+                  <input
+                      type="text"
+                      ng-model="Curso.active.code"
+                      class="form-control"
+                      id="textinput-code"
+                      placeholder="Code"
+                      mask=""
+                      mask-placeholder=""
+                      ng-required="false">
+                </div>
+              </div>
+
+              <div id="crn-qr" class="col-md-2">
+                <h3>QR Code</h3>
+                <div qr
+                     name="qrCode"
+                     [(ngModel)]="Curso.active.code"
+                     id="qrCode">
+                </div>
+              </div>
+            </fieldset>
+        </form>
+
+        <form>
+            <fieldset>
+                <!-- OneToN -->
+                <!-- OneToOne  end -->
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+
+<!-- OneToOne modal -->
+<!-- OneToOne modal end-->
+</div>
