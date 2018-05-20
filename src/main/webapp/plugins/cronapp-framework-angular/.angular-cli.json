@@ -17,7 +17,11 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [       
+      "styles": [   
+        "../vendor/kendo-ui/styles/kendo.common.min.css",
+        "../vendor/kendo-ui/styles/kendo.common-bootstrap.core.min.css",
+        "../vendor/kendo-ui/styles/kendo.common-bootstrap.min.css",
+        "../vendor/kendo-ui/styles/kendo.bootstrap.min.css",
         "styles.css"        
       ],
       "scripts": [        
@@ -28,7 +32,8 @@
         "../node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js",
         "../node_modules/raphael/raphael-min.js",
         "../node_modules/jquery-mask-plugin/dist/jquery.mask.min.js",
-        "../node_modules/jquery.inputmask/dist/jquery.inputmask.bundle.js"
+        "../node_modules/jquery.inputmask/dist/jquery.inputmask.bundle.js",
+        "../vendor/kendo-ui/js/kendo.all.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

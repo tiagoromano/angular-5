@@ -15,11 +15,12 @@ import { MaskDateDirective } from '../directives/mask/mask-date.directive';
 import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
-import { UiSelectComponent } from '../directives/select/ui-select.component';
-import { CronSelectComponent } from '../directives/select/cron-select.component';
-import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
-// import { ComboBoxModule } from '@progress/kendo-angular-dropdowns';
-// import { MultiSelectModule } from '@progress/kendo-angular-dropdowns';
+// import { UiSelectComponent } from '../directives/select/ui-select.component';
+// import { CronSelectComponent } from '../directives/select/cron-select.component';
+// import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+
+import { QrCodeDirective } from '../directives/qr-code/qrcode.directive';
+import { CronQrCodeDirective } from '../directives/qr-code/cron-qrcode.directive';
 
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { ImportClass } from './common/importClass.component';
@@ -44,8 +45,9 @@ export function createTranslateLoader(http: HttpClient) {
         CronValidDirective,
         MaskDateDirective,
         CronMaskDateDirective,
-        UiSelectComponent,
-        CronSelectComponent
+        QrCodeDirective
+        // UiSelectComponent,
+        // CronSelectComponent
     ],
     imports: [
         TranslateModule.forRoot({
@@ -58,7 +60,7 @@ export function createTranslateLoader(http: HttpClient) {
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,
-        DropDownsModule
+        // DropDownsModule
     ],
     exports: [
         TranslateModule,
@@ -72,9 +74,10 @@ export function createTranslateLoader(http: HttpClient) {
         CronValidDirective,
         MaskDateDirective,
         CronMaskDateDirective,
-        DropDownsModule,
-        UiSelectComponent,
-        CronSelectComponent
+        QrCodeDirective
+        // DropDownsModule,
+        // UiSelectComponent,
+        // CronSelectComponent
     ],
     providers: [
 
