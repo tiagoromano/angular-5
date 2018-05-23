@@ -4,12 +4,34 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
   onChange = (value: T) => {};
   onTouched = () => {};
  
-  private innerValue: T;
+  protected innerValue: T;
+  protected baseValue: any;
  
-  get value(): T {
+  get value(): T {  
+    if (this.serializable(this.baseValue) != this.serializable((this.innerValue))) {
+      this.writeAdapterValue(this.baseValue, this.innerValue);
+    }
+    this.baseValue = this.deserializable(this.serializable(this.innerValue));
+
     return this.innerValue;
   }
- 
+
+  serializable(object) {
+    if (!object || (object !== Object(object))) {
+      return object;
+    } else {
+      return JSON.stringify(object);
+    }
+  }
+
+  deserializable(json) {
+    if (!json || (json !== Object(json))) {
+      return json;
+    } else {
+      return JSON.parse(json);
+    }
+  }
+
   set value(value: T) {
     if (this.innerValue !== value) {
       this.innerValue = value;
@@ -17,12 +39,14 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
     }
   }
 
+  writeAdapterValue(oldValue: T, value: T) {};
+
   writeValue(value: T) {
     if (value !== this.innerValue) {
       this.innerValue = value;
     }
   }
- 
+
   registerOnChange(fn: (_: any) => void): void {
     this.onChange = fn;
   }
@@ -30,4 +54,5 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
+
 }

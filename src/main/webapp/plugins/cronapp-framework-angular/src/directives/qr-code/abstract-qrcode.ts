@@ -14,9 +14,7 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
     private color: string;
     
     private background: string;
-    
-    private oldValue: String;
-    
+        
     constructor(protected element: ElementRef) {
         super();
     }
@@ -32,18 +30,20 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
         this.color = this.color || '#000000';
         this.background = this.background || 'transparent';
 
-        setInterval(() => {
-            if (this.value != this.oldValue) {
-                this.renderize(); 
-                this.oldValue = this.value;
-            }
-        }, 300);
+        this.renderize();
+    }
+
+    writeValue(value: any) {
+        if (value !== this.innerValue) {
+            this.innerValue = value ? value : null;
+            this.renderize();
+        }
     }
 
     renderize() {
+        const $element = $(this.element.nativeElement);
+        $element.empty();
         if (this.value) {
-            const $element = $(this.element.nativeElement);
-            $element.empty();
             const qrCode = $element.kendoQRCode({
                 value: this.value,
                 errorCorrection: this.errorCorrection,

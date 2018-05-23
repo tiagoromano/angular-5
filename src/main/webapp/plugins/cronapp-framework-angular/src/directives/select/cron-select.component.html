@@ -1,30 +1,9 @@
-    <kendo-multiselect
-        *ngIf="multiple"
-        #list
-        [data]="data"
-        [textField]="textField"
-        [valueField]="valueField"
-        [filterable]="true"
-        [placeholder]="placeholder"
-        [(ngModel)]="value"
-        (filterChange)="handleFilter($event)"
-        (valueChange)="handleChangeItem($event)"
-        [class]="'crn-select, form-control'"
-        [style]="style"
-        [valuePrimitive]="valuePrimitive">
-    </kendo-multiselect>
-    <kendo-combobox
-        *ngIf="!multiple"
-        [data]="data"
-        [textField]="textField"
-        [valueField]="valueField"
-        [filterable]="true"
-        [placeholder]="placeholder"
-        [(ngModel)]="value"
-        (filterChange)="handleFilter($event)"
-        (valueChange)="handleChangeItem($event)"
-        [class]="'crn-select, form-control'"
-        [style]="style"
-        [valuePrimitive]="valuePrimitive">
-    </kendo-combobox>
-    <ng-content></ng-content>
+<input 
+    #currentInput
+    [(ngModel)]="value"
+    class="class"
+    style="width: 100%;"
+    textField="textField"
+    valueField="valueField"
+    [placeholder]="placeholder"/>
+<ng-content></ng-content>

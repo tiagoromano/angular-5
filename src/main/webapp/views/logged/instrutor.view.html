@@ -117,7 +117,7 @@
                   <div class="form-group">
                     <label for="select-ui">Curso</label>
                     <div id="select-ui" data-component="crn-tags">
-                      <ui-select multiple crn-datasource="AllCurso" ng-model="Curso.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Instrutor.editing || Instrutor.inserting }}" >
+                      <ui-select multiple crn-datasource="AllCurso" id="combobox-dynamic-curso" ng-model="Curso.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Instrutor.editing || Instrutor.inserting }}" >
                         <ui-select-match placeholder="Curso...">
                           {{$item.nome }}
                         </ui-select-match>

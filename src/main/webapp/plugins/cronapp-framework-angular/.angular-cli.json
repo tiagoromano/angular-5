@@ -18,11 +18,11 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [   
+        "styles.css",        
         "../vendor/kendo-ui/styles/kendo.common.min.css",
         "../vendor/kendo-ui/styles/kendo.common-bootstrap.core.min.css",
         "../vendor/kendo-ui/styles/kendo.common-bootstrap.min.css",
-        "../vendor/kendo-ui/styles/kendo.bootstrap.min.css",
-        "styles.css"        
+        "../vendor/kendo-ui/styles/kendo.bootstrap.min.css"
       ],
       "scripts": [        
         "../../cronapi-js/cronapi.js",

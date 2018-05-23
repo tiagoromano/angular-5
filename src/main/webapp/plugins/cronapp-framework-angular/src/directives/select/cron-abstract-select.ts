@@ -2,17 +2,24 @@ import {
   Component,
   OnInit,
   ElementRef,
-  Input
+  Input,
+  ViewChild
 } from '@angular/core'
 
 import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
 
 declare var $: any;
 
-export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
+declare var kendo: any;
 
-  protected dataSource: any;
-  
+export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> implements OnInit {
+ 
+  protected oldData: any;
+
+  private combobox: any;
+
+  @ViewChild('currentInput') currentInput: ElementRef;
+
   @Input('multiple') public multiple: boolean;
 
   @Input('placeholder') public placeholder: string;
@@ -39,25 +46,81 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
 
     this.valuePrimitive = !(formDataSource && formDataSource.data && formDataSource.data.slice);
     if (formDataSource && formDataSource.data && formDataSource.data.slice) {
-      this.dataSource = formDataSource.data.slice();
       this.data = formDataSource.data;
     } else if (formDataSource && formDataSource.slice) {
-      this.dataSource = formDataSource.slice();
       this.data = formDataSource;
     }
-
+    
     this.switchDropDowns(this.element);
     this.setStyleAndClasses(this.element);
+    this.resizeComboBox();
   }
 
-  handleFilter(value): void {
-    if (this.dataSource) {
-      this.data = this.dataSource.filter((item) => item.value.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+  resizeComboBox() {
+    const $element = $(this.currentInput.nativeElement);    
+    const _self = this;
+    
+    let object = {
+      dataTextField: this.textField,
+      dataValueField: this.valueField,
+      dataSource: this.data,
+      placeholder: this.placeholder,
+      valuePrimitive: this.valuePrimitive,
+      filter: 'contains'
     }
+
+    if (this.multiple) {
+      object['change'] =  function(e) {
+        _self.onChange(this.dataItems());
+      }
+      
+      this.combobox = $element.kendoMultiSelect(object).data("kendoMultiSelect");
+    } else {
+      object['change'] =  function(e) {
+        if (_self.valuePrimitive && this.dataItem(this.select())) {
+          if (this.dataItem(this.select())[_self.valueField]) {
+            _self.onChange(this.dataItem(this.select())[_self.valueField]);
+          }
+        } else {
+          _self.onChange(this.dataItem(this.select()));
+        }
+      }
+
+      this.combobox = $element.kendoComboBox(object).data("kendoComboBox");
+    }
+
+    setInterval(() => {
+      if (this.oldData != this.data) {
+        this.oldData = this.data;
+        this.combobox.dataSource.data = this.data;        
+        this.combobox.dataSource.query();
+      }
+    }, 300);
   }
 
-  handleChangeItem(value): void {
-    this.value = value;
+  writeAdapterValue(oldValue: any, currentValue: any) {
+    if ((this.valuePrimitive && currentValue !== oldValue) || 
+        (!this.valuePrimitive && super.serializable(oldValue) !== super.serializable(currentValue))) {
+      this.innerValue = currentValue ? currentValue : null;
+      
+      if (this.multiple) {
+        if (Array.isArray(currentValue)) {
+          let items = [];
+          
+          currentValue.forEach(element => {
+            if (element[this.valueField]) {
+              items.push(element[this.valueField]);  
+            }
+          });
+
+          this.combobox.value(items);  
+        }
+      } else if (this.valuePrimitive) {
+        this.combobox.value(currentValue ? currentValue : null);
+      } else if (currentValue && currentValue[this.valueField]) {
+        this.combobox.value(currentValue ? currentValue[this.valueField] : null);
+      }
+    }    
   }
 
   setStyleAndClasses(element) {

@@ -29,10 +29,11 @@ export class UiSelectComponent extends CronAbstractSelect implements OnInit {
   }
 
   ngOnInit() { 
-    super.ngOnInit();
     let $element = $(this.element.nativeElement);   
     this.extractPlaceholder($element);
     this.extractTextAndValueField($element);
+    
+    super.ngOnInit();
   }
 
   extractPlaceholder($element): void {
@@ -43,7 +44,6 @@ export class UiSelectComponent extends CronAbstractSelect implements OnInit {
       selectMatch.remove();
     } 
   }
-
 
   extractTextAndValueField($element) {
     let selectChoices = $element.find('ui-select-choices');

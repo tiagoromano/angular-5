@@ -1503,7 +1503,6 @@ export class DataSet {
         }.bind(this), 500);
 
         this.unregisterDataWatch = function() {
-            debugger;
             clearInterval(this.dataWatchId);
             this.dataWatchId = undefined;
         }.bind(this);
