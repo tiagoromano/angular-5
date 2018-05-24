@@ -58,7 +58,7 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
 
   resizeComboBox() {
     const $element = $(this.currentInput.nativeElement);    
-    const _self = this;
+    const select = this;
     
     let object = {
       dataTextField: this.textField,
@@ -71,18 +71,18 @@ export abstract class CronAbstractSelect extends CrontrolValueAccessorBase<any> 
 
     if (this.multiple) {
       object['change'] =  function(e) {
-        _self.onChange(this.dataItems());
+        select.onChange(this.dataItems());
       }
-      
+
       this.combobox = $element.kendoMultiSelect(object).data("kendoMultiSelect");
     } else {
       object['change'] =  function(e) {
-        if (_self.valuePrimitive && this.dataItem(this.select())) {
-          if (this.dataItem(this.select())[_self.valueField]) {
-            _self.onChange(this.dataItem(this.select())[_self.valueField]);
+        if (select.valuePrimitive && this.dataItem(this.select())) {
+          if (this.dataItem(this.select())[select.valueField]) {
+            select.onChange(this.dataItem(this.select())[select.valueField]);
           }
         } else {
-          _self.onChange(this.dataItem(this.select()));
+          select.onChange(this.dataItem(this.select()));
         }
       }
 

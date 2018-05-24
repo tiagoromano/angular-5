@@ -44,7 +44,7 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
         const $element = $(this.element.nativeElement);
         $element.empty();
         if (this.value) {
-            const qrCode = $element.kendoQRCode({
+            $element.kendoQRCode({
                 value: this.value,
                 errorCorrection: this.errorCorrection,
                 size: this.size,

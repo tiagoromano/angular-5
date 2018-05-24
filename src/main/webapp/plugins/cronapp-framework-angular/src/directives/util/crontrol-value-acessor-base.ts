@@ -7,7 +7,10 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
   protected innerValue: T;
   protected baseValue: any;
  
-  get value(): T {  
+  get value(): T { 
+    console.log(this.serializable(this.baseValue)); 
+    console.log(this.serializable(this.innerValue)); 
+    
     if (this.serializable(this.baseValue) != this.serializable((this.innerValue))) {
       this.writeAdapterValue(this.baseValue, this.innerValue);
     }
@@ -24,11 +27,11 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
     }
   }
 
-  deserializable(json) {
-    if (!json || (json !== Object(json))) {
-      return json;
-    } else {
+  deserializable(json: any) {
+    if (json && (typeof json === 'string')) {
       return JSON.parse(json);
+    } else {
+      return json;
     }
   }
 
