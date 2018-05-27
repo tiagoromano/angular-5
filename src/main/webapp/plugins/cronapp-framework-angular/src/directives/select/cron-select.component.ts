@@ -5,11 +5,11 @@ import {
   Input,
   forwardRef,
   ViewChild,
-  ContentChild
+  ContentChild,
+  Directive
 } from '@angular/core'
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
 import { CronAbstractSelect } from './cron-abstract-select';
 
 const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
@@ -20,9 +20,8 @@ const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
 
 declare var $: any;
 
-@Component({
+@Directive({
   selector: 'cron-select',
-  templateUrl: './cron-select.component.html',
   providers: [COMBOBOX_CONTROL_VALUE_ACCESSOR],
 })
 export class CronSelectComponent extends CronAbstractSelect {

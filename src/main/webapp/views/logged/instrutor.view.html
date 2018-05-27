@@ -92,22 +92,22 @@
                     </div>
                 </div>
 
-                <!--<datasource name="Municipio" entity="api/cronapi/crud/app.entity.Municipio" keys="id" class="" dependent-by="{{Instrutor}}"></datasource>-->
-                <!--<div data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-municipio" class="">-->
-                    <!--<div class="form-group">-->
-                        <!--<label for="combobox-dynamic-municipio" class="">Municipio</label>-->
-                        <!--<ui-select ng-model="Instrutor.active.municipio" crn-datasource="Municipio" class="crn-select" id="combobox-dynamic-municipio" ng-required="false" theme="bootstrap">-->
-                          <!--<ui-select-match class="" placeholder="Select...">-->
-                              <!--{{$select.selected.descricao}}-->
-                          <!--</ui-select-match>-->
-                          <!--<ui-select-choices  repeat="rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay="">-->
-                              <!--<div class="" data-container="true">-->
-                                  <!--{{rowData.descricao}}-->
-                              <!--</div>-->
-                          <!--</ui-select-choices>-->
-                      <!--</ui-select>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <datasource name="Municipio" entity="api/cronapi/crud/app.entity.Municipio" keys="id" class="" dependent-by="{{Instrutor}}"></datasource>
+                <div data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-municipio" class="">
+                    <div class="form-group">
+                        <label for="combobox-dynamic-municipio" class="">Municipio</label>
+                        <ui-select ng-model="Instrutor.active.municipio" crn-datasource="Municipio" class="crn-select" id="combobox-dynamic-municipio" ng-required="false" theme="bootstrap">
+                          <ui-select-match class="" placeholder="Select...">
+                              {{$select.selected.descricao}}
+                          </ui-select-match>
+                          <ui-select-choices  repeat="rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay="">
+                              <div class="" data-container="true">
+                                  {{rowData.descricao}}
+                              </div>
+                          </ui-select-choices>
+                      </ui-select>
+                    </div>
+                </div>
 
                 <!-- NtoN  -->
                 <!-- TODO: Verificar propriedade enabled do datasource pq a mesma não ta funcionando -->

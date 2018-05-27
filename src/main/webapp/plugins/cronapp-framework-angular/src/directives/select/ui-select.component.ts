@@ -5,7 +5,8 @@ import {
   Input,
   forwardRef,
   ViewChild,
-  ContentChild
+  ContentChild,
+  Directive
 } from '@angular/core'
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -17,9 +18,10 @@ const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
   multi: true
 };
 
-@Component({
+declare var $: any;
+
+@Directive({
   selector: 'ui-select',
-  templateUrl: './cron-select.component.html',
   providers: [COMBOBOX_CONTROL_VALUE_ACCESSOR]
 })
 export class UiSelectComponent extends CronAbstractSelect implements OnInit {
@@ -32,7 +34,6 @@ export class UiSelectComponent extends CronAbstractSelect implements OnInit {
     let $element = $(this.element.nativeElement);   
     this.extractPlaceholder($element);
     this.extractTextAndValueField($element);
-    
     super.ngOnInit();
   }
 

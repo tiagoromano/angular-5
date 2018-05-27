@@ -1,7 +1,7 @@
 /**
  * Techne - Cronapp
  *
- * Diretiva utilizada para formatar: datas, números e textos.
+ * Diretiva utilizada para formatar: números e textos.
  * No caso de tipos data, essa diretiva também exibe um componente do tipo datetimepicker.
  */
 import {
