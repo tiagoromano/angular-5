@@ -11,9 +11,9 @@ import { DatasourceManagerProvider } from '../providers/datasource-manager/datas
 import { ValidDirective } from '../directives/valid/valid.directive';
 import { CronValidDirective } from '../directives/valid/cron-valid.directive';
 import { DatasourceDirective } from '../directives/datasource/datasource.directive';
-import { MaskDateDirective } from '../directives/mask/mask-date.directive';
-import { MaskTextDirective } from '../directives/mask/mask-text.directive';
-import { CronMaskDateDirective } from '../directives/mask/cron-mask-date.directive';
+import { MaskDateDirective } from '../directives/date/mask-date.directive';
+import { MaskTextDirective } from '../directives/text/mask-text.directive';
+import { CronMaskDateDirective } from '../directives/date/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 import { UiSelectComponent } from '../directives/select/ui-select.component';

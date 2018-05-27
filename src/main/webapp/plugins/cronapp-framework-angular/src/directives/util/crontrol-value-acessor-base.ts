@@ -7,10 +7,7 @@ export abstract class CrontrolValueAccessorBase<T> implements ControlValueAccess
   protected innerValue: T;
   protected baseValue: any;
  
-  get value(): T { 
-    console.log(this.serializable(this.baseValue)); 
-    console.log(this.serializable(this.innerValue)); 
-    
+  get value(): T {    
     if (this.serializable(this.baseValue) != this.serializable((this.innerValue))) {
       this.writeAdapterValue(this.baseValue, this.innerValue);
     }

@@ -1,11 +1,11 @@
 import { OnInit, ElementRef } from '@angular/core';
-import { CrontrolValueAccessorBase } from '../util/crontrol-value-acessor-base';
+import { ControlValueAccessor } from '@angular/forms';
 
 declare var $: any;
 
 declare var kendo: any;
 
-export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> implements OnInit {  
+export abstract class AbstractQrCode implements OnInit, ControlValueAccessor {  
 
     private errorCorrection: string;
     
@@ -14,10 +14,10 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
     private color: string;
     
     private background: string;
-        
-    constructor(protected element: ElementRef) {
-        super();
-    }
+    
+    protected innerValue: any;
+
+    constructor(protected element: ElementRef) {}
 
     ngOnInit() {        
         this.errorCorrection = this.element.nativeElement.getAttribute('errorCorrection');
@@ -33,13 +33,6 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
         this.renderize();
     }
 
-    writeValue(value: any) {
-        if (value !== this.innerValue) {
-            this.innerValue = value ? value : null;
-            this.renderize();
-        }
-    }
-
     renderize() {
         const $element = $(this.element.nativeElement);
         $element.empty();
@@ -53,4 +46,29 @@ export abstract class AbstractQrCode extends CrontrolValueAccessorBase<string> i
         }
     }
 
+    onChange = (value: any) => {};
+    
+    onTouched = () => {};
+ 
+    get value(): any {    
+        return this.innerValue;
+    }
+
+    set value(value: any) {
+        if (this.innerValue !== value) {
+            this.innerValue = value;
+            this.onChange(value);
+        }
+    }
+
+    writeValue(value: any) {
+        if (value !== this.innerValue) {
+            this.innerValue = value;
+            this.renderize();
+        }
+    }
+
+    registerOnChange(fn: (_: any) => void): void {this.onChange = fn;}
+
+    registerOnTouched(fn: () => void): void {this.onTouched = fn;}
 }
