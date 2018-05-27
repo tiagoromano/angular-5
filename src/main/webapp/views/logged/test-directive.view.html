@@ -4,6 +4,7 @@
     - valid
     - as-date
     - ui-select
+    - mask
 -->
 <div class="container">
   <h3>Cliente</h3>
@@ -21,22 +22,36 @@
         <br/>
 
         <fieldset>
-          <div id="crn-textinput-nome" class="col-md-12">
-            <div class="form-group">
-              <label for="textinput-nome" class="">Nome</label>
-              <input
-                  type="text"
-                  class="form-control"
-                  id="textinput-nome"
-                  placeholder="Nome"
-                  name="nome"
-                  cron-security="enabled : Administrators">
-            </div>
-          </div>
+          <!--<div id="crn-textinput-telefone" class="col-md-3">-->
+            <!--<div class="form-group">-->
+              <!--<label for="crn-textinput-telefone" class="">Telefone</label>-->
+              <!--<input-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--mask="(99) 99999-9999;0"-->
+                  <!--id="textinput-telefone"-->
+                  <!--placeholder="Telefone"-->
+                  <!--name="telefone"-->
+                  <!--cron-security="enabled : Administrators">-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-249449">
-            <div class="form-group">
-              <label for="lista">Ramo Atividade (Simple Select [ui-select]) </label>
+          <!--<div id="crn-textinput-nome" class="col-md-9">-->
+            <!--<div class="form-group">-->
+              <!--<label for="textinput-nome" class="">Nome</label>-->
+              <!--<input-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--id="textinput-nome"-->
+                  <!--placeholder="Nome"-->
+                  <!--name="nome"-->
+                  <!--cron-security="enabled : Administrators">-->
+            <!--</div>-->
+          <!--</div>-->
+
+          <!--<div class="col-md-6" data-component="crn-combobox" id="crn-combobox-249449">-->
+            <!--<div class="form-group">-->
+              <!--<label for="lista">Ramo Atividade (Simple Select [ui-select]) </label>-->
               <!--<ui-select id="lista"-->
                          <!--crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"-->
                          <!--[(ngModel)]="ramoAtividadeModel"-->
@@ -54,24 +69,24 @@
                   <!--<div class="">{{rowData.value}}</div>-->
                 <!--</ui-select-choices>-->
               <!--</ui-select>-->
-            </div>
-          </div>
+            <!--</div>-->
+          <!--</div>-->
 
-          <div id="crn-combo-box" class="col-md-6">
-            <div class="form-group">
-              <label for="textinput-ramo2" class="">Valida ComboBox (Simple Select)</label>
-              <input
-                  id="textinput-ramo2"
-                  type="text"
-                  class="form-control"
-                  name="nome"
-                  value="{{ramoAtividadeModel | json}}">
-            </div>
-          </div>
+          <!--<div id="crn-combo-box" class="col-md-6">-->
+            <!--<div class="form-group">-->
+              <!--<label for="textinput-ramo2" class="">Valida ComboBox (Simple Select)</label>-->
+              <!--<input-->
+                  <!--id="textinput-ramo2"-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--name="nome"-->
+                  <!--value="{{ramoAtividadeModel | json}}">-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="col-md-6" data-component="crn-combobox" id="crn-combobox-56565">
-            <div class="form-group">
-              <label for="lista3">Ramo Atividade (MultiSelect - [cron-select]) </label>
+          <!--<div class="col-md-6" data-component="crn-combobox" id="crn-combobox-56565">-->
+            <!--<div class="form-group">-->
+              <!--<label for="lista3">Ramo Atividade (MultiSelect - [cron-select]) </label>-->
               <!--<cron-select id="lista3" multiple-->
                          <!--crn-datasource="[{'key': 1,'value':'VAREJO'},{'key': 2,'value':'ATACADO'},{'key': 3,'value':'SERVIÇO'}]"-->
                          <!--[(ngModel)]="ramoAtividadeModel2"-->
@@ -84,20 +99,20 @@
                          <!--name="ramoAtividade"-->
                          <!--#ramoAtividade>-->
               <!--</cron-select>-->
-            </div>
-          </div>
+            <!--</div>-->
+          <!--</div>-->
 
-          <div id="crn-combo-box4" class="col-md-6">
-            <div class="form-group">
-              <label for="textinput-ramo4" class="">Valida ComboBox (MultiSelect)</label>
-              <input
-                  id="textinput-ramo4"
-                  type="text"
-                  class="form-control"
-                  name="ramoAtividade4"
-                  value="{{ramoAtividadeModel2 | json}}">
-            </div>
-          </div>
+          <!--<div id="crn-combo-box4" class="col-md-6">-->
+            <!--<div class="form-group">-->
+              <!--<label for="textinput-ramo4" class="">Valida ComboBox (MultiSelect)</label>-->
+              <!--<input-->
+                  <!--id="textinput-ramo4"-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--name="ramoAtividade4"-->
+                  <!--value="{{ramoAtividadeModel2 | json}}">-->
+            <!--</div>-->
+          <!--</div>-->
 
           <div class="col-md-6">
             <div class="form-group">
@@ -108,18 +123,20 @@
                      id="cadastro"
                      name="cadastro"
                      [(ngModel)]="cadastroModel"
+                     style="width: 100%"
                      #cadastro/>
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="nascimento2" class="">Valida Data Simples</label>
+              <label for="cadastro2" class="">Valida Data Simples</label>
               <input class="form-control"
                      type="text"
                      mask=""
                      id="cadastro2"
                      name="cadastro2"
+                     style="width: 100%"
                      [(ngModel)]="cadastroModel"/>
             </div>
           </div>
@@ -127,11 +144,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="nascimento" class="">Data e Hora</label>
+              /*mask="DD/MM/YYYY HH:mm:ss"*/
               <input class="form-control"
                      type="date"
-                     cron-as-date="DD/MM/YYYY HH:mm:ss"
+                     mask="dd/MM/yyyy HH:mm:ss"
                      id="nascimento"
                      name="nascimento"
+                     style="width: 100%"
                      [(ngModel)]="nascimentoModel"
                      #nascimento/>
             </div>
@@ -141,81 +160,84 @@
             <div class="form-group">
               <label for="nascimento2" class="">Valida Data e Hora</label>
               <input class="form-control"
-                     type="text"
-                     mask=""
+                     type="date"
+                     mask="DD/MM/YYYY HH:mm:ss"
                      id="nascimento2"
                      name="nascimento2"
-                     [(ngModel)]="nascimentoModel"/>
+                     style="width: 100%"
+                     [(ngModel)]="nascimentoModel"
+                     #nascimento/>
             </div>
           </div>
 
-          <div id="crn-textinput-cpf" class="col-md-12">
-            <div class="form-group">
-              <label for="cpf" class="">CPF</label>
-              <input
-                  type="text"
-                  class="form-control"
-                  id="cpf"
-                  placeholder="CPF"
-                  name="cpf"
-                  cron-valid="cpf"
-                  data-error-message="CPF Inválido"
-                  [(ngModel)]="cpfText"
-                  #cpf="ngModel">
-            </div>
-            <div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"
-                 class="alert alert-danger">
-              <div *ngIf="cpf.errors.valid">
-                CPF Invalid
-              </div>
-            </div>
-          </div>
+          <!--<div id="crn-textinput-cpf" class="col-md-12">-->
+            <!--<div class="form-group">-->
+              <!--<label for="cpf" class="">CPF</label>-->
+              <!--<input-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--id="cpf"-->
+                  <!--placeholder="CPF"-->
+                  <!--name="cpf"-->
+                  <!--cron-valid="cpf"-->
+                  <!--data-error-message="CPF Inválido"-->
+                  <!--[(ngModel)]="cpfText"-->
+                  <!--#cpf="ngModel">-->
+            <!--</div>-->
+            <!--<div *ngIf="cpf.invalid && (cpf.dirty || cpf.touched)"-->
+                 <!--class="alert alert-danger">-->
+              <!--<div *ngIf="cpf.errors.valid">-->
+                <!--CPF Invalid-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div id="crn-textinput-cnpj" class="col-md-12">
-            <div class="form-group">
-              <label for="cnpj" class="">CNPJ</label>
-              <input
-                  type="text"
-                  class="form-control"
-                  id="cnpj"
-                  placeholder="CNPJ"
-                  name="cnpj"
-                  valid="cnpj"
-                  data-error-message="CNPJ Inválido"
-                  [(ngModel)]="cnpjText"
-                  #cnpj="ngModel">
-            </div>
-            <div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"
-                 class="alert alert-danger">
-              <div *ngIf="cnpj.errors.valid">
-                CNPJ Invalid
-              </div>
-            </div>
-          </div>
+          <!--<div id="crn-textinput-cnpj" class="col-md-12">-->
+            <!--<div class="form-group">-->
+              <!--<label for="cnpj" class="">CNPJ</label>-->
+              <!--<input-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--id="cnpj"-->
+                  <!--placeholder="CNPJ"-->
+                  <!--name="cnpj"-->
+                  <!--valid="cnpj"-->
+                  <!--data-error-message="CNPJ Inválido"-->
+                  <!--[(ngModel)]="cnpjText"-->
+                  <!--#cnpj="ngModel">-->
+            <!--</div>-->
+            <!--<div *ngIf="cnpj.invalid && (cnpj.dirty || cnpj.touched)"-->
+                 <!--class="alert alert-danger">-->
+              <!--<div *ngIf="cnpj.errors.valid">-->
+                <!--CNPJ Invalid-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div id="crn-qr-code" class="col-md-12">
-            <div class="form-group">
-              <label for="qr-code" class="">Code</label>
-              <input
-                  type="text"
-                  class="form-control"
-                  id="qr-code"
-                  placeholder="CNPJ"
-                  name="qr-code"
-                  valid="qr-code"
-                  data-error-message="CNPJ Inválido"
-                  [(ngModel)]="qrCodeModel"
-                  #cnpj="ngModel">
-            </div>
-          </div>
+          <!--<div id="crn-qr-code" class="col-md-12">-->
+            <!--<div class="form-group">-->
+              <!--<label for="qr-code" class="">Code</label>-->
+              <!--<input-->
+                  <!--type="text"-->
+                  <!--class="form-control"-->
+                  <!--id="qr-code"-->
+                  <!--placeholder="CNPJ"-->
+                  <!--name="qr-code"-->
+                  <!--valid="qr-code"-->
+                  <!--data-error-message="CNPJ Inválido"-->
+                  <!--[(ngModel)]="qrCodeModel"-->
+                  <!--#cnpj="ngModel">-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div id="crn-qr" class="col-md-2">
-            <h3>Code</h3>
-            <div qr
-                 [(ngModel)]="qrCodeModel"
-                 id="qrCodeDesign">
-            </div>
-          </div>
+          <!--<div id="crn-qr" class="col-md-2">-->
+            <!--<h3>Code</h3>-->
+            <!--<div qr-->
+                 <!--[(ngModel)]="qrCodeModel"-->
+                 <!--name="qrCodeDesign"-->
+                 <!--id="qrCodeDesign">-->
+            <!--</div>-->
+          <!--</div>-->
         </fieldset>
       </form>
     </div>

@@ -1,13 +1,7 @@
 import {
   Directive,
   ElementRef,
-  Input,
-  OnInit,
-  forwardRef,
-  ChangeDetectorRef,
-  KeyValueDiffers,
-  Renderer2,
-  NgZone
+  forwardRef
 } from '@angular/core';
 
 import { TranslateService } from "@ngx-translate/core";
@@ -25,14 +19,10 @@ import { AbstractDate } from './abstract-date.directive';
 export class MaskDateDirective extends AbstractDate {
 
   constructor(
-    protected changeDetector: ChangeDetectorRef,
     protected element: ElementRef,
-    protected differs: KeyValueDiffers,
-    protected renderer: Renderer2,
-    protected translate: TranslateService,
-    protected zone: NgZone
+    protected translate: TranslateService
   ) {
-    super(changeDetector, element, differs, renderer, translate, zone);
+    super(element, translate);
   }
 
 }

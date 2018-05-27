@@ -1,250 +1,356 @@
-<h3></h3>
+<div class="container">
+  <h3>Pedido</h3>
 
-<!-- div row para pesquisa -->
-<!--<div class="row">-->
+  <!-- div row para pesquisa -->
+  <!--<div class="row">-->
 
-<div ng-hide="Pedido.inserting || Pedido.editing" data-component="crn-datasource-filter" id="crn-datasource-filter-general" class="">
-  <div class="form-group">
-    <label for="textinput-filter" class="">{{"template.crud.search" | translate}}</label>
-    <input type="text" ng-model="vars.search" cronapp-filter="nomePedido;" cronapp-filter-operator="" cronapp-filter-caseinsensitive="false" cronapp-filter-autopost="true" crn-datasource="Pedido" class="form-control" value="" placeholder="{{'template.crud.search' | translate}}">
-  </div>
-</div>
-
-<div data-component="crn-button" id="crn-button-564202" class="">
-  <button class="btn btn-primary" type="submit" onclick="" data-component="crn-button" ng-click="Pedido.startInserting()" ng-hide="Pedido.inserting || Pedido.editing"><i class="fa fa-user"></i> <span class="">{{"template.crud.new" | translate}}</span></button>
-</div>
-<!-- fim div row para pesquisa -->
-<!--</div>-->
-
-<datasource filter="" name="Pedido" entity="api/cronapi/crud/app.entity.Pedido" keys="id" rows-per-page="100" delete-message="Deseja remover?" class=""></datasource>
-<div class="component-holder" data-component="crn-grid" id="crn-grid-Pedido">
-  <div crn-datasource="Pedido" class="" ng-hide="Pedido.editing || Pedido.inserting">
-    <table class="table  table-bordered table-hover table-striped">
-      <thead>
-      <tr class="table-header">
-        <th class="">
-          <div class="">Nome Pedido</div>
-        </th>
-        <th class="">
-          <div class="">Numero Nota Fiscal</div>
-        </th>
-        <th class="">
-          <div class="">{{"template.crud.actions" | translate}}</div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="table-content" ng-repeat="rowData in datasource.data">
-        <td class="">
-          <div class="">
-            {{rowData.nomePedido  }}
-          </div>
-        </td>
-        <td class="">
-          <div class="">
-            {{rowData.numeroNotaFiscal  }}
-          </div>
-        </td>
-        <td class="">
-          <div class="">
-            <button class="btn btn-default btn-sm" data-component="crn-button" type="submit" ng-click="datasource.startEditing(rowData)"><i class="fa fa-edit"></i></button>
-            <button class="btn btn-default btn-sm" data-component="crn-button" type="submit" ng-click="datasource.remove(rowData)"><i class="fa fa-times"></i></button>
-          </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <div class="table-footer-controls">
-      <button class="btn btn-default btn-block btn-clicked" data-component="crn-button" ng-show="datasource.hasNextPage()" ng-click="datasource.nextPage()">{{"template.crud.load_more" | translate}}...</button>
+  <div ng-hide="Pedido.inserting || Pedido.editing" data-component="crn-datasource-filter"
+       id="crn-datasource-filter-general" class="">
+    <div class="form-group">
+      <label for="textinput-filter" class="">{{"template.crud.search" | translate}}</label>
+      <input type="text" ng-model="vars.search" cronapp-filter="nomePedido;"
+             cronapp-filter-operator="" cronapp-filter-caseinsensitive="false"
+             cronapp-filter-autopost="true" crn-datasource="Pedido"
+             class="form-control" value="" id="textinput-filter"
+             placeholder="{{'template.crud.search' | translate}}">
     </div>
   </div>
-</div>
-<div data-component="crn-form" id="crn-form-form-Pedido">
-  <div class="form" ng-show="Pedido.editing || Pedido.inserting">
-    <form crn-datasource="Pedido" class="">
-      <div class="tool-bar" ng-hide="datasource.editing || datasource.inserting">
-        <button class="btn btn-primary" data-component="crn-button" ng-click="datasource.startInserting()"><i class="glyphicon glyphicon-plus-sign"></i></button>
-        <button class="btn btn-success" data-component="crn-button" ng-click="datasource.startEditing()"><i class="glyphicon glyphicon-edit"></i></button>
-        <button class="btn btn-primary" data-component="crn-button" ng-disabled="!datasource.hasPrevious()" ng-click="datasource.previous()"><i class="glyphicon glyphicon-chevron-left"></i></button>
-        <button class="btn btn-primary" data-component="crn-button" ng-disabled="!datasource.hasNext()" ng-click="datasource.next()"><i class="glyphicon glyphicon-chevron-right"></i></button>
-        <button class="btn btn-primary" data-component="crn-button" ng-click="datasource.remove()"><i class="glyphicon glyphicon-trash"></i></button>
-      </div>
-      <div class="active-bar" ng-hide="!datasource.editing &amp;&amp; !datasource.inserting">
-        <button class="btn btn-success" data-component="crn-button" ng-click="datasource.post()"><i class="glyphicon glyphicon-ok"></i></button>
-        <button class="btn btn-danger" data-component="crn-button" ng-click="datasource.cancel()"><i class="glyphicon glyphicon-remove"></i></button>
-      </div>
-      <br/>
-      <fieldset ng-disabled="!datasource.editing &amp;&amp; !datasource.inserting">
 
-        <div data-component="crn-textinput" id="crn-textinput-nomePedido" class="">
-          <div class="form-group">
-            <label for="textinput-nomePedido" class="">Nome Pedido</label>
-            <!-- else for if !model.hasCronappFramework() -->
-            <input
-                type="text"
-                ng-model="Pedido.active.nomePedido"
-                class="form-control"
-                id="textinput-nomePedido"
-                placeholder="Nome Pedido"
-                mask=""
-                mask-placeholder=""
-                ng-required="true">
-            <!-- end if !model.hasCronappFramework() -->
-          </div>
-        </div>
+  <div data-component="crn-button" id="crn-button-564202" class="">
+    <button class="btn btn-primary" type="submit" onclick="" data-component="crn-button"
+            ng-click="Pedido.startInserting()" ng-hide="Pedido.inserting || Pedido.editing"><i
+        class="fa fa-user"></i> <span class="">{{"template.crud.new" | translate}}</span></button>
+  </div>
+  <!-- fim div row para pesquisa -->
+  <!--</div>-->
 
-        <div data-component="crn-textinput" id="crn-textinput-numeroNotaFiscal" class="">
-          <div class="form-group">
-            <label for="textinput-numeroNotaFiscal" class="">Numero Nota Fiscal</label>
-            <!-- else for if !model.hasCronappFramework() -->
-            <input
-                type="text"
-                ng-model="Pedido.active.numeroNotaFiscal"
-                class="form-control"
-                id="textinput-numeroNotaFiscal"
-                placeholder="Numero Nota Fiscal"
-                mask=""
-                mask-placeholder=""
-                ng-required="true">
-            <!-- end if !model.hasCronappFramework() -->
-          </div>
-        </div>
-        <!-- NtoN  -->
-        <!-- NtoN  end-->
-      </fieldset>
-    </form>
-    <form>
-      <fieldset>
-        <!-- OneToN -->
-        <!--query filter 1toN -->
-        <!-- query filter 1toN end-->
-        <datasource filter="" name="PedidoItemGrid" enabled="{{Pedido.editing || Pedido.inserting}}" entity="api/cronapi/crud/app.entity.Pedido/{{Pedido.active.id}}/relation:pedido:PedidoItem" keys="id" rows-per-page="100" lazy="true" auto-post="true" dependent-lazy-post="Pedido" dependent-lazy-post-field="pedido"></datasource>
-        <div data-component="crn-button" class="">
-          <button class="btn btn-primary" onclick="$('#modalPedidoItemGrid').modal('show');" data-component="crn-button" ng-click="PedidoItemGrid.startInserting();"><i class="fa fa-plus"></i>
-            <span class="">{{"Add" | translate}} </span>
+  <datasource filter="" name="Pedido" entity="api/cronapi/crud/app.entity.Pedido" keys="id"
+              rows-per-page="100" delete-message="Deseja remover?" class=""></datasource>
+  <div class="component-holder" data-component="crn-grid" id="crn-grid-Pedido">
+    <div crn-datasource="Pedido" class="" ng-hide="Pedido.editing || Pedido.inserting">
+      <table class="table  table-bordered table-hover table-striped">
+        <thead>
+        <tr class="table-header">
+          <th class="">
+            <div class="">Nome Pedido</div>
+          </th>
+          <th class="">
+            <div class="">Numero</div>
+          </th>
+          <th class="">
+            <div class="">Emissão</div>
+          </th>
+          <th class="">
+            <div class="">Entrega</div>
+          </th>
+          <th class="">
+            <div class="">Valor</div>
+          </th>
+          <th class="">
+            <div class="">{{"template.crud.actions" | translate}}</div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-content" ng-repeat="rowData in datasource.data">
+          <td class="">
+            <div class="">
+              {{rowData.nomePedido}}
+            </div>
+          </td>
+          <td class="">
+            <div class="">
+              {{rowData.numeroNotaFiscal}}
+            </div>
+          </td>
+          <td class="">
+            <div class="">
+              {{rowData.emissao | date:'dd-MM-yyyy HH:mm'}}
+            </div>
+          </td>
+          <td class="">
+            <div class="">
+              {{rowData.dataEntrega | date:'dd-MM-yyyy'}}
+            </div>
+          </td>
+          <td class="">
+            <div class="">
+              {{rowData.valorTotal}}
+            </div>
+          </td>
+          <td class="">
+            <div class="">
+              <button class="btn btn-default btn-sm" data-component="crn-button" type="submit"
+                      ng-click="datasource.startEditing(rowData)"><i class="fa fa-edit"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-component="crn-button" type="submit"
+                      ng-click="datasource.remove(rowData)"><i class="fa fa-times"></i></button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <div class="table-footer-controls">
+        <button class="btn btn-default btn-block btn-clicked" data-component="crn-button"
+                ng-show="datasource.hasNextPage()" ng-click="datasource.nextPage()">
+          {{"template.crud.load_more" | translate}}...
+        </button>
+      </div>
+    </div>
+  </div>
+  <div data-component="crn-form" id="crn-form-form-Pedido">
+    <div class="form" ng-show="Pedido.editing || Pedido.inserting">
+      <form crn-datasource="Pedido" class="">
+        <div class="tool-bar" ng-hide="datasource.editing || datasource.inserting">
+          <button class="btn btn-primary" data-component="crn-button"
+                  ng-click="datasource.startInserting()"><i
+              class="glyphicon glyphicon-plus-sign"></i></button>
+          <button class="btn btn-success" data-component="crn-button"
+                  ng-click="datasource.startEditing()"><i class="glyphicon glyphicon-edit"></i>
           </button>
+          <button class="btn btn-primary" data-component="crn-button"
+                  ng-disabled="!datasource.hasPrevious()" ng-click="datasource.previous()"><i
+              class="glyphicon glyphicon-chevron-left"></i></button>
+          <button class="btn btn-primary" data-component="crn-button"
+                  ng-disabled="!datasource.hasNext()" ng-click="datasource.next()"><i
+              class="glyphicon glyphicon-chevron-right"></i></button>
+          <button class="btn btn-primary" data-component="crn-button"
+                  ng-click="datasource.remove()"><i class="glyphicon glyphicon-trash"></i></button>
         </div>
-        <!--search 1toN-->
-        <!-- seach 1toN end-->
-        <div data-component="crn-textinput" id="crn-textinput-descricao">
-          <div class="form-group">
-            <label for="textinput-descricao" class="">
+        <div class="active-bar" ng-hide="!datasource.editing &amp;&amp; !datasource.inserting">
+          <button class="btn btn-success" data-component="crn-button" ng-click="datasource.post()">
+            <i class="glyphicon glyphicon-ok"></i></button>
+          <button class="btn btn-danger" data-component="crn-button" ng-click="datasource.cancel()">
+            <i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+        <br/>
+        <fieldset ng-disabled="!datasource.editing &amp;&amp; !datasource.inserting">
 
-            </label>
-            <div class="component-holder" data-component="crn-grid" id="crn-grid-PedidoItemGrid">
-              <div crn-datasource="PedidoItemGrid">
-                <table class="table table-bordered table-hover table-striped">
-                  <thead>
-                  <tr class="table-header">
-                    <th class="">
-                      <div class="">
-                        Item
-                      </div>
-                    </th>
-                    <th class="">
-                      <div class="">
-                        Valor
-                      </div>
-                    </th>
-                    <th class="">
-                      <div class="">
-                        {{"template.crud.actions" | translate}}
-                      </div>
-                    </th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr class="table-content" ng-repeat="rowData in datasource.data">
-                    <td>
-                      <div>
-                        {{rowData.item }}
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        {{rowData.valor }}
-                      </div>
-                    </td>
-                    <td>
-                      <div>
-                        <button class="btn btn-default btn-sm" data-component="crn-button" ng-click="datasource.startEditing(rowData)" onclick="$('#modalPedidoItemGrid').modal('show');" ><i class="fa fa-edit"></i></button>
-                        <button class="btn btn-default btn-sm" data-component="crn-button" ng-click="datasource.remove(rowData)"><i class="fa fa-times"></i></button>
-                      </div>
-                    </td>
-                  </tr>
-                  </tbody>
-                </table>
-                <div class="table-footer-controls">
-                  <button class="btn btn-default btn-block btn-clicked" data-component="crn-button" ng-show="datasource.hasNextPage()" ng-click="datasource.nextPage()" content="{{&quot;template.crud.load_more&quot; | translate}}...">{{"template.crud.load_more" | translate}}...</button>
+          <div data-component="crn-textinput" id="crn-textinput-nomePedido"
+               class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+              <label for="textinput-nomePedido" class="">Nome Pedido</label>
+              <!-- else for if !model.hasCronappFramework() -->
+              <input
+                  type="text"
+                  ng-model="Pedido.active.nomePedido"
+                  class="form-control"
+                  id="textinput-nomePedido"
+                  placeholder="Nome Pedido"
+                  mask=""
+                  mask-placeholder=""
+                  ng-required="true">
+              <!-- end if !model.hasCronappFramework() -->
+            </div>
+          </div>
+
+          <div data-component="crn-textinput" id="crn-textinput-numeroNotaFiscal"
+               class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="textinput-numeroNotaFiscal" class="">Numero Nota Fiscal</label>
+              <!-- else for if !model.hasCronappFramework() -->
+              <input
+                  type="text"
+                  ng-model="Pedido.active.numeroNotaFiscal"
+                  class="form-control"
+                  id="textinput-numeroNotaFiscal"
+                  placeholder="Numero Nota Fiscal"
+                  mask=""
+                  mask-placeholder=""
+                  ng-required="true">
+              <!-- end if !model.hasCronappFramework() -->
+            </div>
+          </div>
+
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="dt-emissao" class="">Emissão</label>
+              <input class="form-control"
+                     type="date"
+                     mask="DD/MM/YYYY HH:MM:SS"
+                     id="dt-emissao"
+                     name="dt-emissao"
+                     ng-model="Pedido.active.emissao"/>
+            </div>
+          </div>
+
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="dt-entrega" class="">Entrega</label>
+              <input class="form-control"
+                     type="date"
+                     cron-as-date="DD/MM/YYYY"
+                     id="dt-entrega"
+                     name="dt-entrega"
+                     ng-model="Pedido.active.dataEntrega"/>
+            </div>
+          </div>
+
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+            <div class="form-group">
+              <label for="valor-total" class="">Valor Total</label>
+              <input class="form-control"
+                     id="valor-total"
+                     name="valor-total"
+                     type="number"
+                     name="valorTotal"
+                     ng-model="Pedido.active.valorTotal"/>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+      <form>
+        <fieldset>
+          <!-- OneToN -->
+          <!--query filter 1toN -->
+          <!-- query filter 1toN end-->
+          <datasource filter="" name="PedidoItemGrid"
+                      enabled="{{Pedido.editing || Pedido.inserting}}"
+                      entity="api/cronapi/crud/app.entity.Pedido/{{Pedido.active.id}}/relation:pedido:PedidoItem"
+                      keys="id" rows-per-page="100" lazy="true" auto-post="true"
+                      dependent-lazy-post="Pedido" dependent-lazy-post-field="pedido"></datasource>
+          <div data-component="crn-button" class="">
+            <button class="btn btn-primary" onclick="$('#modalPedidoItemGrid').modal('show');"
+                    data-component="crn-button" ng-click="PedidoItemGrid.startInserting();"><i
+                class="fa fa-plus"></i>
+              <span class="">{{"Add" | translate}} </span>
+            </button>
+          </div>
+          <!--search 1toN-->
+          <!-- seach 1toN end-->
+          <div data-component="crn-textinput" id="crn-textinput-descricao">
+            <div class="form-group">
+              <label for="textinput-descricao" class="">
+
+              </label>
+              <div class="component-holder" data-component="crn-grid" id="crn-grid-PedidoItemGrid">
+                <div crn-datasource="PedidoItemGrid">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                    <tr class="table-header">
+                      <th class="">
+                        <div class="">
+                          Item
+                        </div>
+                      </th>
+                      <th class="">
+                        <div class="">
+                          Valor
+                        </div>
+                      </th>
+                      <th class="">
+                        <div class="">
+                          {{"template.crud.actions" | translate}}
+                        </div>
+                      </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="table-content" ng-repeat="rowData in datasource.data">
+                      <td>
+                        <div>
+                          {{rowData.item }}
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          {{rowData.valor }}
+                        </div>
+                      </td>
+                      <td>
+                        <div>
+                          <button class="btn btn-default btn-sm" data-component="crn-button"
+                                  ng-click="datasource.startEditing(rowData)"
+                                  onclick="$('#modalPedidoItemGrid').modal('show');"><i
+                              class="fa fa-edit"></i></button>
+                          <button class="btn btn-default btn-sm" data-component="crn-button"
+                                  ng-click="datasource.remove(rowData)"><i class="fa fa-times"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <div class="table-footer-controls">
+                    <button class="btn btn-default btn-block btn-clicked"
+                            data-component="crn-button" ng-show="datasource.hasNextPage()"
+                            ng-click="datasource.nextPage()"
+                            content="{{&quot;template.crud.load_more&quot; | translate}}...">
+                      {{"template.crud.load_more" | translate}}...
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- OneToOne  end -->
-      </fieldset>
-    </form>
-  </div>
-</div>
-
-
-<!-- OneToOne modal -->
-<div class="modal fade" id="modalPedidoItemGrid">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <form>
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="{{'Home.view.Close' | translate}}"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">PedidoItem</h4>
-        </div>
-        <div class="modal-body">
-          <div class="list-group list-group-sm row">
-            <!-- else of !model.hasCronappFramework() -->
-            <!-- end if !model.hasCronappFramework() -->
-
-            <!-- else of !model.hasCronappFramework() -->
-
-            <div data-component="crn-textinput"  id="crn-textinput-item" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                <label for="textinput-item">Item</label>
-                <input type="text"
-                       ng-model="PedidoItemGrid.active.item" class="form-control"
-                       id="textinput-item"
-                       placeholder="Item"
-                       mask=""
-                       mask-placeholder=""
-                       ng-required="false">
-              </div>
-            </div>
-            <!-- end if !model.hasCronappFramework() -->
-
-            <!-- else of !model.hasCronappFramework() -->
-
-            <div data-component="crn-textinput"  id="crn-textinput-valor" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="form-group">
-                <label for="textinput-valor">Valor</label>
-                <input type="text"
-                       ng-model="PedidoItemGrid.active.valor" class="form-control"
-                       id="textinput-valor"
-                       placeholder="Valor"
-                       mask=""
-                       mask-placeholder=""
-                       ng-required="false">
-              </div>
-            </div>
-            <!-- end if !model.hasCronappFramework() -->
-
-            <!-- else of !model.hasCronappFramework() -->
-            <!-- end if !model.hasCronappFramework() -->
-
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-component="crn-button" ng-click="PedidoItemGrid.post();" onclick="(!PedidoItemGrid.missingRequiredField()?$('#modalPedidoItemGrid').modal('hide'):void(0))">{{'Save' | translate}}</button>
-          <button type="button" class="btn btn-default" data-component="crn-button" data-dismiss="modal">{{'Home.view.Close' | translate}}</button>
-        </div>
+          <!-- OneToOne  end -->
+        </fieldset>
       </form>
     </div>
   </div>
+
+
+  <!-- OneToOne modal -->
+  <div class="modal fade" id="modalPedidoItemGrid">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="{{'Home.view.Close' | translate}}"><span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title">PedidoItem</h4>
+          </div>
+          <div class="modal-body">
+            <div class="list-group list-group-sm row">
+              <!-- else of !model.hasCronappFramework() -->
+              <!-- end if !model.hasCronappFramework() -->
+
+              <!-- else of !model.hasCronappFramework() -->
+
+              <div data-component="crn-textinput" id="crn-textinput-item"
+                   class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                  <label for="textinput-item">Item</label>
+                  <input type="text"
+                         ng-model="PedidoItemGrid.active.item" class="form-control"
+                         id="textinput-item"
+                         placeholder="Item"
+                         mask=""
+                         mask-placeholder=""
+                         ng-required="false">
+                </div>
+              </div>
+
+              <div data-component="crn-textinput" id="crn-textinput-valor"
+                   class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <div class="form-group">
+                  <label for="textinput-valor">Valor</label>
+                  <input type="text"
+                         ng-model="PedidoItemGrid.active.valor" class="form-control"
+                         id="textinput-valor"
+                         placeholder="Valor"
+                         mask=""
+                         mask-placeholder=""
+                         ng-required="false">
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-component="crn-button"
+                    ng-click="PedidoItemGrid.post();"
+                    onclick="(!PedidoItemGrid.missingRequiredField()?$('#modalPedidoItemGrid').modal('hide'):void(0))">
+              {{'Save' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-component="crn-button"
+                    data-dismiss="modal">{{'Home.view.Close' | translate}}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- OneToOne modal end-->
 </div>
-<!-- OneToOne modal end-->

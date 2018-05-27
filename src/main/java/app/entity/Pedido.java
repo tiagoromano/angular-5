@@ -44,8 +44,13 @@ public class Pedido implements Serializable {
    * @generated
    */
   @Column(name = "valor", nullable = true, unique = false, insertable=true, updatable=true)
-
   private java.lang.String numeroNotaFiscal;
+
+  private java.util.Date emissao;
+
+  private java.util.Date dataEntrega;
+
+  private java.lang.Double valorTotal;
 
   /**
    * Construtor
@@ -113,6 +118,30 @@ public class Pedido implements Serializable {
   public Pedido setNumeroNotaFiscal(java.lang.String numeroNotaFiscal){
     this.numeroNotaFiscal = numeroNotaFiscal;
     return this;
+  }
+
+  public Date getEmissao() {
+    return emissao;
+  }
+
+  public void setEmissao(Date emissao) {
+    this.emissao = emissao;
+  }
+
+  public Date getDataEntrega() {
+    return dataEntrega;
+  }
+
+  public void setDataEntrega(Date dataEntrega) {
+    this.dataEntrega = dataEntrega;
+  }
+
+  public Double getValorTotal() {
+    return valorTotal;
+  }
+
+  public void setValorTotal(Double valorTotal) {
+    this.valorTotal = valorTotal;
   }
 
   /**
