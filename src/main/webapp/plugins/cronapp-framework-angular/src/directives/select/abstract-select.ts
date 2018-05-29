@@ -1,9 +1,6 @@
 import {
-  Component,
   OnInit,
-  ElementRef,
-  Input,
-  ViewChild
+  ElementRef
 } from '@angular/core'
 import { ControlValueAccessor } from '@angular/forms';
 
@@ -28,8 +25,6 @@ export abstract class CronAbstractSelect implements OnInit, ControlValueAccessor
   protected data: any;
 
   protected valuePrimitive: boolean;
-
-  protected oldValue: any;
   
   protected oldData: any;
 
@@ -168,21 +163,25 @@ export abstract class CronAbstractSelect implements OnInit, ControlValueAccessor
       }
 
       if (this.multiple) {
-        if (Array.isArray(value)) {
-          let items = [];
-          
+        let items = [];
+        
+        if (Array.isArray(value)) {          
           value.forEach(element => {
             if (element[this.valueField]) {
               items.push(element[this.valueField]);  
             }
           });
+        } 
 
-          this.combobox.value(items);  
+        this.combobox.value(items);  
+      } else {
+        if (this.valuePrimitive) {
+          this.combobox.value(value ? value : null);
+        } else if (value && value[this.valueField]) {
+          this.combobox.value(value ? value[this.valueField] : null);
+        } else {
+          this.combobox.value('');
         }
-      } else if (this.valuePrimitive) {
-        this.combobox.value(value ? value : null);
-      } else if (value && value[this.valueField]) {
-        this.combobox.value(value ? value[this.valueField] : null);
       }
     }
   }

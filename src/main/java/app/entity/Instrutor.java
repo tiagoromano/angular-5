@@ -34,18 +34,25 @@ public class Instrutor implements Serializable {
   private java.lang.String id = UUID.randomUUID().toString().toUpperCase();
 
   /**
-  * @generated
-  */
+   * @generated
+   */
   @Column(name = "nome", nullable = true, unique = false, insertable=true, updatable=true)
-  
   private java.lang.String nome;
+
+  @Column(name = "cpf", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.String cpf;
+
+  @Column(name = "nascimento", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.util.Date nascimento;
+
+  @Column(name = "salario", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.Double salario;
 
   /**
   * @generated
   */
   @ManyToOne
   @JoinColumn(name="fk_municipio", nullable = true, referencedColumnName = "id", insertable=true, updatable=true)
-  
   private Municipio municipio;
 
   /**
@@ -113,6 +120,33 @@ public class Instrutor implements Serializable {
    */
   public Instrutor setMunicipio(Municipio municipio){
     this.municipio = municipio;
+    return this;
+  }
+
+  public String getCpf() {
+    return cpf;
+  }
+
+  public Instrutor setCpf(String cpf) {
+    this.cpf = cpf;
+    return this;
+  }
+
+  public Date getNascimento() {
+    return nascimento;
+  }
+
+  public Instrutor setNascimento(Date nascimento) {
+    this.nascimento = nascimento;
+    return this;
+  }
+
+  public Double getSalario() {
+    return salario;
+  }
+
+  public Instrutor setSalario(Double salario) {
+    this.salario = salario;
     return this;
   }
 

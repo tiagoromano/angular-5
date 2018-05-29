@@ -27,7 +27,16 @@
                     <div class="">Nome</div>
                 </th>
                 <th class="">
+                    <div class="">C.P.F</div>
+                </th>
+                <th class="">
+                    <div class="">Data Nascimento</div>
+                </th>
+                <th class="">
                     <div class="">Municipio</div>
+                </th>
+                <th class="">
+                    <div class="">Salário</div>
                 </th>
                 <th class="">
                     <div class="">{{"template.crud.actions" | translate}}</div>
@@ -38,12 +47,27 @@
             <tr class="table-content" ng-repeat="rowData in datasource.data">
                 <td class="">
                     <div class="">
-                                {{rowData.nome  }}
+                        {{rowData.nome}}
                     </div>
                 </td>
                 <td class="">
                     <div class="">
-                            {{rowData.municipio.descricao}}
+                        {{rowData.cpf}}
+                    </div>
+                </td>
+                <td class="">
+                    <div class="">
+                        {{rowData.nascimento | date}}
+                    </div>
+                </td>
+                <td class="">
+                    <div class="">
+                        {{rowData.municipio.descricao}}
+                    </div>
+                </td>
+                <td class="">
+                    <div class="">
+                        {{rowData.salario | number}}
                     </div>
                 </td>
                 <td class="">
@@ -77,7 +101,8 @@
             <br/>
             <fieldset ng-disabled="!datasource.editing &amp;&amp; !datasource.inserting">
 
-                <div data-component="crn-textinput" id="crn-textinput-nome" class="">
+                <div data-component="crn-textinput" id="crn-textinput-nome"
+                     class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="form-group">
                         <label for="textinput-nome" class="">Nome</label>
                         <input
@@ -88,47 +113,97 @@
                             placeholder="Nome"
                             mask=""
                             mask-placeholder=""
+                            ng-required="false"
+                            cron-security="enabled : Administrators">
+                    </div>
+                </div>
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="dt-nascimento" class="">Data Nascimento</label>
+                        <input class="form-control"
+                               type="date"
+                               cron-as-date="DD/MM/YYYY"
+                               id="dt-nascimento"
+                               name="dt-nascimento"
+                               style="width: 100%"
+                               ng-model="Instrutor.active.nascimento"/>
+                    </div>
+                </div>
+
+                <div data-component="crn-textinput" id="crn-textinput-cpf" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="textinput-cpf" class="">CPF</label>
+                        <input
+                            type="text"
+                            ng-model="Instrutor.active.cpf"
+                            class="form-control"
+                            id="textinput-cpf"
+                            placeholder="C.P.F"
+                            data-error-message="CPF Inválido"
+                            style="width: 100%"
+                            mask="999.999.999-99;0"
+                            cron-valid="cpf"
+                            mask-placeholder=""
                             ng-required="false">
                     </div>
                 </div>
 
                 <datasource name="Municipio" entity="api/cronapi/crud/app.entity.Municipio" keys="id" class="" dependent-by="{{Instrutor}}"></datasource>
-                <div data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-municipio" class="">
+                <div data-component="crn-combobox-dynamic" id="crn-combobox-dynamic-municipio"
+                     class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                     <div class="form-group">
                         <label for="combobox-dynamic-municipio" class="">Municipio</label>
                         <ui-select ng-model="Instrutor.active.municipio" crn-datasource="Municipio" class="crn-select" id="combobox-dynamic-municipio" ng-required="false" theme="bootstrap">
-                          <ui-select-match class="" placeholder="Select...">
-                              {{$select.selected.descricao}}
-                          </ui-select-match>
-                          <ui-select-choices  repeat="rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay="">
-                              <div class="" data-container="true">
-                                  {{rowData.descricao}}
-                              </div>
-                          </ui-select-choices>
-                      </ui-select>
+                            <ui-select-match class="" placeholder="Select...">
+                                {{$select.selected.descricao}}
+                            </ui-select-match>
+                            <ui-select-choices  repeat="rowData in datasource.data | filter : $select.search" class="" refresh="" refresh-deplay="">
+                                <div class="" data-container="true">
+                                    {{rowData.descricao}}
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
                     </div>
                 </div>
 
                 <!-- NtoN  -->
                 <!-- TODO: Verificar propriedade enabled do datasource pq a mesma não ta funcionando -->
-                <datasource append="false" name="Curso" entity="api/cronapi/crud/app.entity.Instrutor/{{Instrutor.active.id}}/relation:curso:Curso" keys="id" rows-per-page="100" lazy="true" auto-post="true" enabled="{{Instrutor.editing || Instrutor.inserting}}" dependent-lazy-post="Instrutor" dependent-lazy-post-field="instrutor"></datasource>
-                <datasource name="AllCurso" entity="api/cronapi/crud/app.entity.Curso" keys="id" rows-per-page="100"></datasource>
-                <div class="component-holder ng-binding ng-scope" data-component="crn-combobox" ng-show="datasource.editing || datasource.inserting" >
-                  <div class="form-group">
-                    <label for="select-ui">Curso</label>
-                    <div id="select-ui" data-component="crn-tags">
-                      <ui-select multiple crn-datasource="AllCurso" id="combobox-dynamic-curso" ng-model="Curso.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Instrutor.editing || Instrutor.inserting }}" >
-                        <ui-select-match placeholder="Curso...">
-                          {{$item.nome }}
-                        </ui-select-match>
-                        <ui-select-choices repeat="rowData in datasource.data | filter : $select.search" class="">
-                          {{rowData.nome}}
-                        </ui-select-choices>
-                      </ui-select>
+                <!--<datasource append="false" name="Curso" entity="api/cronapi/crud/app.entity.Instrutor/{{Instrutor.active.id}}/relation:curso:Curso" keys="id" rows-per-page="100" lazy="true" auto-post="true" enabled="{{Instrutor.editing || Instrutor.inserting}}" dependent-lazy-post="Instrutor" dependent-lazy-post-field="instrutor"></datasource>-->
+                <!--<datasource name="AllCurso" entity="api/cronapi/crud/app.entity.Curso" keys="id" rows-per-page="100"></datasource>-->
+                <!--<div class="component-holder ng-binding ng-scope" data-component="crn-combobox" ng-show="datasource.editing || datasource.inserting" >-->
+                <!--<div class="form-group">-->
+                <!--<label for="select-ui">Curso</label>-->
+                <!--<div id="select-ui" data-component="crn-tags">-->
+                <!--<ui-select multiple crn-datasource="AllCurso" id="combobox-dynamic-curso" ng-model="Curso.data" (ngModelChange)="changeModel(newValue)" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Instrutor.editing || Instrutor.inserting }}" >-->
+                <!--<ui-select-match placeholder="Curso...">-->
+                <!--{{$item.nome }}-->
+                <!--</ui-select-match>-->
+                <!--<ui-select-choices repeat="rowData in datasource.data | filter : $select.search" class="">-->
+                <!--{{rowData.nome}}-->
+                <!--</ui-select-choices>-->
+                <!--</ui-select>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--{{Curso.data | json}}-->
+
+                <div data-component="crn-textinput" id="crn-textinput-salario"
+                     class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="textinput-salario" class="">Salário</label>
+                        <input
+                            type="number"
+                            ng-model="Instrutor.active.salario"
+                            class="form-control"
+                            id="textinput-salario"
+                            placeholder="Salário"
+                            mask="#.###,00"
+                            mask-placeholder=""
+                            ng-required="false">
                     </div>
-                  </div>
-                  {{Curso.data | json}}
                 </div>
+
             </fieldset>
         </form>
 

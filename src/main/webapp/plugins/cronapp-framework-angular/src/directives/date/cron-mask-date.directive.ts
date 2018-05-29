@@ -8,10 +8,10 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { AbstractDate } from './abstract-date.directive';
+import { AbstractDate } from './abstract-date';
 
 @Directive({
-  selector: '[cron-as-date]',
+  selector: '[type="date"][cron-as-date]',
   providers: [
     {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CronMaskDateDirective), multi: true}
   ]

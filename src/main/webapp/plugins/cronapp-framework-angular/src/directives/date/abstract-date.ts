@@ -69,7 +69,7 @@ export class AbstractDate implements OnInit, ControlValueAccessor {
     culture = culture.replace(/_/gm,'-');
     let parts = culture.split('-');    
     parts[parts.length - 1] = parts[parts.length - 1].toUpperCase();
-    return parts.join('');
+    return parts.join('-');
   }
 
   formatMask(mask) {
@@ -114,7 +114,7 @@ export class AbstractDate implements OnInit, ControlValueAccessor {
 
     if (value !== this.innerValue) {
       this.innerValue = value;
-      this.datetimepicker.value(value);
+      this.datetimepicker.value(value ? value : null);
     }
   }
 

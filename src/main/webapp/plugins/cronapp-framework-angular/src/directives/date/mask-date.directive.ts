@@ -8,7 +8,7 @@ import { TranslateService } from "@ngx-translate/core";
 
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { AbstractDate } from './abstract-date.directive';
+import { AbstractDate } from './abstract-date';
 
 @Directive({
   selector: '[type="date"][mask]',

@@ -34,8 +34,9 @@
         "../node_modules/jquery-mask-plugin/dist/jquery.mask.min.js",
         "../node_modules/jquery.inputmask/dist/jquery.inputmask.bundle.js",
         "../vendor/kendo-ui/js/kendo.all.min.js",
-        "../vendor/kendo-ui/js/cultures/kendo.culture.pt-BR.min.js"
-
+        "../vendor/kendo-ui/js/cultures/kendo.culture.pt-BR.min.js",
+        "../../cronapp-framework-js/dist/components/js/jquery.inputmask.bundle.js",
+        "../../cronapp-framework-js/dist/components/js/format.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
@@ -44,7 +45,6 @@
       }
     }
   ],
-  
    "addons": [
      "../node_modules/font-awesome/fonts/*.+(otf|eot|svg|ttf|woff|woff2)"
    ],

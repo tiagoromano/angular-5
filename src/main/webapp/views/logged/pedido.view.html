@@ -170,6 +170,7 @@
                      mask="DD/MM/YYYY HH:MM:SS"
                      id="dt-emissao"
                      name="dt-emissao"
+                     style="width: 100%"
                      ng-model="Pedido.active.emissao"/>
             </div>
           </div>
@@ -180,6 +181,7 @@
               <input class="form-control"
                      type="date"
                      cron-as-date="DD/MM/YYYY"
+                     style="width: 100%"
                      id="dt-entrega"
                      name="dt-entrega"
                      ng-model="Pedido.active.dataEntrega"/>
@@ -192,8 +194,8 @@
               <input class="form-control"
                      id="valor-total"
                      name="valor-total"
-                     type="number"
-                     name="valorTotal"
+                     mask="#,000.00"
+                     type="text"
                      ng-model="Pedido.active.valorTotal"/>
             </div>
           </div>

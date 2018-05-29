@@ -1,4 +1,3 @@
-// import { NewComponentComponent } from './new-component/new-component.component';
 import { NgModule } from '@angular/core';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -12,25 +11,16 @@ import { ValidDirective } from '../directives/valid/valid.directive';
 import { CronValidDirective } from '../directives/valid/cron-valid.directive';
 import { DatasourceDirective } from '../directives/datasource/datasource.directive';
 import { MaskDateDirective } from '../directives/date/mask-date.directive';
-import { MaskTextDirective } from '../directives/text/mask-text.directive';
+import { MaskTextDirective } from '../directives/text/mask.directive';
+import { CronMaskTextDirective } from '../directives/text/cron-mask.directive';
 import { CronMaskDateDirective } from '../directives/date/cron-mask-date.directive';
 import { CronappSecurityDirective } from '../directives/cronapp-security/cronapp-security.directive';
 import { CronSecurityDirective } from '../directives/cronapp-security/cron-security.directive';
 import { UiSelectComponent } from '../directives/select/ui-select.component';
 import { CronSelectComponent } from '../directives/select/cron-select.component';
-
 import { QrCodeDirective } from '../directives/qr-code/qrcode.directive';
 import { CronQrCodeDirective } from '../directives/qr-code/cron-qrcode.directive';
-
-// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-// import { ImportClass } from './common/importClass.component';
-
-
-// import {Component, VERSION, ComponentFactoryResolver, InjectionToken,Injector, ElementRef, Output, Input, EventEmitter,
-//         ComponentFactory, ComponentRef} from '@angular/core';
-// import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { SimpleNotificationsModule } from 'angular2-notifications';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../../../i18n/locale_', '.json');
@@ -79,12 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
         UiSelectComponent,
         CronSelectComponent
     ],
-    providers: [
-
-        // HelperServiceProvider,
-        // CommonVariableProvider,
-        // DatasourceManagerProvider
-    ],
+    providers: [],
     bootstrap: []
 })
 

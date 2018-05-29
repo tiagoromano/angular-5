@@ -1,16 +1,13 @@
 import { 
-  Component, 
   OnInit,
   ElementRef,
   Input,
   forwardRef,
-  ViewChild,
-  ContentChild,
   Directive
 } from '@angular/core'
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CronAbstractSelect } from './cron-abstract-select';
+import { CronAbstractSelect } from './abstract-select';
 
 const COMBOBOX_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

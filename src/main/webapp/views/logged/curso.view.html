@@ -88,7 +88,6 @@
                 <div data-component="crn-textinput" id="crn-textinput-nome" class="row">
                     <div class="form-group col-lg-12">
                       <label for="textinput-nome" class="">Nome</label>
-<!-- else for if !model.hasCronappFramework() -->
                       <input
                         type="text"
                         ng-model="Curso.active.nome"
@@ -97,32 +96,30 @@
                         placeholder="Nome"
                         mask=""
                         mask-placeholder=""
+                        cron-security="enabled : Administrators"
                         ng-required="false">
-                       <!-- end if !model.hasCronappFramework() -->
                     </div>
                 </div>
 
-                <!-- NtoN  -->
-                <datasource name="Instrutor" append="false" entity="api/cronapi/crud/app.entity.Curso/{{Curso.active.id}}/relation:instrutor:Instrutor" keys="id" rows-per-page="100" lazy="true" auto-post="true" dependent-lazy-post="Curso" dependent-lazy-post-field="curso"></datasource>
-                <datasource name="AllInstrutor" entity="api/cronapi/crud/app.entity.Instrutor" keys="id" rows-per-page="100"></datasource>
-                <div class="component-holder ng-binding ng-scope row" data-component="crn-combobox" ng-show="datasource.editing || datasource.inserting" >
-                  <div class="form-group col-lg-12">
-                    <label for="select-ui">Instrutor</label>
-                    <div id="select-ui" data-component="crn-tags">
-                      <ui-select multiple crn-datasource="AllInstrutor" ng-model="Instrutor.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Curso.editing || Curso.inserting }}" >
-                        <ui-select-match placeholder="Instrutor...">
-                          {{$item.nome }}
-                        </ui-select-match>
-                        <ui-select-choices repeat="rowData in datasource.data | filter : $select.search" class="">
-                          <div class="" data-container="true" draggable="true">
-                            {{rowData.nome}}
-                          </div>
-                        </ui-select-choices>
-                      </ui-select>
-                    </div>
-                  </div>
-                </div>
-                <!-- NtoN  end-->
+                <!--<datasource name="Instrutor" append="false" entity="api/cronapi/crud/app.entity.Curso/{{Curso.active.id}}/relation:instrutor:Instrutor" keys="id" rows-per-page="100" lazy="true" auto-post="true" dependent-lazy-post="Curso" dependent-lazy-post-field="curso"></datasource>-->
+                <!--<datasource name="AllInstrutor" entity="api/cronapi/crud/app.entity.Instrutor" keys="id" rows-per-page="100"></datasource>-->
+                <!--<div class="component-holder ng-binding ng-scope row" data-component="crn-combobox" ng-show="datasource.editing || datasource.inserting" >-->
+                  <!--<div class="form-group col-lg-12">-->
+                    <!--<label for="select-ui">Instrutor</label>-->
+                    <!--<div id="select-ui" data-component="crn-tags">-->
+                      <!--<ui-select multiple crn-datasource="AllInstrutor" ng-model="Instrutor.data" class="crn-select" style="min-width: 200px" theme="bootstrap" enabled="{{Curso.editing || Curso.inserting }}" >-->
+                        <!--<ui-select-match placeholder="Instrutor...">-->
+                          <!--{{$item.nome }}-->
+                        <!--</ui-select-match>-->
+                        <!--<ui-select-choices repeat="rowData in datasource.data | filter : $select.search" class="">-->
+                          <!--<div class="" data-container="true" draggable="true">-->
+                            <!--{{rowData.nome}}-->
+                          <!--</div>-->
+                        <!--</ui-select-choices>-->
+                      <!--</ui-select>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
 
                 <div class="component-holder ng-binding ng-scope row" data-component="crn-combobox" id="crn-combobox-964202">
                   <div class="form-group col-lg-4">
