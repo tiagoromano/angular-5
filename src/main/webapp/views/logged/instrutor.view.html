@@ -33,6 +33,9 @@
                     <div class="">Data Nascimento</div>
                 </th>
                 <th class="">
+                    <div class="">CEP</div>
+                </th>
+                <th class="">
                     <div class="">Municipio</div>
                 </th>
                 <th class="">
@@ -52,12 +55,17 @@
                 </td>
                 <td class="">
                     <div class="">
-                        {{rowData.cpf}}
+                        {{rowData.cnpj | cnpj}}
                     </div>
                 </td>
                 <td class="">
                     <div class="">
                         {{rowData.nascimento | date}}
+                    </div>
+                </td>
+                <td class="">
+                    <div class="">
+                        {{rowData.cep | cep}}
                     </div>
                 </td>
                 <td class="">
@@ -144,6 +152,40 @@
                             style="width: 100%"
                             mask="999.999.999-99;0"
                             cron-valid="cpf"
+                            mask-placeholder=""
+                            ng-required="false">
+                    </div>
+                </div>
+
+                <div data-component="crn-textinput" id="crn-textinput-cnpj" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="textinput-cnpj" class="">CNPJ</label>
+                        <input
+                            type="text"
+                            ng-model="Instrutor.active.cnpj"
+                            class="form-control"
+                            id="textinput-cnpj"
+                            placeholder="C.N.P.J"
+                            data-error-message="CNPJ Inválido"
+                            style="width: 100%"
+                            mask="99.999.999/9999-99;0"
+                            cron-valid="cnpj"
+                            mask-placeholder=""
+                            ng-required="false">
+                    </div>
+                </div>
+
+                <div data-component="crn-textinput" id="crn-textinput-cep" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label for="textinput-cep" class="">CPF</label>
+                        <input
+                            type="text"
+                            ng-model="Instrutor.active.cep"
+                            class="form-control"
+                            id="textinput-cep"
+                            placeholder="CEP"
+                            style="width: 100%"
+                            mask="99999-999;0"
                             mask-placeholder=""
                             ng-required="false">
                     </div>

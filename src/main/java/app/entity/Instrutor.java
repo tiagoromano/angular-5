@@ -42,11 +42,17 @@ public class Instrutor implements Serializable {
   @Column(name = "cpf", nullable = true, unique = false, insertable=true, updatable=true)
   private java.lang.String cpf;
 
+  @Column(name = "cnpj", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.String cnpj;
+
   @Column(name = "nascimento", nullable = true, unique = false, insertable=true, updatable=true)
   private java.util.Date nascimento;
 
   @Column(name = "salario", nullable = true, unique = false, insertable=true, updatable=true)
   private java.lang.Double salario;
+
+  @Column(name = "cep", nullable = true, unique = false, insertable=true, updatable=true)
+  private java.lang.String cep;
 
   /**
   * @generated
@@ -150,6 +156,23 @@ public class Instrutor implements Serializable {
     return this;
   }
 
+  public String getCnpj() {
+    return cnpj;
+  }
+
+  public Instrutor setCnpj(String cnpj) {
+    this.cnpj = cnpj;
+    return this;
+  }
+
+  public String getCep() {
+    return cep;
+  }
+
+  public Instrutor setCep(String cep) {
+    this.cep = cep;
+    return this;
+  }
   /**
    * @generated
    */

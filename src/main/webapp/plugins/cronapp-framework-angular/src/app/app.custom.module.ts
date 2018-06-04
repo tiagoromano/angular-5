@@ -21,6 +21,10 @@ import { CronSelectComponent } from '../directives/select/cron-select.component'
 import { QrCodeDirective } from '../directives/qr-code/qrcode.directive';
 import { CronQrCodeDirective } from '../directives/qr-code/cron-qrcode.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TelephonePipe } from '../filters/telephone';
+import { CepPipe } from '../filters/cep';
+import { CnpjPipe } from '../filters/cnpj';
+import { MaskPipe } from '../filters/mask';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../../../i18n/locale_', '.json');
@@ -38,7 +42,11 @@ export function createTranslateLoader(http: HttpClient) {
         CronMaskDateDirective,
         QrCodeDirective,
         UiSelectComponent,
-        CronSelectComponent
+        CronSelectComponent,
+        TelephonePipe,
+        CepPipe,
+        CnpjPipe,
+        MaskPipe
     ],
     imports: [
         TranslateModule.forRoot({
@@ -67,7 +75,11 @@ export function createTranslateLoader(http: HttpClient) {
         CronMaskDateDirective,
         QrCodeDirective,
         UiSelectComponent,
-        CronSelectComponent
+        CronSelectComponent,
+        TelephonePipe,
+        CepPipe,
+        CnpjPipe,
+        MaskPipe        
     ],
     providers: [],
     bootstrap: []
